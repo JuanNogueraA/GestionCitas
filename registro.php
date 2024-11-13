@@ -18,7 +18,7 @@
     $telefono = $_POST["telefono"];
     $email = $_POST["email"];
     $direccion = $_POST["direccion"];
-
+    // Consulta SQL
     $consulta = "INSERT INTO usuario(id,nombres, apellidos, contrasena, telefono, correo, direccion)
     VALUES('$id','$nombres','$apellidos', '$contrasena', '$telefono', '$email', '$direccion')";
     try{
