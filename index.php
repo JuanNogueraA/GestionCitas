@@ -128,7 +128,7 @@ li {
     <!-- Encabezado -->
     <header class="header">
         <div class="logo">
-            <h1>EPS | SURA</h1>
+            <h1>Clinica General Mata Sanos</h1>
         </div>
         <nav class="nav-links">
             <ul>
@@ -136,7 +136,6 @@ li {
                 <li><a href="iniciarsesion.html">Iniciar sesion</a></li>
             </ul>
         </nav>
-        <button onclick="redirectToRegister()" class="login-button">INICIAR SESIÓN</button>
         <h1>Locations Page</h1>
     </header>
     <!-- Banner -->
