@@ -21,7 +21,7 @@ session_start();
         try{
             if($resultado){
                 if($resultado->num_rows > 0){
-                    $user = $resulto->fetch_assoc();
+                    $user = $resultado->fetch_assoc();
                     // Agrega esta línea para ver todos los datos recuperados
                     var_dump($user); // Eliminar esta línea una vez confirmado el contenido
 
