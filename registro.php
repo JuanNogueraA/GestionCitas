@@ -26,8 +26,6 @@
         try{
             if($resultado){
                 echo "registro con éxito";
-                header("Location: index.php?registro=exitoso");
-                exit();
         }else{
             ?> <h1>registro fallido</h1> <?php
         }
