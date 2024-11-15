@@ -13,12 +13,7 @@ session_start();
     $error = "";
     
     $id = $_POST["id"];
-    $nombres = $_POST["nombres"];
-    $apellidos = $_POST["apellidos"];
     $contrasena = $_POST["contrasena"];
-    $telefono = $_POST["telefono"];
-    $email = $_POST["email"];
-    $direccion = $_POST["direccion"];
 
     $consulta = "SELECT * FROM usuario WHERE id = '$id' AND contrasena = '$contrasena'";;
     try{
