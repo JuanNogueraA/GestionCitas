@@ -18,11 +18,11 @@
     $telefono = $_POST["telefono"];
     $email = $_POST["email"];
     $direccion = $_POST["direccion"];
-    $fecha = $_POST["fecha"]; // Nuevo campo de fecha
+    $fecha_nacimiento = $_POST["fecha_nacimiento"]; // Nuevo campo de fecha
     
     // Consulta SQL
-    $consulta = "INSERT INTO usuario(id,nombres, apellidos, contrasena, telefono, correo, direccion, fecha)
-    VALUES('$id','$nombres','$apellidos', '$contrasena', '$telefono', '$email', '$direccion', '$fecha')";
+    $consulta = "INSERT INTO usuario(id,nombres, apellidos, contrasena, telefono, correo, direccion, f_nacimiento)
+    VALUES('$id','$nombres','$apellidos', '$contrasena', '$telefono', '$email', '$direccion', '$fecha_nacimiento')";
     try{
         $resultado = mysqli_query($conexion, $consulta);
         try{

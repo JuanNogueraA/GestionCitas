@@ -28,6 +28,13 @@
                     <img src="https://static.vecteezy.com/system/resources/previews/005/005/840/non_2x/user-icon-in-trendy-flat-style-isolated-on-grey-background-user-symbol-for-your-web-site-design-logo-app-ui-illustration-eps10-free-vector.jpg" alt="User Avatar">
                 </div>
                 <form method="post" action="iniciarsesion.php">
+                    <?php
+                    session_start();
+                    if (isset($_SESSION['error'])) {
+                        echo '<p style="color: red;">' . $_SESSION['error'] . '</p>';
+                        unset($_SESSION['error']);
+                    }
+                    ?>
                     <label for="id">Id</label>
                     <input type="text" id="id" placeholder="Ingrese id" name="id">
                     
