@@ -124,6 +124,9 @@
             <label for="direccion">Dirección:</label>
             <input type="text" id="direccion" name="direccion" required>
 
+            <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
+            <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" required>
+
             <button type="submit">Registrarse</button>
         </form>
     </div>
