@@ -33,11 +33,16 @@
 
             <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
             <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" required>
-
             
+            <?php if (!empty($error)): ?>
+                <p style="color: red;"><?php echo $error; ?></p>
+            <?php endif; ?>
+            <?php if (!empty($_GET['error'])): ?>
+                <p style="color: red;"><?php echo $_GET['error']; ?></p>
+            <?php endif; ?>
 
             <button type="submit">Registrarse</button>
-            <input type="hidden" id="error" name="error" value="<?php echo isset($_GET['error']) ? $_GET['error'] : ''; ?>">
+            
         </form>
     </div>
 
@@ -50,12 +55,6 @@
              <button onclick="closeModal()">Aceptar</button>
          </div>
      </div>
-     <?php if (!empty($error)): ?>
-        <p style="color: red;"><?php echo $error; ?></p>
-    <?php endif; ?>
-    <?php if (!empty($_GET['error'])): ?>
-        <p style="color: red;"><?php echo $_GET['error']; ?></p>
-    <?php endif; ?>
     <script>
         // Función para abrir el pop-up
         function openModal() {

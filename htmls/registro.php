@@ -19,8 +19,6 @@
     $direccion = $_POST["direccion"];
     $fecha_nacimiento = $_POST["fecha_nacimiento"]; // Nuevo campo de fecha
     $rol = "usuario"; // Nuevo campo de rol
-    
-    echo $id, $telefono;
     // Consulta SQL
     $consulta = "INSERT INTO usuario(id, nombres, apellidos, contrasena, telefono, correo, direccion, f_nacimiento, rol)
     VALUES('$id', '$nombres', '$apellidos', '$contrasena', '$telefono', '$email', '$direccion', '$fecha_nacimiento', '$rol')";
