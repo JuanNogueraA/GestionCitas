@@ -18,36 +18,34 @@
     $email = $_POST["email"];
     $direccion = $_POST["direccion"];
     $fecha_nacimiento = $_POST["fecha_nacimiento"]; // Nuevo campo de fecha
+    $rol = "usuario"; // Nuevo campo de rol
     
+    echo $id, $telefono;
     // Consulta SQL
-    $consulta = "INSERT INTO usuario(id,nombres, apellidos, contrasena, telefono, correo, direccion, f_nacimiento)
-    VALUES('$id','$nombres','$apellidos', '$contrasena', '$telefono', '$email', '$direccion', '$fecha_nacimiento')";
-    // Consulta adicional
-    $consulta2 = "INSERT INTO usuario(rol)
-    VALUES('usuario')";
+    $consulta = "INSERT INTO usuario(id, nombres, apellidos, contrasena, telefono, correo, direccion, f_nacimiento, rol)
+    VALUES('$id', '$nombres', '$apellidos', '$contrasena', '$telefono', '$email', '$direccion', '$fecha_nacimiento', '$rol')";
+    
     try {
         $resultado = mysqli_query($conexion, $consulta);
-        try {
-            if ($resultado) {
-                echo "registro con éxito";
-                header("Location: index.php?registro=exitoso");
-                exit();
-            } else {
-                ?> <h1>registro fallido</h1> <?php
-            }
-        } catch (mysqli_sql_exception $e) {
-            $error = "Error en el registro";
-            echo $error;
+        if ($resultado) {
+            echo "registro con éxito";
+            header("Location: index.php?registro=exitoso");
+            exit();
+        } else {
+            header("Location: registro1.php?error=Registro fallido");
+            exit();
         }
     } catch (mysqli_sql_exception $e) {
         // Manejar error de entrada duplicada
         if ($e->getCode() === 1062) {
             $error = "Error: El id ya está registrado. Por favor, use uno diferente.";
-            echo $error;
+            header("Location: registro1.php?error=" . urlencode($error));
+            exit();
         } else {
             // Manejar otros errores de MySQLi
             $error = "Error al registrar el usuario: " . $e->getMessage();
-            echo $error;
+            header("Location: registro1.php?error=" . urlencode($error));
+            exit();
         }
     }
 ?>
