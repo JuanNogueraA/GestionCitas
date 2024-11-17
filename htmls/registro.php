@@ -23,6 +23,9 @@
     // Consulta SQL
     $consulta = "INSERT INTO usuario(id,nombres, apellidos, contrasena, telefono, correo, direccion, f_nacimiento)
     VALUES('$id','$nombres','$apellidos', '$contrasena', '$telefono', '$email', '$direccion', '$fecha_nacimiento')";
+    // Consulta adicional
+    $consulta2 = "INSERT INTO usuario(rol)
+    VALUES('usuario')";
     try{
         $resultado = mysqli_query($conexion, $consulta);
         try{
