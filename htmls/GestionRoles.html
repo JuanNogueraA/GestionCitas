@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>Gestionar Roles</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Administrador</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="AdminInicio.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="GestionPacientes.html">Gestionar Pacientes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="GestionCitas.html">Gestionar Citas</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="GestionDisponibilidad.html">Gestionar Disponibilidad</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="GestionRoles.html">Gestionar Roles</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container mt-5">
+        <h2>Gestionar Roles</h2>
+        <form id="searchUserForm">
+            <div class="mb-3">
+                <label for="id" class="form-label">Buscar Usuario</label>
+                <input type="text" class="form-control" id="id" placeholder="Ingrese el ID de usuario">
+            </div>
+            <button type="submit" class="btn btn-primary">Buscar</button>
+        </form>
+        <div id="userDetails" class="mt-4" style="display: none;">
+            <h3>Detalles del Usuario</h3>
+            <p><strong>Nombre de Usuario:</strong> <span id="displayUsername"></span></p>
+            <p><strong>Rol Actual:</strong> <span id="currentRole"></span></p>
+            <form id="updateRoleForm">
+                <div class="mb-3">
+                    <label for="newRole" class="form-label">Nuevo Rol</label>
+                    <select class="form-select" id="newRole">
+                        <option value="admin">Administrador</option>
+                        <option value="user">Usuario</option>
+                        <option value="guest">Invitado</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-success">Actualizar Rol</button>
+            </form>
+        </div>
+    </div>
+    <footer class="bg-light text-center text-lg-start mt-5">
+        <div class="container p-4">
+            <div class="row">
+                <div class="col-lg-6 col-md-12 mb-4 mb-md-0">
+                    <h5 class="text-uppercase">Administrador</h5>
+                    <p>
+                        Aquí puedes gestionar pacientes, citas y disponibilidad de manera fácil y rápida.
+                    </p>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+                    <h5 class="text-uppercase">Enlaces</h5>
+                    <ul class="list-unstyled mb-0">
+                        <li>
+                            <a href="AdminInicio.html" class="text-dark">Home</a>
+                        </li>
+                        <li>
+                            <a href="GestionPacientes.html" class="text-dark">Gestionar Pacientes</a>
+                        </li>
+                        <li>
+                            <a href="GestionCitas.html" class="text-dark">Gestionar Citas</a>
+                        </li>
+                        <li>
+                            <a href="GestionDisponibilidad.html" class="text-dark">Gestionar Disponibilidad</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+            © 2023 Administrador. Todos los derechos reservados.
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script>
+        document.getElementById('searchUserForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const id = document.getElementById('id').value;
+
+            fetch('/GitHub/GestionCitas/php/searchUser.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: 'id=' + encodeURIComponent(id)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    document.getElementById('displayUsername').innerText = data.user.username;
+                    document.getElementById('currentRole').innerText = data.user.role;
+                    document.getElementById('userDetails').style.display = 'block';
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+
+        document.getElementById('updateRoleForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            // Simulate updating user role
+            const newRole = document.getElementById('newRole').value;
+            document.getElementById('currentRole').innerText = newRole;
+            alert('Rol actualizado a ' + newRole);
+        });
+    </script>
+</body>
+</html>
