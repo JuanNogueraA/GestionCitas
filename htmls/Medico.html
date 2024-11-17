@@ -1,34 +1,35 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <title>Gestionar Citas</title>
-    <style>
-        /* Add custom styles here */
-    </style>
+    <title>Portal Médico</title>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">Gestionar Citas</a>
+            <a class="navbar-brand" href="#">Portal Médico</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="Administrador.html">Home</a>
+                        <a class="nav-link active" aria-current="page" href="Medico.html">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="GestionPacientes.html">Gestionar Pacientes</a>
+                        <a class="nav-link" href="GestionRoles.html">Gestionar Roles</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="GestionCitas.html">Gestionar Citas</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="GestionDisponibilidad.html">Gestionar Disponibilidad</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="GestionRoles.html">Gestionar roles</a>
+                        <a class="nav-link" href="GestionMedicos.html">Gestionar Médicos</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav ms-auto">
@@ -39,19 +40,31 @@
             </div>
         </div>
     </nav>
-    <br>
-    <div class="container">
-        <h1>Gestionar Citas</h1>
-        <p>Aquí puedes gestionar las citas de los pacientes.</p>
-        <!-- Add content for managing appointments here -->
+    <div class="container mt-5">
+        <h2>Disponibilidad y Citas Pendientes</h2>
+        <div class="row">
+            <div class="col-md-6">
+                <h3>Disponibilidad de Horario</h3>
+                <!-- Add your availability schedule here -->
+            </div>
+            <div class="col-md-6">
+                <h3>Citas Pendientes</h3>
+                <ul class="list-group">
+                    <!-- Example of a pending appointment -->
+                    <li class="list-group-item">
+                        <a href="#" class="appointment-link" data-appointment-id="1">Cita con Juan Pérez - 10:00 AM</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
-    <footer class="bg-light text-center text-lg-start">
+    <footer class="bg-light text-center text-lg-start mt-5">
         <div class="container p-4">
             <div class="row">
                 <div class="col-lg-6 col-md-12 mb-4 mb-md-0">
-                    <h5 class="text-uppercase">Gestionar Citas</h5>
+                    <h5 class="text-uppercase">Portal Médico</h5>
                     <p>
-                        Aquí puedes gestionar las citas de los pacientes de manera fácil y rápida.
+                        Aquí puedes ver tu disponibilidad de horario y gestionar tus citas pendientes.
                     </p>
                 </div>
                 <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
@@ -69,26 +82,40 @@
                         <li>
                             <a href="GestionDisponibilidad.html" class="text-dark">Gestionar Disponibilidad</a>
                         </li>
+                        <li>
+                            <a href="GestionMedicos.html" class="text-dark">Gestionar Médicos</a>
+                        </li>
+                        <li>
+                            <a href="Medico.html" class="text-dark">Home</a>
+                        </li>
                     </ul>
                 </div>
             </div>
         </div>
         <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
-            © 2023 Gestionar Citas. Todos los derechos reservados.
+            © 2023 Portal Médico. Todos los derechos reservados.
         </div>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script>
-        document.getElementById('logout-link').addEventListener('click', function(event) {
-            event.preventDefault();
-            if (confirm('¿Desea salir de la sesión?')) {
-                fetch('/GitHub/GestionCitas/php/logout.php', {
-                    method: 'POST'
-                }).then(() => {
-                    window.location.href = 'iniciarsesion.html';
-                });
-            }
+        document.querySelectorAll('.appointment-link').forEach(link => {
+            link.addEventListener('click', function(event) {
+                event.preventDefault();
+                const appointmentId = this.getAttribute('data-appointment-id');
+                // Fetch and display appointment details based on appointmentId
+                alert('Detalles de la cita ' + appointmentId);
+            });
         });
+        document.getElementById('logout-link').addEventListener('click', function(event) {
+        event.preventDefault();
+        if (confirm('¿Desea salir de la sesión?')) {
+          fetch('/GitHub/GestionCitas/php/logout.php', {
+            method: 'POST'
+          }).then(() => {
+            window.location.href = 'iniciarsesion.html';
+          });
+        }
+      });
     </script>
 </body>
 </html>

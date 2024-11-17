@@ -1,18 +1,16 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <title>Gestionar Citas</title>
-    <style>
-        /* Add custom styles here */
-    </style>
+    <title>Gestionar Disponibilidad</title>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">Gestionar Citas</a>
+            <a class="navbar-brand" href="#">Gestionar Disponibilidad</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -22,13 +20,13 @@
                         <a class="nav-link active" aria-current="page" href="Administrador.html">Home</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="GestionRoles.html">Gestionar Roles</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="GestionPacientes.html">Gestionar Pacientes</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="GestionDisponibilidad.html">Gestionar Disponibilidad</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="GestionRoles.html">Gestionar roles</a>
+                        <a class="nav-link" href="GestionCitas.html">Gestionar Citas</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav ms-auto">
@@ -39,19 +37,17 @@
             </div>
         </div>
     </nav>
-    <br>
-    <div class="container">
-        <h1>Gestionar Citas</h1>
-        <p>Aquí puedes gestionar las citas de los pacientes.</p>
-        <!-- Add content for managing appointments here -->
+    <div class="container mt-5">
+        <h2>Gestionar Disponibilidad</h2>
+        <!-- Add your form and other content here -->
     </div>
-    <footer class="bg-light text-center text-lg-start">
+    <footer class="bg-light text-center text-lg-start mt-5">
         <div class="container p-4">
             <div class="row">
                 <div class="col-lg-6 col-md-12 mb-4 mb-md-0">
-                    <h5 class="text-uppercase">Gestionar Citas</h5>
+                    <h5 class="text-uppercase">Administrador</h5>
                     <p>
-                        Aquí puedes gestionar las citas de los pacientes de manera fácil y rápida.
+                        Aquí puedes gestionar pacientes, citas y disponibilidad de manera fácil y rápida.
                     </p>
                 </div>
                 <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
@@ -67,28 +63,19 @@
                             <a href="GestionCitas.html" class="text-dark">Gestionar Citas</a>
                         </li>
                         <li>
-                            <a href="GestionDisponibilidad.html" class="text-dark">Gestionar Disponibilidad</a>
+                            <a href="GestionRoles.html" class="text-dark">Gestionar Roles</a>
                         </li>
                     </ul>
                 </div>
             </div>
         </div>
         <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
-            © 2023 Gestionar Citas. Todos los derechos reservados.
+            © 2023 Administrador. Todos los derechos reservados.
         </div>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script>
-        document.getElementById('logout-link').addEventListener('click', function(event) {
-            event.preventDefault();
-            if (confirm('¿Desea salir de la sesión?')) {
-                fetch('/GitHub/GestionCitas/php/logout.php', {
-                    method: 'POST'
-                }).then(() => {
-                    window.location.href = 'iniciarsesion.html';
-                });
-            }
-        });
+        // Add your JavaScript code here
     </script>
 </body>
 </html>
