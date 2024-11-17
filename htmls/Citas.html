@@ -69,7 +69,7 @@
       document.getElementById('logout-link').addEventListener('click', function(event) {
         event.preventDefault();
         if (confirm('¿Desea salir de la sesión?')) {
-          fetch('/GitHub/GestionCitas/php/logout.php', {
+          fetch('logout.php', {
             method: 'POST'
           }).then(() => {
             window.location.href = 'iniciarsesion.php';

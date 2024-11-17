@@ -1,10 +1,10 @@
 <?php
 session_start();
-$server = "localhost";
-$user = "root";
-$pass = "";
-$db = "gestiondecitas";
-$conexion = new mysqli($server, $user, $pass, $db);
+require_once 'DataBase.php'; // Ajusta la ruta según sea necesario
+
+// Obtener la instancia de la conexión
+$conexion = DataBase::getInstance()->getConnection();
+
 if ($conexion->connect_errno) {
     die("Conexion Fallida" . $conexion->connect_errno);
 } 
@@ -58,8 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
     $_SESSION['error'] = $error;
-    header("Location: iniciarsesion.php
-    ");
+    header("Location: iniciarsesion.php");
     exit();
 }
 ?>

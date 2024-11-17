@@ -3,6 +3,6 @@
 session_start();
 session_unset();
 session_destroy();
-header("Location: ../htmls/iniciarsesion.html");
+header("Location: ../htmls/iniciarsesion.php");
 exit();
 ?>

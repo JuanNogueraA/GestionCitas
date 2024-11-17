@@ -1,12 +1,11 @@
 <?php
-    $server = "localhost";
-    $user = "root";
-    $pass = "";
-    $db = "gestiondecitas";
-    $conexion = new mysqli($server, $user, $pass, $db);
+    require_once 'Database.php'; // Asegúrate de ajustar la ruta a Database.php
+
+    // Obtener la instancia de la conexión
+    $conexion = Database::getInstance()->getConnection();
+
     if ($conexion->connect_errno) {
-    die("Conexion Fallida" .
-    $conexion->connect_errno);
+        die("Conexion Fallida" . $conexion->connect_errno);
     } 
     // Inicializar la variable de error
     $error = "";
@@ -26,22 +25,21 @@
     // Consulta adicional
     $consulta2 = "INSERT INTO usuario(rol)
     VALUES('usuario')";
-    try{
+    try {
         $resultado = mysqli_query($conexion, $consulta);
-        try{
-            if($resultado){
+        try {
+            if ($resultado) {
                 echo "registro con éxito";
                 header("Location: index.php?registro=exitoso");
                 exit();
-        }else{
-            ?> <h1>registro fallido</h1> <?php
-        }
-        
-        }catch(mysqli_sql_exception $e){
+            } else {
+                ?> <h1>registro fallido</h1> <?php
+            }
+        } catch (mysqli_sql_exception $e) {
             $error = "Error en el registro";
             echo $error;
         }
-    }catch(mysqli_sql_exception $e) {
+    } catch (mysqli_sql_exception $e) {
         // Manejar error de entrada duplicada
         if ($e->getCode() === 1062) {
             $error = "Error: El id ya está registrado. Por favor, use uno diferente.";
@@ -52,4 +50,4 @@
             echo $error;
         }
     }
-        ?>
+?>
