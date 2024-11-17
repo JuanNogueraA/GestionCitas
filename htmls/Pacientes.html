@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="HojasEstilo/general.css">
     <title>Pacientes</title>
     <style>
         /* Add custom styles here */
@@ -32,8 +33,14 @@
               </li>
             </ul>
             <ul class="navbar-nav ms-auto">
-              <li class="nav-item">
-                <a class="nav-link" href="#" id="logout-link">Cerrar Sesión</a>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Usuario
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                  <li><a class="dropdown-item" href="verPerfil.html">Ver Perfil</a></li>
+                  <li><a class="dropdown-item" href="#" id="logout-link">Cerrar Sesión</a></li>
+                </ul>
               </li>
             </ul>
           </div>
@@ -55,8 +62,8 @@
                         <input type="time" class="form-control" id="hora" required>
                     </div>
                     <div class="mb-3">
-                        <label for="descripcion" class="form-label">Descripción</label>
-                        <textarea class="form-control" id="descripcion" rows="3" required></textarea>
+                        <label for="descripcion" class="form-label">Especialidad</label>
+                        <textarea class="form-control" id="descripcion" rows="1" required></textarea>
                     </div>
                     <button type="submit" class="btn btn-primary">Agendar</button>
                 </form>

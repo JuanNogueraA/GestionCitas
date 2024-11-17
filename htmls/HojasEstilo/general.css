@@ -1,0 +1,13 @@
+body {
+    background: linear-gradient(to bottom, #87CEEB, #4682B4);
+    color: rgb(0, 0, 0);
+    font-family: Helvetica Neue, Arial, Helvetica, sans-serif;
+    padding: 0;
+    margin: 0;
+}
+
+.navbar, .footer {
+    background: linear-gradient(to bottom, #87CEEB, #4682B4);
+    color: rgb(0, 0, 0);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}

@@ -23,10 +23,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 if ($resultado->num_rows > 0) {
                     $user = $resultado->fetch_assoc();
                     $_SESSION['user_id'] = $user['id'];
-                    $_SESSION['user_email'] = $user['email'];
+                    $_SESSION['user_correo'] = $user['correo'];
                     $_SESSION['user_nombres'] = $user['nombres'];
                     $_SESSION['user_apellidos'] = $user['apellidos'];
                     $_SESSION['user_direccion'] = $user['direccion'];
+                    $_SESSION['user_telefono'] = $user['telefono'];
                     
                     
                     // Redirection based on user role

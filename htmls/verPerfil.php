@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="HojasEstilo/general.css">
-    <title>Gestionar Citas</title>
+    <title>Perfil del Administrador</title>
     <style>
         /* Add custom styles here */
     </style>
@@ -38,7 +37,7 @@
                             Administrador
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                            <li><a class="dropdown-item" href="verPerfil.php">Ver Perfil</a></li>
+                            <li><a class="dropdown-item" href="verPerfil.html">Ver Perfil</a></li>
                             <li><a class="dropdown-item" href="#" id="logout-link">Cerrar Sesión</a></li>
                         </ul>
                     </li>
@@ -48,11 +47,20 @@
     </nav>
     <br>
     <div class="container">
-        <h1>Gestionar Citas</h1>
-        <p>Aquí puedes gestionar las citas de los pacientes.</p>
-        <!-- Add content for managing appointments here -->
+        <h1>Perfil del Administrador</h1>
+        <div class="card">
+            <div class="card-body">
+                <?php 
+                session_start();
+                ?>
+                <h5 class="card-title">Nombre: <?php echo isset($_SESSION['user_nombres']) ? $_SESSION['user_nombres'] : 'N/A'; ?></h5>
+                <p class="card-text">Correo electrónico: <?php echo isset($_SESSION['user_correo']) ? $_SESSION['user_correo'] : 'N/A'; ?></p>
+                <p class="card-text">Teléfono: <?php echo isset($_SESSION['user_telefono']) ? $_SESSION['user_telefono'] : 'N/A'; ?></p>
+                <a href="editarPerfil.php" class="btn btn-primary">Editar Perfil</a>
+            </div>
+        </div>
     </div>
-    <footer class="footer text-center text-lg-start">
+    <footer class="bg-light text-center text-lg-start">
         <div class="container p-4">
             <div class="row">
                 <div class="col-lg-6 col-md-12 mb-4 mb-md-0">
@@ -85,17 +93,5 @@
         </div>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-    <script>
-        document.getElementById('logout-link').addEventListener('click', function(event) {
-            event.preventDefault();
-            if (confirm('¿Desea salir de la sesión?')) {
-                fetch('logout.php', {
-                    method: 'POST'
-                }).then(() => {
-                    window.location.href = 'iniciarsesion.php';
-                });
-            }
-        });
-    </script>
 </body>
 </html>
