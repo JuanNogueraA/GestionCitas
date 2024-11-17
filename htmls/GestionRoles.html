@@ -45,15 +45,17 @@
         </form>
         <div id="userDetails" class="mt-4" style="display: none;">
             <h3>Detalles del Usuario</h3>
-            <p><strong>Nombre de Usuario:</strong> <span id="displayUsername"></span></p>
+            <p><strong>Nombre:</strong> <span id="displayname"></span></p>
             <p><strong>Rol Actual:</strong> <span id="currentRole"></span></p>
             <form id="updateRoleForm">
                 <div class="mb-3">
                     <label for="newRole" class="form-label">Nuevo Rol</label>
                     <select class="form-select" id="newRole">
-                        <option value="admin">Administrador</option>
-                        <option value="user">Usuario</option>
-                        <option value="guest">Invitado</option>
+                        <option value="administrador">Administrador</option>
+                        <option value="medico">Medico</option>
+                        <option value="paciente">Paciente</option>
+                        <option value="usuario">Usuario</option>
+                        
                     </select>
                 </div>
                 <button type="submit" class="btn btn-success">Actualizar Rol</button>
@@ -108,7 +110,7 @@
             .then(response => response.json())
             .then(data => {
                 if (data.status === 'success') {
-                    document.getElementById('displayUsername').innerText = data.user.username;
+                    document.getElementById('displayname').innerText = data.user.name;
                     document.getElementById('currentRole').innerText = data.user.role;
                     document.getElementById('userDetails').style.display = 'block';
                 } else {
@@ -120,10 +122,26 @@
 
         document.getElementById('updateRoleForm').addEventListener('submit', function(event) {
             event.preventDefault();
-            // Simulate updating user role
+            const id = document.getElementById('id').value;
             const newRole = document.getElementById('newRole').value;
-            document.getElementById('currentRole').innerText = newRole;
-            alert('Rol actualizado a ' + newRole);
+
+            fetch('/GitHub/GestionCitas/php/searchUser.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: 'id=' + encodeURIComponent(id) + '&newRole=' + encodeURIComponent(newRole)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    document.getElementById('currentRole').innerText = newRole;
+                    alert('Rol actualizado a ' + newRole);
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => console.error('Error:', error));
         });
     </script>
 </body>
