@@ -1,62 +1,60 @@
-<?php
-session_start();
-$server = "localhost";
-$user = "root";
-$pass = "";
-$db = "gestiondecitas";
-$conexion = new mysqli($server, $user, $pass, $db);
-if ($conexion->connect_errno) {
-    die("Conexion Fallida" . $conexion->connect_errno);
-} 
-// Inicializar la variable de error
-$error = "";
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $id = $_POST["id"];
-    $contrasena = $_POST["contrasena"];
-
-    $consulta = "SELECT * FROM usuario WHERE id = '$id' AND contrasena = '$contrasena'";
-    try {
-        $resultado = mysqli_query($conexion, $consulta);
-        try {
-            if ($resultado) {
-                if ($resultado->num_rows > 0) {
-                    $user = $resultado->fetch_assoc();
-                    $_SESSION['user_id'] = $user['id'];
-                    $_SESSION['user_email'] = $user['email'];
-                    $_SESSION['user_nombres'] = $user['nombres'];
-                    $_SESSION['user_apellidos'] = $user['apellidos'];
-                    $_SESSION['user_direccion'] = $user['direccion'];
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My website</title>
+    <link rel="stylesheet" href="HojasEstilo/inicioSesion.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    
+</head>
+<body>
+    <header>
+        <nav class="navegacionhome navbar">
+            <ul>
+                <li><button onclick="redirectToHome()" class="button">Home</button></li>
+                <li><button onclick="redirectToIniciarSesion()" class="button">Iniciar sesion</button></li>
+            </ul>
+            <div class="user-menu">
+                <i class="fas fa-user"></i>
+            </div>
+        </nav>
+        <div class="login-container">
+            <div class="login-box">
+                <div class="avatar">
+                    <img src="https://static.vecteezy.com/system/resources/previews/005/005/840/non_2x/user-icon-in-trendy-flat-style-isolated-on-grey-background-user-symbol-for-your-web-site-design-logo-app-ui-illustration-eps10-free-vector.jpg" alt="User Avatar">
+                </div>
+                <form method="post" action="iniciarsesionbd.php">
                     
-                    // Redirection based on user role
-                    if ($user['rol'] == 'administrador') {
-                        header("Location: Administrador.html");
-                    } elseif ($user['rol'] == 'medico') {
-                        header("Location: Medico.html");
-                    } elseif ($user['rol'] == 'paciente') {
-                        header("Location: Pacientes.html");
-                    } else {
-                        header("Location: index.php");
+                    <label for="id">Id</label>
+                    <input type="text" id="id" placeholder="Ingrese id" name="id">
+                    
+                    <label for="contrasena">Contraseña</label>
+                    <input type="password" id="contrasena" placeholder="Ingrese contraseña" name="contrasena">
+                    
+                    <div class="options">
+                        <a href="registro1.php"><br/>Registrar usuario</a>
+                    </div>
+                    <?php
+                    session_start();
+                    if (isset($_SESSION['error'])) {
+                        echo '<p style="color: red;">' . $_SESSION['error'] . '</p>';
+                        unset($_SESSION['error']);
                     }
-                    exit();
-                } else {
-                    $error = "Id o Contraseña incorrectos";
-                }
-            } else {
-                $error = "Inicio de sesión fallido";
-            }
-        } catch (mysqli_sql_exception $e) {
-            $error = "Error en el registro";
+                    ?>
+                    <button type="submit">LOGIN</button>
+                </form>
+            </div>
+        </div>
+    </header>
+    <script>
+        function redirectToHome() {
+            window.location.href = 'index.php';
         }
-    } catch (mysqli_sql_exception $e) {
-        if ($e->getCode() === 1062) {
-            $error = "Error: El id ya está registrado. Por favor, use uno diferente.";
-        } else {
-            $error = "Error al registrar el usuario: " . $e->getMessage();
+
+        function redirectToIniciarSesion() {
+            window.location.href = 'iniciarsesion.php';
         }
-    }
-    $_SESSION['error'] = $error;
-    header("Location: iniciarsesion.html");
-    exit();
-}
-?>
+    </script>
+</body>
+</html>

@@ -15,7 +15,7 @@
         <nav class="nav-links">
             <ul>
                 <li><a href="index.html">Home</a></li>
-                <li><a href="iniciarsesion.html">Iniciar sesion</a></li>
+                <li><a href="iniciarsesion.php">Iniciar sesion</a></li>
             </ul>
         </nav>
         <h1>Locations Page</h1>
