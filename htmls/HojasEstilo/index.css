@@ -13,6 +13,57 @@ body {
     padding: 10px 20px;
 }
 
+.logo h1 {
+    font-size: 1.5em;
+}
+
+.nav-links a {
+    color: #fff;
+    margin: 0 10px;
+    text-decoration: none;
+}
+
+.login-button {
+    background-color: #005A9E;
+    color: #fff;
+    padding: 8px 15px;
+    border: none;
+    cursor: pointer;
+}
+
+.login-button:hover {
+    background-color: #004080;
+}
+
+/* Carrusel */
+.carousel {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.carousel-inner img {
+    width: 100%;
+    height: auto;
+}
+
+.carousel-caption {
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.carousel-caption .btn {
+    background-color: #FFD700;
+    color: #333;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.carousel-caption .btn:hover {
+    background-color: #FFC107;
+}
+
 /* Estilos para el fondo del pop-up */
 .modal {
     display: none; /* Oculto por defecto */
@@ -45,28 +96,6 @@ body {
     top: 10px;
     right: 10px;
     font-weight: bold;
-}
-
-.logo h1 {
-    font-size: 1.5em;
-}
-
-.nav-links a {
-    color: #fff;
-    margin: 0 10px;
-    text-decoration: none;
-}
-
-.login-button {
-    background-color: #005A9E;
-    color: #fff;
-    padding: 8px 15px;
-    border: none;
-    cursor: pointer;
-}
-
-.login-button:hover {
-    background-color: #004080;
 }
 
 /* Banner */
@@ -157,4 +186,23 @@ li {
 .role-assignment-message p {
     color: #333;
     font-size: 1.2em;
+}
+
+/* Preguntas Frecuentes */
+.faq {
+    text-align: left;
+    margin: 20px auto;
+    max-width: 800px;
+}
+
+.faq h3 {
+    color: #0078D4;
+    font-size: 1.2em;
+    margin-top: 20px;
+}
+
+.faq p {
+    color: #333;
+    font-size: 1em;
+    margin-top: 10px;
 }
