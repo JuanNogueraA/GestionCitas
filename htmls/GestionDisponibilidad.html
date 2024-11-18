@@ -70,7 +70,7 @@
             <div id="doctorDetails" style="display: none; margin-top: 40px;">
                 <h3>Detalles del Médico</h3>
                 <p>Nombre: <span id="displayname"></span></p>
-                <p>Rol: <span id="currentRole"></span></p>
+                <p>Especialidad: <span id="currentEspecialidad"></span></p>
                 <button type="button" class="btn btn-primary" id="manageAvailabilityButton">Gestionar Disponibilidad</button>
             </div>
             <div id="calendar"></div>
@@ -78,6 +78,7 @@
     </div>
     <div class="container" id="containerdisp" style="display: none;">
         <form id="availabilityForm">
+            <input type="hidden" id="medicoId" name="medicoId">
             <div class="mb-3">
                 <label for="diaSemana" class="form-label">Día de la Semana</label>
                 <select class="form-control" id="diaSemana" name="diaSemana" required>
@@ -98,7 +99,7 @@
                 <label for="horaFin" class="form-label">Hora de Fin</label>
                 <input type="time" class="form-control" id="horaFin" name="horaFin" required>
             </div>
-            <button type="submit" class="btn btn-primary">Guardar Disponibilidad</button>
+            <button type="submit" id="botondisponibilidad" class="btn btn-primary">Guardar Disponibilidad</button>
         </form>
         <div id="availabilityList" style="margin-top: 20px;">
             <h3>Disponibilidad Actual</h3>
@@ -154,7 +155,7 @@
             event.preventDefault();
             const id = document.getElementById('id').value;
 
-            fetch('searchUser.php', {
+            fetch('searchMedico.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
@@ -166,7 +167,7 @@
                 if (data.status === 'success') {
                     document.getElementById('doctorDetails').style.display = 'block';
                     document.getElementById('displayname').innerText = data.user.name;
-                    document.getElementById('currentRole').innerText = data.user.role;
+                    document.getElementById('currentEspecialidad').innerText = data.user.especialidad;
 
                 } else {
                     alert(data.message);
@@ -175,32 +176,19 @@
             .catch(error => console.error('Error:', error));
         });
 
-        document.addEventListener('DOMContentLoaded', function() {
-            var calendarEl = document.getElementById('calendar');
-            var calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'dayGridMonth',
-                selectable: true,
-                select: function(info) {
-                    // Implement availability management here
-                    // For example, you can open a modal to set availability for the selected date range
-                }
-            });
-            calendar.render();
-        });
-
         document.getElementById('manageAvailabilityButton').addEventListener('click', function(event) {
             event.preventDefault();
             document.getElementById('containerdisp').style.display = 'block';
+            document.getElementById('medicoId').value = document.getElementById('id').value;
         });
 
-        document.getElementById('availabilityForm').addEventListener('submit', function(event) {
+        document.getElementById('botondisponibilidad').addEventListener('click', function(event) {
             event.preventDefault();
             const medicoId = document.getElementById('medicoId').value;
             const diaSemana = document.getElementById('diaSemana').value;
             const horaInicio = document.getElementById('horaInicio').value;
             const horaFin = document.getElementById('horaFin').value;
-            const opcion = 'medicofilter'
-            const body = `medicoId=${encodeURIComponent(medicoId)}&diaSemana=${encodeURIComponent(diaSemana)}&horaInicio=${encodeURIComponent(horaInicio)}&horaFin=${encodeURIComponent(horaFin)}&opcion=${encodeURIComponent(opcion)}`;
+            const body = `medicoId=${encodeURIComponent(medicoId)}&diaSemana=${encodeURIComponent(diaSemana)}&horaInicio=${encodeURIComponent(horaInicio)}&horaFin=${encodeURIComponent(horaFin)}`;
 
             fetch('gestionarDisponibilidad.php', {
                 method: 'POST',
