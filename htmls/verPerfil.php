@@ -93,5 +93,17 @@
         </div>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script>
+        document.getElementById('logout-link').addEventListener('click', function(event) {
+            event.preventDefault();
+            if (confirm('¿Desea salir de la sesión?')) {
+                fetch('logout.php', {
+                    method: 'POST'
+                }).then(() => {
+                    window.location.href = 'iniciarsesion.php';
+                });
+            }
+        });
+    </script>
 </body>
 </html>
