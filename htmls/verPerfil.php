@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="HojasEstilo/general.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <title>Perfil del Administrador</title>
     <style>
@@ -47,12 +48,16 @@
     </nav>
     <br>
     <div class="container">
-        <h1>Perfil del Administrador</h1>
+        <h1>Perfil del Usuario</h1>
+        <?php 
+        session_start();
+        if (isset($_SESSION['success_message'])) {
+            echo '<div class="alert alert-success" role="alert">' . $_SESSION['success_message'] . '</div>';
+            unset($_SESSION['success_message']);
+        }
+        ?>
         <div class="card">
             <div class="card-body">
-                <?php 
-                session_start();
-                ?>
                 <h5 class="card-title">Nombre: <?php echo isset($_SESSION['user_nombres']) ? $_SESSION['user_nombres'] : 'N/A'; ?></h5>
                 <p class="card-text">Correo electrónico: <?php echo isset($_SESSION['user_correo']) ? $_SESSION['user_correo'] : 'N/A'; ?></p>
                 <p class="card-text">Teléfono: <?php echo isset($_SESSION['user_telefono']) ? $_SESSION['user_telefono'] : 'N/A'; ?></p>
@@ -60,7 +65,7 @@
             </div>
         </div>
     </div>
-    <footer class="bg-light text-center text-lg-start">
+    <footer class="footer text-center text-lg-start">
         <div class="container p-4">
             <div class="row">
                 <div class="col-lg-6 col-md-12 mb-4 mb-md-0">
