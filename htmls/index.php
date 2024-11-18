@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,12 +19,15 @@
         </div>
         <nav class="nav-links">
             <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="iniciarsesion.php">Sign-isn / Sign-up</a></li>
+                <li><a href="index.php">Home</a></li>
+                <?php if (!isset($_SESSION['user_id'])): ?>
+                    <li><a href="iniciarsesion.php">Sign-in / Sign-up</a></li>
+                <?php else: ?>
+                    <li><a href="logout.php">Cerrar Sesión</a></li>
+                <?php endif; ?>
                 <li><a href="preguntasfrecuentes.php">Preguntas Frecuentes</a></li>
             </ul>
         </nav>
-        <h1>Iniciar Sesión</h1>
     </header>
     <!-- Carrusel -->
     <section id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
@@ -50,7 +57,21 @@
     </section>
 
     <!-- Contenido principal -->
-     <!-- Contenedor del pop-up -->
+    <main class="main-content">
+        <h2>¡Hemos mejorado la experiencia pensando en ti!</h2>
+        <p>Ahora vas a poder acceder a todos tus Servicios a un clic en tu nuevo sitio...</p>
+        <div class="highlight">
+        </div>
+        <!-- Mensaje de espera para asignación de rol -->
+        <?php if (isset($_GET['registro']) && $_GET['registro'] === 'exitoso'): ?>
+            <div class="role-assignment-message">
+                <h3>¡Registro Exitoso!</h3>
+                <p>Espere a que un rol se le sea asignado por uno de los administradores para iniciar sesión.</p>
+            </div>
+        <?php endif; ?>
+    </main>
+
+    <!-- Contenedor del pop-up -->
     <div id="miModal" class="modal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal()">&times;</span>
@@ -59,22 +80,11 @@
             <button onclick="closeModal()">Aceptar</button>
         </div>
     </div>
-    <main class="main-content">
-        <h2>¡Hemos mejorado la experiencia pensando en ti!</h2>
-        <p>Ahora vas a poder acceder a todos tus Servicios a un clic en tu nuevo sitio...</p>
-        <!-- Mensaje de espera para asignación de rol -->
-        <?php if (isset($_GET['registro']) && $_GET['registro'] === 'exitoso'): ?>
-            <div class="role-assignment-message">
-                <h3>¡Registro Exitoso!</h3>
-                <p>Espere a que un rol se le sea asignado por uno de los administradores para iniciar sesión.</p>
-            </div>
-        <?php endif; ?>
-        <!-- Más contenido aquí -->
-    </main>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script>
         function redirectToRegister() {
-            window.location.href = "registro.html"; // Cambia "registro.html" a la URL de tu página de registro
+            window.location.href = "registro1.php"; // Cambia "registro1.php" a la URL de tu página de registro
         }
         // Función para abrir el pop-up
         function openModal() {
@@ -88,19 +98,12 @@
         //Función para comprobar el registro exitoso
         function checkRegistration() {
             const params = new URLSearchParams(window.location.search);
-            if (params.get("registro") === "exitoso") {
+            if (params.get('registro') === 'exitoso') {
                 openModal();
             }
         }
-         // Ejecutar la función al cargar la página
-         window.onload = checkRegistration;
-        // Cerrar el pop-up al hacer clic fuera del contenido
-        window.onclick = function(event) {
-            var modal = document.getElementById("miModal");
-            if (event.target == modal) {
-                closeModal();
-            }
-        }
+        // Llamar a la función para comprobar el registro exitoso al cargar la página
+        window.onload = checkRegistration;
     </script>
 </body>
 </html>
