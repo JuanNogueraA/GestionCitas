@@ -1,5 +1,5 @@
 <?php
-require_once 'DataBase.php'; // Adjust the path as necessary
+require_once '../path/to/DataBase.php'; // Adjust the path as necessary
 
 try {
     // Create connection using singleton pattern
