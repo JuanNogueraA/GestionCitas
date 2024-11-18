@@ -1,51 +1,111 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "gestiondecitas";
+require_once 'DataBase.php'; // Adjust the path as necessary
 
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
+try {
+    // Create connection using singleton pattern
+    $conn = DataBase::getInstance()->getConnection();
 
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        if (isset($_POST['id']) && isset($_POST['newRole'])) {
+            $id = $_POST['id'];
+            $newRole = $_POST['newRole'];
+            $sql = "UPDATE usuario SET rol = ? WHERE id = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("si", $newRole, $id);
+            if ($stmt->execute()) {
+                
+                if($newRole === 'administrador'){
+                    $sqlAdmin = "INSERT INTO administrador (id, id_usuario) VALUES (?, ?)";
+                    $stmtAdmin = $conn->prepare($sqlAdmin);
+                    $stmtAdmin->bind_param("ii", $id, $id);
+                    if (!$stmtAdmin->execute()) {
+                        echo json_encode(['status' => 'error', 'message' => 'Error al crear el registro de administrador']);
+                        $stmtAdmin->close();
+                        $stmt->close();
+                        $conn->close();
+                        exit();
+                    }
+                    $stmtAdmin->close();
+                } else {
+                    $sqlAdmin = "DELETE FROM administrador WHERE id_usuario = ?";
+                    $stmtAdmin = $conn->prepare($sqlAdmin);
+                    $stmtAdmin->bind_param("i", $id);
+                    $stmtAdmin->execute();
+                    $stmtAdmin->close();
+                }
+                if ($newRole === 'paciente') {
+                    $sqlPaciente = "INSERT INTO paciente (id, id_usuario) VALUES (?, ?)";
+                    $stmtPaciente = $conn->prepare($sqlPaciente);
+                    $stmtPaciente->bind_param("ii", $id, $id);
+                    if (!$stmtPaciente->execute()) {
+                        echo json_encode(['status' => 'error', 'message' => 'Error al crear el registro de paciente']);
+                        $stmtPaciente->close();
+                        $stmt->close();
+                        $conn->close();
+                        exit();
+                    }
+                    $stmtPaciente->close();
+                } else {
+                    $sqlPaciente = "DELETE FROM paciente WHERE id_usuario = ?";
+                    $stmtPaciente = $conn->prepare($sqlPaciente);
+                    $stmtPaciente->bind_param("i", $id);
+                    $stmtPaciente->execute();
+                    $stmtPaciente->close();
+                }
+                if($newRole === 'medico'){
+                    $specialty = isset($_POST['specialty']) ? $_POST['specialty'] : '';
+                    $disponible = 0;
+                    $sqlMedico = "INSERT INTO medico (id,id_usuario, especialidad, disponible) VALUES (?,?,?,?)";
+                    $stmtMedico = $conn->prepare($sqlMedico);
+                    $stmtMedico->bind_param("issi", $id, $id, $specialty, $disponible);
+                    if (!$stmtMedico->execute()) {
+                        echo json_encode(['status' => 'error', 'message' => 'Error al crear el registro de medico']);
+                        $stmtMedico->close();
+                        $stmt->close();
+                        $conn->close();
+                        exit();
+                    }
+                    $stmtMedico->close();
+                } else {
+                    $sqlMedico = "DELETE FROM medico WHERE id_usuario = ?";
+                    $stmtMedico = $conn->prepare($sqlMedico);
+                    $stmtMedico->bind_param("i", $id);
+                    $stmtMedico->execute();
+                    $stmtMedico->close();
+                }
+                echo json_encode(['status' => 'success']);
+            } else {
+                throw new Exception('Error al actualizar el rol');
+            }
+            $stmt->close();
+        } else if (isset($_POST['id'])) {
+            $id = $_POST['id'];
+            $sql = "SELECT * FROM usuario WHERE id = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("i", $id);
+            $stmt->execute();
+            $result = $stmt->get_result();
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if (isset($_POST['id']) && isset($_POST['newRole'])) {
-        $id = $_POST['id'];
-        $newRole = $_POST['newRole'];
-
-        $sql = "UPDATE usuario SET rol = ? WHERE id = ?";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("si", $newRole, $id);
-        if ($stmt->execute()) {
-            echo json_encode(['status' => 'success', 'message' => 'Rol actualizado']);
-        } else {
-            echo json_encode(['status' => 'error', 'message' => 'Error al actualizar el rol']);
+            if ($result->num_rows > 0) {
+                $user = $result->fetch_assoc();
+                echo json_encode(['status' => 'success', 'user' => [
+                    'name' => $user['nombres'], // Ensure 'nombres' is the correct column name for the user's name
+                    'role' => $user['rol'] // Ensure 'rol' is the correct column name for the role
+                ]]);
+            } else {
+                throw new Exception('Usuario no encontrado');
+            }
+            $stmt->close();
         }
-        $stmt->close();
-    }else if (isset($_POST['id'])) {
-        $id = $_POST['id'];
-        $sql = "SELECT * FROM usuario WHERE id = ?";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("i", $id);
-        $stmt->execute();
-        $result = $stmt->get_result();
+    }
 
-        if ($result->num_rows > 0) {
-            $user = $result->fetch_assoc();
-            echo json_encode(['status' => 'success', 'user' => [
-                'name' => $user['nombres'], // Ensure 'nombre' is the correct column name for the user's name
-                'role' => $user['rol'] // Ensure 'rol' is the correct column name for the role
-            ]]);
-        } else {
-            echo json_encode(['status' => 'error', 'message' => 'Usuario no encontrado']);
-        }
-        $stmt->close();
+    $conn->close();
+} catch (Exception $e) {
+    if ($e->getCode() === 1062) {
+        $error = "Rol ya seleccionado. Por favor, use uno diferente.";
+        echo json_encode(['status' => 'error', 'message' => $error]);
+    }else{
+        echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
     }
 }
-
-$conn->close();
 ?>

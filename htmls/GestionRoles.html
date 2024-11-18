@@ -66,6 +66,10 @@
                         <option value="usuario">Usuario</option>
                         
                     </select>
+                    <div id="specialtyField" class="form-label" style="display: none;">
+                        <label for="specialty">Especialidad:</label>
+                        <input type="text" class="form-control" id="specialty" name="specialty">
+                    </div>
                 </div>
                 <button type="submit" class="btn btn-success">Actualizar Rol</button>
             </form>
@@ -129,17 +133,31 @@
             .catch(error => console.error('Error:', error));
         });
 
+        document.getElementById('newRole').addEventListener('change', function(event) {
+            const newRole = document.getElementById('newRole').value;
+            const specialtyField = document.getElementById('specialtyField');
+            if (newRole === 'medico') {
+                specialtyField.style.display = 'block';
+            } else {
+                specialtyField.style.display = 'none';
+            }
+        });
+
         document.getElementById('updateRoleForm').addEventListener('submit', function(event) {
             event.preventDefault();
             const id = document.getElementById('id').value;
             const newRole = document.getElementById('newRole').value;
-
+            const specialty = document.getElementById('specialty').value;
+            let body = 'id=' + encodeURIComponent(id) + '&newRole=' + encodeURIComponent(newRole);
+            if (newRole === 'medico') {
+                body += '&specialty=' + encodeURIComponent(specialty);
+            }
             fetch('searchUser.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 },
-                body: 'id=' + encodeURIComponent(id) + '&newRole=' + encodeURIComponent(newRole)
+                body: body
             })
             .then(response => response.json())
             .then(data => {
