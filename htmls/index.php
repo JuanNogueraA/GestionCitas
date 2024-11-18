@@ -15,8 +15,8 @@
         </div>
         <nav class="nav-links">
             <ul>
-                <li><a href="index.php">Home</a></li>
-                <li><a href="iniciarsesion.php">Sign-in / Sign-up</a></li>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="iniciarsesion.php">Sign-isn / Sign-up</a></li>
                 <li><a href="preguntasfrecuentes.php">Preguntas Frecuentes</a></li>
             </ul>
         </nav>
