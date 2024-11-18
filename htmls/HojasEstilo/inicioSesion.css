@@ -18,14 +18,14 @@ button {
     color: rgb(255, 255, 255);
 }
 header {
-    background-image: url("https://www.colmedica.com/Paginas/aunclic/old/imagenes/citas-medicas-responsive.png");
+    background-image: url("https://gacetamedica.com/wp-content/uploads/2023/01/GettyImages-465308486.jpg");
     background-size: 100%;
     background-repeat: no-repeat;
     background-position-x: 0px;
     background-position-y: 0px;
     height: 400px;
     text-align: center;
-    padding: 275px 20px;
+    padding: 300px 50px;
 }
 ul {
     list-style-type: none;
