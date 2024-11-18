@@ -199,8 +199,8 @@
             const diaSemana = document.getElementById('diaSemana').value;
             const horaInicio = document.getElementById('horaInicio').value;
             const horaFin = document.getElementById('horaFin').value;
-
-            const body = `medicoId=${encodeURIComponent(medicoId)}&diaSemana=${encodeURIComponent(diaSemana)}&horaInicio=${encodeURIComponent(horaInicio)}&horaFin=${encodeURIComponent(horaFin)}`;
+            const opcion = 'medicofilter'
+            const body = `medicoId=${encodeURIComponent(medicoId)}&diaSemana=${encodeURIComponent(diaSemana)}&horaInicio=${encodeURIComponent(horaInicio)}&horaFin=${encodeURIComponent(horaFin)}&opcion=${encodeURIComponent(opcion)}`;
 
             fetch('gestionarDisponibilidad.php', {
                 method: 'POST',
