@@ -164,7 +164,9 @@
             .then(response => response.json())
             .then(data => {
                 if (data.status === 'success') {
+                    document.getElementById('doctorDetails').style.display = 'block';
                     document.getElementById('displayname').innerText = data.user.name;
+                    document.getElementById('currentRole').innerText = data.user.role;
 
                 } else {
                     alert(data.message);
@@ -186,26 +188,9 @@
             calendar.render();
         });
 
-        document.getElementById('manageAvailabilityButton').addEventListener('click', function() {
+        document.getElementById('manageAvailabilityButton').addEventListener('click', function(event) {
             event.preventDefault();
-            const id = document.getElementById('id').value;
-
-            fetch('searchUser.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                body: 'id=' + encodeURIComponent(id)
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 'success') {
-                    alert('Disponibilidad gestionada con éxito');
-                } else {
-                    alert(data.message);
-                }
-            })
-            .catch(error => console.error('Error:', error));
+            document.getElementById('containerdisp').style.display = 'block';
         });
 
         document.getElementById('availabilityForm').addEventListener('submit', function(event) {
