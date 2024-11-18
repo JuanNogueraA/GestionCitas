@@ -1,4 +1,3 @@
-
 body {
     font-family: Arial, sans-serif;
     color: #333;
@@ -72,12 +71,29 @@ body {
 
 /* Banner */
 .banner {
-    background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSNciM97pw8zXmKxO_9xGJvhFNZe6-ZscWIQ&s'); /* Cambia a tu imagen */
+    background-image: url('https://www.sanvicentefundacion.com/sites/default/files/articles/banner-mensajes-hospital_final.jpg');
     background-size: cover;
     background-position: center;
     color: white;
     text-align: center;
-    padding: 50px 20px;
+    padding: 100px 20px;
+    position: relative;
+}
+
+.banner::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Dark overlay */
+}
+
+.banner * {
+    position: relative; /* Keep text above overlay */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); /* Text shadow for better contrast */
+    font-weight: bold;
 }
 
 .banner-text h2 {
@@ -119,4 +135,26 @@ ul {
 li {
     display: inline-block;
     margin-right: 20px;
+}
+
+/* Mensaje de asignación de rol */
+.role-assignment-message {
+    background-color: #f0f8ff;
+    border: 2px solid #0078D4;
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 20px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.role-assignment-message h3 {
+    color: #0078D4;
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.role-assignment-message p {
+    color: #333;
+    font-size: 1.2em;
 }

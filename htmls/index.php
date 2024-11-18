@@ -41,6 +41,13 @@
     <main class="main-content">
         <h2>¡Hemos mejorado la experiencia pensando en ti!</h2>
         <p>Ahora vas a poder acceder a todos tus Servicios a un clic en tu nuevo sitio...</p>
+        <!-- Mensaje de espera para asignación de rol -->
+        <?php if (isset($_GET['registro']) && $_GET['registro'] === 'exitoso'): ?>
+            <div class="role-assignment-message">
+                <h3>¡Registro Exitoso!</h3>
+                <p>Espere a que un rol se le sea asignado por uno de los administradores para iniciar sesión.</p>
+            </div>
+        <?php endif; ?>
         <!-- Más contenido aquí -->
     </main>
     <script>
