@@ -1,29 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="HojasEstilo/general.css">
-    <title>Gestionar Pacientes</title>
+    <title>Gestionar Usuarios</title>
     <style>
         .avatar {
-    display: flex;
-    justify-content: center;
-}
-/* Estilos para la imagen dentro de .avatar */
-.avatar img {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-}
+            display: flex;
+            justify-content: center;
+        }
+
+        /* Estilos para la imagen dentro de .avatar */
+        .avatar img {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+        }
     </style>
 </head>
+
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">Gestionar Pacientes</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <a class="navbar-brand" href="#">Gestionar Usuarios</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
@@ -32,21 +37,23 @@
                         <a class="nav-link active" aria-current="page" href="Administrador.html">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="GestionRoles.html">Gestionar Roles</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" href="GestionCitas.html">Gestionar Citas</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="GestionDisponibilidad.html">Gestionar Disponibilidad</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="GestionRoles.html">Gestionar Roles</a>
+                    </li>
                 </ul>
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
                             <div class="avatar">
-                                <img src="https://static.vecteezy.com/system/resources/previews/005/005/840/non_2x/user-icon-in-trendy-flat-style-isolated-on-grey-background-user-symbol-for-your-web-site-design-logo-app-ui-illustration-eps10-free-vector.jpg" alt="User Avatar">
-                              </div>
+                                <img src="https://static.vecteezy.com/system/resources/previews/005/005/840/non_2x/user-icon-in-trendy-flat-style-isolated-on-grey-background-user-symbol-for-your-web-site-design-logo-app-ui-illustration-eps10-free-vector.jpg"
+                                    alt="User Avatar">
+                            </div>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                             <li><a class="dropdown-item" href="verPerfil.php">Ver Perfil</a></li>
@@ -59,8 +66,23 @@
     </nav>
     <div class="container mt-5">
         <h2>Gestionar Pacientes</h2>
-        <!-- Add your form and other content here -->
+        <form id="searchUserForm">
+            <div class="mb-3">
+                <label for="id" class="form-label">Buscar Usuario</label>
+                <input type="text" class="form-control" id="id" placeholder="Ingrese el ID de usuario">
+            </div>
+            <button type="submit" class="btn btn-primary">Buscar</button>
+        </form>
+        <div id="userDetails" class="mt-4" style="display: none;">
+            <h3>Detalles del Usuario</h3>
+            <p><strong>Nombre:</strong> <span id="displayname"></span></p>
+            <p><strong>Apellido:</strong> <span id="lastName"></span></p>
+            <p><strong>Dirección:</strong> <span id="AddressUser"></span></p>
+            <p><strong>Número:</strong> <span id="userNumber"></span></p>
+            <p><strong>email:</strong> <span id="email"></span></p>
+        </div>
     </div>
+    
     <footer class="footer text-center text-lg-start mt-5">
         <div class="container p-4">
             <div class="row">
@@ -90,12 +112,14 @@
             </div>
         </div>
         <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
-            © 2023 Administrador. Todos los derechos reservados.
+            © 2024 Administrador. Todos los derechos reservados.
         </div>
     </footer>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
     <script>
-        document.getElementById('logout-link').addEventListener('click', function(event) {
+        document.getElementById('logout-link').addEventListener('click', function (event) {
             event.preventDefault();
             if (confirm('¿Desea salir de la sesión?')) {
                 fetch('logout.php', {
@@ -105,6 +129,34 @@
                 });
             }
         });
+
+        document.getElementById('searchUserForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+            const id = document.getElementById('id').value;
+
+            fetch('searchUser.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: 'id=' + encodeURIComponent(id)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        document.getElementById('displayname').innerText = data.user.name;
+                        document.getElementById('lastName').innerText = data.user.lastname;
+                        document.getElementById('AddressUser').innerText = data.user.address;
+                        document.getElementById('userNumber').innerText = data.user.phone;
+                        document.getElementById('email').innerText = data.user.email;
+                        document.getElementById('userDetails').style.display = 'block';
+                    } else {
+                        alert(data.message);
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        });
     </script>
 </body>
+
 </html>

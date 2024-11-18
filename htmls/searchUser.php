@@ -90,7 +90,11 @@ try {
                 $user = $result->fetch_assoc();
                 echo json_encode(['status' => 'success', 'user' => [
                     'name' => $user['nombres'], // Ensure 'nombres' is the correct column name for the user's name
-                    'role' => $user['rol'] // Ensure 'rol' is the correct column name for the role
+                    'role' => $user['rol'], // Ensure 'rol' is the correct column name for the role
+                    'lastname' => $user['apellidos'], // Ensure 'apellidos' is the correct column name for the user's last name
+                    'address' => $user['direccion'], // Ensure 'direccion' is the correct column name for the address
+                    'email' => $user['correo'], // Ensure 'correo' is the correct column name for the email
+                    'phone' => $user['telefono'] // Ensure 'telefono' is the correct column name for the phone
                 ]]);
             } else {
                 throw new Exception('Usuario no encontrado');
