@@ -28,6 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $_SESSION['user_apellidos'] = $user['apellidos'];
                     $_SESSION['user_direccion'] = $user['direccion'];
                     $_SESSION['user_telefono'] = $user['telefono'];
+                    $_SESSION['user_rol'] = $user['rol'];
                     
                     
                     // Redirection based on user role

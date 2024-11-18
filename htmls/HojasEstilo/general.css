@@ -174,3 +174,15 @@ a:hover {
 .card-body {
     padding: 20px;
 }
+.avatar {
+    display: flex;
+    justify-content: center;
+}
+/* Estilos para la imagen dentro de .avatar */
+.avatar img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+
+
