@@ -18,46 +18,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $consulta = "SELECT * FROM usuario WHERE id = '$id' AND contrasena = '$contrasena'";
     try {
         $resultado = mysqli_query($conexion, $consulta);
-        try {
-            if ($resultado) {
-                if ($resultado->num_rows > 0) {
-                    $user = $resultado->fetch_assoc();
-                    $_SESSION['user_id'] = $user['id'];
-                    $_SESSION['user_correo'] = $user['correo'];
-                    $_SESSION['user_nombres'] = $user['nombres'];
-                    $_SESSION['user_apellidos'] = $user['apellidos'];
-                    $_SESSION['user_direccion'] = $user['direccion'];
-                    $_SESSION['user_telefono'] = $user['telefono'];
-                    $_SESSION['user_rol'] = $user['rol'];
-                    
-                    
-                    // Redirection based on user role
-                    if ($user['rol'] == 'administrador') {
-                        header("Location: Administrador.html");
-                    } elseif ($user['rol'] == 'medico') {
-                        header("Location: Medico.html");
-                    } elseif ($user['rol'] == 'paciente') {
-                        header("Location: Pacientes.html");
-                    } else {
-                        header("Location: index.php");
-                    }
-                    exit();
+        if ($resultado) {
+            if ($resultado->num_rows > 0) {
+                $user = $resultado->fetch_assoc();
+                $_SESSION['user_id'] = $user['id'];
+                $_SESSION['user_correo'] = $user['correo'];
+                $_SESSION['user_nombres'] = $user['nombres'];
+                $_SESSION['user_apellidos'] = $user['apellidos'];
+                $_SESSION['user_direccion'] = $user['direccion'];
+                $_SESSION['user_telefono'] = $user['telefono'];
+                $_SESSION['user_rol'] = $user['rol'];
+                
+                // Redirection based on user role
+                if ($user['rol'] == 'administrador') {
+                    header("Location: Administrador.html");
+                } elseif ($user['rol'] == 'medico') {
+                    header("Location: Medico.html");
+                } elseif ($user['rol'] == 'paciente') {
+                    header("Location: PacienteInicio.html");
                 } else {
-                    $error = "Id o Contraseña inválidos";
-                    
+                    header("Location: index.php");
                 }
+                exit();
             } else {
-                $error = "Inicio de sesión fallido";
+                $error = "Id o Contraseña inválidos";
             }
-        } catch (mysqli_sql_exception $e) {
-            $error = "Error en el registro";
+        } else {
+            $error = "Inicio de sesión fallido";
         }
     } catch (mysqli_sql_exception $e) {
-        if ($e->getCode() === 1062) {
-            $error = "Error: El id ya está registrado. Por favor, use uno diferente.";
-        } else {
-            $error = "Error al registrar el usuario: " . $e->getMessage();
-        }
+        $error = "Error en el registro";
     }
     $_SESSION['error'] = $error;
     header("Location: iniciarsesion.php");

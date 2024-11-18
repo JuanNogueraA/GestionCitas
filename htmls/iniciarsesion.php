@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,7 +17,6 @@
         <nav class="navegacionhome navbar">
             <ul>
                 <li><button onclick="redirectToHome()" class="button">Home</button></li>
-                <li><button onclick="redirectToIniciarSesion()" class="button">Iniciar sesion</button></li>
             </ul>
             <div class="user-menu">
                 <i class="fas fa-user"></i>
@@ -27,16 +30,15 @@
                 <form method="post" action="iniciarsesionbd.php">
                     
                     <label for="id">Id</label>
-                    <input type="text" id="id" placeholder="Ingrese id" name="id">
+                    <input type="text" id="id" placeholder="Ingrese id" name="id" required>
                     
                     <label for="contrasena">Contraseña</label>
-                    <input type="password" id="contrasena" placeholder="Ingrese contraseña" name="contrasena">
+                    <input type="password" id="contrasena" placeholder="Ingrese contraseña" name="contrasena" required>
                     
                     <div class="options">
                         <a href="registro1.php"><br/>Registrar usuario</a>
                     </div>
                     <?php
-                    session_start();
                     if (isset($_SESSION['error'])) {
                         echo '<p style="color: red;">' . $_SESSION['error'] . '</p>';
                         unset($_SESSION['error']);
