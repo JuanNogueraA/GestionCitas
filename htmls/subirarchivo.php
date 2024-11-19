@@ -14,12 +14,12 @@ try {
             if ($file['error'] === UPLOAD_ERR_OK) {
                 $fileTmpPath = $file['tmp_name'];
                 $fileContent = file_get_contents($fileTmpPath);
-
+                $id = 1041771424;
                 // Insertar la información del archivo en la base de datos
-                $sql = "INSERT INTO historial_clinico (descripcion, archivo) VALUES (?, ?)";
+                $sql = "INSERT INTO historial_clinico (id, descripcion, archivo) VALUES (?, ?, ?)";
                 $stmt = $conn->prepare($sql);
-                $stmt->bind_param("sb", $descripcion, $fileContent);
-                $stmt->send_long_data(1, $fileContent);
+                $stmt->bind_param("isb", $id, $descripcion, $fileContent);
+                $stmt->send_long_data(2, $fileContent);
 
                 if ($stmt->execute()) {
                     echo json_encode(['status' => 'success', 'message' => 'Archivo subido correctamente']);

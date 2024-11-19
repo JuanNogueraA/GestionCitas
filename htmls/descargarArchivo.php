@@ -47,8 +47,8 @@ try {
             if ($fileName) {
                 // Enviar el archivo al navegador para su descarga
                 header('Content-Description: File Transfer');
-                header('Content-Type: application/octet-stream');
-                header('Content-Disposition: attachment; filename="' . $fileName . '.docx"');
+                header('Content-Type: application/pdf');
+                header('Content-Disposition: attachment; filename="' . $fileName . '.pdf');
                 header('Content-Length: ' . strlen($fileContent));
                 echo $fileContent;
             } else {
