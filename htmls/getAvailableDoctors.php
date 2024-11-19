@@ -1,4 +1,3 @@
-
 <?php
 header('Content-Type: application/json');
 $data = json_decode(file_get_contents('php://input'), true);
@@ -8,26 +7,24 @@ $valorOpcion = $data['valorOpcion'];
 $fecha = $data['fecha'];
 $hora = $data['hora'];
 
-// Conexión a la base de datos
-$conn = new mysqli('localhost', 'root', '', 'gestioncitas');
+require_once 'DataBase.php';
 
-if ($conn->connect_error) {
-    die('Connection failed: ' . $conn->connect_error);
+try {
+    $conn = DataBase::getInstance()->getConnection();
+    $sql = "SELECT id, especialidad FROM doctors WHERE especialidad = ? AND fecha = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('ss', $valorOpcion, $fecha);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    $doctors = [];
+    while ($row = $result->fetch_assoc()) {
+        $doctors[] = $row;
+    }
+
+    $stmt->close();
+    echo json_encode($doctors);
+} catch (Exception $e) {
+    echo json_encode(['error' => $e->getMessage()]);
 }
-
-$sql = "SELECT id, name, specialty FROM doctors WHERE available_date = ? AND available_time = ? AND $opcion = ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param('sss', $fecha, $hora, $valorOpcion);
-$stmt->execute();
-$result = $stmt->get_result();
-
-$doctors = [];
-while ($row = $result->fetch_assoc()) {
-    $doctors[] = $row;
-}
-
-$stmt->close();
-$conn->close();
-
-echo json_encode($doctors);
 ?>
