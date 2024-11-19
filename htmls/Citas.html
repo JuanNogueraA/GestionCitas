@@ -55,6 +55,27 @@
         </div>
       </nav>
       <br>
+    <div class="container">
+        <h2>Asignar Cita</h2>
+        <form id="appointmentForm">
+            <div class="mb-3">
+                <label for="doctorSelect" class="form-label">Seleccionar Médico</label>
+                <select class="form-select" id="doctorSelect" required>
+                    <option value="">Seleccione un médico</option>
+                    <!-- Opciones de médicos se cargarán dinámicamente -->
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="dateSelect" class="form-label">Seleccionar Fecha</label>
+                <input type="date" class="form-control" id="dateSelect" required>
+            </div>
+            <div class="mb-3">
+                <label for="timeSelect" class="form-label">Seleccionar Hora</label>
+                <input type="time" class="form-control" id="timeSelect" step="3600" required min="07:00" max="18:00">
+            </div>
+            <button type="submit" class="btn btn-primary">Buscar Citas Disponibles</button>
+        </form>
+    </div>
     <footer class="footer text-center text-lg-start">
       <div class="container p-4">
         <div class="row">
@@ -97,6 +118,44 @@
           });
         }
       });
+
+      document.addEventListener('DOMContentLoaded', function() {
+        // Cargar médicos disponibles
+        fetch('getDoctors.php')
+            .then(response => response.json())
+            .then(data => {
+                const doctorSelect = document.getElementById('doctorSelect');
+                data.forEach(doctor => {
+                    const option = document.createElement('option');
+                    option.value = doctor.id;
+                    option.textContent = doctor.name;
+                    doctorSelect.appendChild(option);
+                });
+            });
+
+        // Manejar el envío del formulario
+        document.getElementById('appointmentForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const doctorId = document.getElementById('doctorSelect').value;
+            const date = document.getElementById('dateSelect').value;
+            const time = document.getElementById('timeSelect').value;
+
+            fetch('assignAppointment.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ doctorId, date, time })
+            }).then(response => response.json())
+              .then(data => {
+                  if (data.success) {
+                      alert('Cita asignada con éxito');
+                  } else {
+                      alert('Error al asignar la cita');
+                  }
+              });
+        });
+    });
     </script>
 </body>
 </html>
