@@ -15,9 +15,10 @@ try {
             if ($stmt->execute()) {
                 
                 if($newRole === 'administrador'){
-                    $sqlAdmin = "INSERT INTO administrador (id, id_usuario) VALUES (?, ?)";
+                    $nivelpermisos = 1;
+                    $sqlAdmin = "INSERT INTO administrador (id, id_usuario, nivel_permisos) VALUES (?, ?, ?)";
                     $stmtAdmin = $conn->prepare($sqlAdmin);
-                    $stmtAdmin->bind_param("ii", $id, $id);
+                    $stmtAdmin->bind_param("iis", $id, $id, $nivelpermisos);
                     if (!$stmtAdmin->execute()) {
                         echo json_encode(['status' => 'error', 'message' => 'Error al crear el registro de administrador']);
                         $stmtAdmin->close();
@@ -34,9 +35,10 @@ try {
                     $stmtAdmin->close();
                 }
                 if ($newRole === 'paciente') {
-                    $sqlPaciente = "INSERT INTO paciente (id, id_usuario) VALUES (?, ?)";
+                    $estado = 'activo';
+                    $sqlPaciente = "INSERT INTO paciente (id, id_usuario, estado) VALUES (?, ?, ?)";
                     $stmtPaciente = $conn->prepare($sqlPaciente);
-                    $stmtPaciente->bind_param("ii", $id, $id);
+                    $stmtPaciente->bind_param("iis", $id, $id, $estado);
                     if (!$stmtPaciente->execute()) {
                         echo json_encode(['status' => 'error', 'message' => 'Error al crear el registro de paciente']);
                         $stmtPaciente->close();
