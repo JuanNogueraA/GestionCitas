@@ -26,18 +26,25 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="Administrador.html">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="GestionPacientes.html">Gestionar Pacientes</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="GestionDisponibilidad.html">Gestionar Disponibilidad</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="GestionRoles.html">Gestionar roles</a>
-                    </li>
+                    <?php
+                    session_start();
+                    if (isset($_SESSION['user_rol'])) {
+                        if ($_SESSION['user_rol'] == 'administrador') {
+                            echo '<li class="nav-item"><a class="nav-link active" aria-current="page" href="Administrador.html">Home</a></li>';
+                            echo '<li class="nav-item"><a class="nav-link" href="GestionPacientes.html">Gestionar Pacientes</a></li>';
+                            echo '<li class="nav-item"><a class="nav-link" href="GestionDisponibilidad.html">Gestionar Disponibilidad</a></li>';
+                            echo '<li class="nav-item"><a class="nav-link" href="GestionRoles.html">Gestionar roles</a></li>';
+                        } elseif ($_SESSION['user_rol'] == 'medico') {
+                            echo '<li class="nav-item"><a class="nav-link active" aria-current="page" href="Medico.html">Home</a></li>';
+                            echo '<li class="nav-item"><a class="nav-link" href="Citas.html">Citas</a></li>';
+                            echo '<li class="nav-item"><a class="nav-link" href="Agenda.html">Agenda</a></li>';
+                        } elseif ($_SESSION['user_rol'] == 'paciente') {
+                            echo '<li class="nav-item"><a class="nav-link active" aria-current="page" href="Paciente.html">Home</a></li>';
+                            echo '<li class="nav-item"><a class="nav-link" href="Citas.html">Citas</a></li>';
+                            echo '<li class="nav-item"><a class="nav-link" href="Calendario.html">Calendario</a></li>';
+                        }
+                    }
+                    ?>
                 </ul>
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item dropdown">
@@ -59,7 +66,6 @@
     <div class="container">
         <h1>Perfil del Usuario</h1>
         <?php 
-        session_start();
         if (isset($_SESSION['success_message'])) {
             echo '<div class="alert alert-success" role="alert">' . $_SESSION['success_message'] . '</div>';
             unset($_SESSION['success_message']);
