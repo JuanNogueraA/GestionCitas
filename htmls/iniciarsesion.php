@@ -1,54 +1,71 @@
-<?php
-session_start();
-?>
-
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My website</title>
-    <link rel="stylesheet" href="HojasEstilo/inicioSesion.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+   <link rel="stylesheet" href="HojasEstilo/inicioSesion.css"> 
+   
 </head>
 <body>
     <header>
-        <nav class="navegacionhome navbar">
+        <nav class="navegacionhome">
             <ul>
-                <li><button onclick="redirectToHome()" class="button">Home</button></li>
+                <li><button onclick="redirectToHome()" class="button">
+                    <i class="fas fa-home"></i> Home
+                </button></li>
             </ul>
             <div class="user-menu">
-                <i class="fas fa-user"></i>
+                <i class="fas fa-user-circle"></i>
             </div>
         </nav>
-        <div class="login-container">
-            <div class="login-box">
-                <div class="avatar">
-                    <img src="https://static.vecteezy.com/system/resources/previews/005/005/840/non_2x/user-icon-in-trendy-flat-style-isolated-on-grey-background-user-symbol-for-your-web-site-design-logo-app-ui-illustration-eps10-free-vector.jpg" alt="User Avatar">
-                </div>
-                <form method="post" action="iniciarsesionbd.php">
-                    
-                    <label for="id">Id</label>
-                    <input type="text" id="id" placeholder="Ingrese id" name="id" required>
-                    
-                    <label for="contrasena">Contraseña</label>
-                    <input type="password" id="contrasena" placeholder="Ingrese contraseña" name="contrasena" required>
-                    
-                    <div class="options">
-                        <a href="registro1.php"><br/>Registrar usuario</a>
-                    </div>
-                    <?php
-                    if (isset($_SESSION['error'])) {
-                        echo '<p style="color: red;">' . $_SESSION['error'] . '</p>';
-                        unset($_SESSION['error']);
-                    }
-                    ?>
-                    <button type="submit">LOGIN</button>
-                </form>
-            </div>
-        </div>
     </header>
+
+    <main>
+        <section class="login-section">
+            <div class="login-container">
+                <div class="login-box">
+                    <div class="avatar">
+                        <i class="fas fa-user-circle fa-5x"></i>
+                    </div>
+                    <form method="post" action="iniciarsesionbd.php">
+                        <label for="id">
+                            <i class="fas fa-user"></i> Usuario ID
+                        </label>
+                        <input type="text" id="id" placeholder="Ingrese su ID" name="id" required>
+                        
+                        <label for="contrasena">
+                            <i class="fas fa-lock"></i> Contraseña
+                        </label>
+                        <input type="password" id="contrasena" placeholder="Ingrese su contraseña" name="contrasena" required>
+                        
+                        <div class="options">
+                            <a href="registro1.php">
+                                <i class="fas fa-user-plus"></i> Registrar usuario
+                            </a>
+                            <a href="forgotpassword.php">
+                                <i class="fas fa-key"></i> ¿Olvidó su contraseña?
+                            </a>
+                        </div>
+
+                        <?php
+                        if (isset($_SESSION['error'])) {
+                            echo '<p class="error-message"><i class="fas fa-exclamation-circle"></i> ' . $_SESSION['error'] . '</p>';
+                            unset($_SESSION['error']);
+                        }
+                        ?>
+
+                        <button type="submit">
+                            <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
     <script>
         function redirectToHome() {
             window.location.href = 'index.php';
