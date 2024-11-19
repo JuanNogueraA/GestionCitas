@@ -81,6 +81,36 @@
             <p><strong>Número:</strong> <span id="userNumber"></span></p>
             <p><strong>email:</strong> <span id="email"></span></p>
         </div>
+        <div class="container mt-5">
+            <h2>Actualizar Datos del Usuario</h2>
+            <form id="updateUserForm">
+                <div class="mb-3">
+                    <label for="id" class="form-label">ID del Usuario</label>
+                    <input type="text" class="form-control" id="id" placeholder="Ingrese el ID del usuario" required>
+                </div>
+                <div class="mb-3">
+                    <label for="name" class="form-label">Nombre</label>
+                    <input type="text" class="form-control" id="name" placeholder="Ingrese el nombre" required>
+                </div>
+                <div class="mb-3">
+                    <label for="lastname" class="form-label">Apellido</label>
+                    <input type="text" class="form-control" id="lastname" placeholder="Ingrese el apellido" required>
+                </div>
+                <div class="mb-3">
+                    <label for="address" class="form-label">Dirección</label>
+                    <input type="text" class="form-control" id="address" placeholder="Ingrese la dirección" required>
+                </div>
+                <div class="mb-3">
+                    <label for="phone" class="form-label">Número</label>
+                    <input type="text" class="form-control" id="phone" placeholder="Ingrese el número" required>
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email" placeholder="Ingrese el email" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Actualizar</button>
+            </form>
+        </div>
     </div>
     
     <footer class="footer text-center text-lg-start mt-5">
@@ -155,6 +185,38 @@
                     }
                 })
                 .catch(error => console.error('Error:', error));
+        });
+
+        document.getElementById('updateUserForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const id = document.getElementById('id').value;
+            const name = document.getElementById('name').value;
+            const lastname = document.getElementById('lastname').value;
+            const address = document.getElementById('address').value;
+            const phone = document.getElementById('phone').value;
+            const email = document.getElementById('email').value;
+
+            fetch('ActualizarUser.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: 'id=' + encodeURIComponent(id) +
+                      '&name=' + encodeURIComponent(name) +
+                      '&lastname=' + encodeURIComponent(lastname) +
+                      '&address=' + encodeURIComponent(address) +
+                      '&phone=' + encodeURIComponent(phone) +
+                      '&email=' + encodeURIComponent(email)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    alert('Datos actualizados correctamente');
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            })
+            .catch(error => console.error('Error:', error));
         });
     </script>
 </body>
