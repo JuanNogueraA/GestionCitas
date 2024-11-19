@@ -1,18 +1,43 @@
+@import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;500;600;700&display=swap');
+
 :root {
-    --white: #ffffffff;
-    --viridian: #007f5f; /* New color value */
-    --gunmetal: #30343fff;
+    /* Color Palette */
+    --primary-color: #4f46e5;
+    --primary-hover: #4338ca;
+    --secondary-color: #f8fafc;
+    --accent-color: #818cf8;
+    --text-primary: #1e293b;
+    --text-secondary: #64748b;
+    --background-gradient-start: #e0f2fe;
+    --background-gradient-end: #bfdbfe;
+    --shadow-color: rgba(15, 23, 42, 0.08);
+    --input-background: #f8fafc;
+    --error-color: #ef4444;
+    --success-color: #22c55e;
+    
+    /* Typography */
+    --font-family: 'League Spartan', system-ui, sans-serif;
+    
+    /* Transitions */
+    --transition-quick: 0.2s ease;
+    --transition-smooth: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Estilos generales para el cuerpo */
-body {
-    background-color: var(--white);
-    font-family: 'Helvetica Neue', Arial, Helvetica, sans-serif;
-    padding: 0;
+* {
     margin: 0;
-    line-height: 1.6;
+    padding: 0;
+    box-sizing: border-box;
 }
 
+body {
+    background: linear-gradient(135deg, var(--background-gradient-start), var(--background-gradient-end));
+    background-attachment: fixed;
+    color: var(--text-primary);
+    font-family: var(--font-family);
+    min-height: 100vh;
+    padding-top: 80px;
+    line-height: 1.5;
+}
 /* Estilos para el contenedor principal */
 .container {
     width: 80%;
