@@ -12,31 +12,27 @@ $userId = $_SESSION['user_id'];
 
 $conn = DataBase::getInstance()->getConnection();
 
-// Comentamos temporalmente la consulta SQL que causa el error
-/*
 $sql = "SELECT avatar FROM usuario WHERE id = ?";
 $stmt = $conn->prepare($sql);
-if (!$stmt) {
-    die("Error al preparar la consulta: " . $conn->error);
+if ($stmt) {
+    $stmt->bind_param("i", $userId);
+    $stmt->execute();
+    $stmt->bind_result($avatar_path);
+    $stmt->fetch();
+    $stmt->close();
+} else {
+    // En caso de error, usa una imagen por defecto
+    $avatar_path = 'https://blogs.ucontinental.edu.pe/wp-content/uploads/2022/09/funciones-de-un-administrador-scaled.jpg';
 }
-$stmt->bind_param("i", $userId);
-$stmt->execute();
-$stmt->bind_result($avatar_path);
-$stmt->fetch();
-$stmt->close();
-*/
-
-// Usamos una imagen predeterminada por ahora
-$avatar_path = 'https://blogs.ucontinental.edu.pe/wp-content/uploads/2022/09/funciones-de-un-administrador-scaled.jpg';
 
 $conn->close();
 
-// Ruta a la imagen predeterminada
-$default_avatar = 'https://blogs.ucontinental.edu.pe/wp-content/uploads/2022/09/funciones-de-un-administrador-scaled.jpg';
-
-// Verificamos si el usuario tiene un avatar personalizado
-$avatar_path = !empty($avatar_path) ? $avatar_path : $default_avatar;
+// Si no hay un avatar personalizado, usa la imagen predeterminada
+if (empty($avatar_path)) {
+    $avatar_path = 'https://blogs.ucontinental.edu.pe/wp-content/uploads/2022/09/funciones-de-un-administrador-scaled.jpg';
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 
