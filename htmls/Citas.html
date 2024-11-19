@@ -59,11 +59,17 @@
         <h2>Asignar Cita</h2>
         <form id="appointmentForm">
             <div class="mb-3">
-                <label for="doctorSelect" class="form-label">Seleccionar Médico</label>
-                <select class="form-select" id="doctorSelect" required>
-                    <option value="">Seleccione un médico</option>
+                <label for="optionSelect" class="form-label">Seleccionar Método de búsqueda</label>
+                <select class="form-select" id="optionSelect" required>
+                    <option value="">Seleccionar...</option>
+                    <option value="optionmedico">Por médico</option>
+                    <option value="optionespecialidad">Por especialidad</option>
                     <!-- Opciones de médicos se cargarán dinámicamente -->
                 </select>
+                <div id="optionfield" class="form-label" style="display: none;">
+                  <label for="optionvalue" style="margin-top: 20px;">Valor: </label>
+                  <input type="text" class="form-control" id="optionvalue" name="optionvalue">
+              </div>
             </div>
             <div class="mb-3">
                 <label for="dateSelect" class="form-label">Seleccionar Fecha</label>
@@ -129,6 +135,11 @@
         }
       });
 
+      document.getElementById('optionSelect').addEventListener('change', function(event) {
+            const option = document.getElementById('optionSelect').value;
+            optionfield.style.display = 'block';
+        });
+
       document.addEventListener('DOMContentLoaded', function(event) {
         // Cargar médicos disponibles
         fetch('getDoctors.php')
@@ -146,16 +157,20 @@
         // Manejar el envío del formulario
         document.getElementById('appointmentForm').addEventListener('submit', function(event) {
             event.preventDefault();
-            const doctorId = document.getElementById('doctorSelect').value;
+            const opcion = document.getElementById('optionSelect').value;
+            const valorOpcion= document.getElementById('optionvalue').value;
             const date = document.getElementById('dateSelect').value;
             const time = document.getElementById('timeSelect').value;
-
+            let body = 'opcion=' + encodeURIComponent(opcion) + 
+            '&fecha=' + encodeURIComponent(date) +
+            '&hora=' + encodeURIComponent(time) +
+            '&valorOpcion=' + encodeURIComponent(valorOpcion);
             fetch('assignAppointment.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ doctorId, date, time })
+                body: body
             }).then(response => response.json())
               .then(data => {
                   if (data.success) {
