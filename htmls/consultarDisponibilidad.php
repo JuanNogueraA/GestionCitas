@@ -12,7 +12,7 @@ if (isset($_GET['medicoId'])) {
         die(json_encode(['status' => 'error', 'message' => 'Error de conexión a la base de datos']));
     }
 
-    $sql = "SELECT dia_semana, hora_inicio, hora_fin FROM disponibilidad WHERE id_medico = ?";
+    $sql = "SELECT fecha, hora_inicio, hora_fin FROM disponibilidad WHERE id_medico = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param('i', $medicoId);
     $stmt->execute();

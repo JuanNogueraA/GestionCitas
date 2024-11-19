@@ -81,6 +81,7 @@
             </div>
             <button type="submit" class="btn btn-primary">Buscar Citas Disponibles</button>
         </form>
+        <div id="availableDoctors" class="row mt-4"></div>
     </div>
     <footer class="footer text-center text-lg-start">
       <div class="container p-4">
@@ -161,11 +162,13 @@
             const valorOpcion= document.getElementById('optionvalue').value;
             const date = document.getElementById('dateSelect').value;
             const time = document.getElementById('timeSelect').value;
-            let body = 'opcion=' + encodeURIComponent(opcion) + 
-            '&fecha=' + encodeURIComponent(date) +
-            '&hora=' + encodeURIComponent(time) +
-            '&valorOpcion=' + encodeURIComponent(valorOpcion);
-            fetch('assignAppointment.php', {
+            let body = JSON.stringify({
+                opcion: opcion,
+                valorOpcion: valorOpcion,
+                fecha: date,
+                hora: time
+            });
+            fetch('getAvailableDoctors.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -173,10 +176,49 @@
                 body: body
             }).then(response => response.json())
               .then(data => {
-                  if (data.success) {
-                      alert('Cita asignada con éxito');
+                  const availableDoctors = document.getElementById('availableDoctors');
+                  availableDoctors.innerHTML = '';
+                  if (data.length > 0) {
+                      data.forEach(doctor => {
+                          const card = document.createElement('div');
+                          card.className = 'col-md-4';
+                          card.innerHTML = `
+                              <div class="card mb-4">
+                                  <div class="card-body">
+                                      <h5 class="card-title">${doctor.name}</h5>
+                                      <p class="card-text">Especialidad: ${doctor.specialty}</p>
+                                      <button class="btn btn-primary assign-btn" data-doctor-id="${doctor.id}">Asignar Cita</button>
+                                  </div>
+                              </div>
+                          `;
+                          availableDoctors.appendChild(card);
+                      });
+
+                      document.querySelectorAll('.assign-btn').forEach(button => {
+                          button.addEventListener('click', function() {
+                              const doctorId = this.getAttribute('data-doctor-id');
+                              fetch('assignAppointment.php', {
+                                  method: 'POST',
+                                  headers: {
+                                      'Content-Type': 'application/json'
+                                  },
+                                  body: JSON.stringify({
+                                      doctorId: doctorId,
+                                      fecha: date,
+                                      hora: time
+                                  })
+                              }).then(response => response.json())
+                                .then(data => {
+                                    if (data.success) {
+                                        alert('Cita asignada con éxito');
+                                    } else {
+                                        alert('Error al asignar la cita');
+                                    }
+                                });
+                          });
+                      });
                   } else {
-                      alert('Error al asignar la cita');
+                      availableDoctors.innerHTML = '<p>No hay médicos disponibles para la fecha y hora seleccionadas.</p>';
                   }
               });
         });
