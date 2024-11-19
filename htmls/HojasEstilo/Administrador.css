@@ -1,0 +1,180 @@
+
+        /* ===== ROOT VARIABLES ===== */
+        :root {
+            --primary-color: #4e73df;
+            --secondary-color: #858796;
+            --success-color: #1cc88a;
+            --info-color: #36b9cc;
+            --warning-color: #f6c23e;
+            --danger-color: #e74a3b;
+            --light-color: #f8f9fc;
+            --dark-color: #5a5c69;
+            --shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+        }
+
+        /* ===== GENERAL STYLES ===== */
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: var(--light-color);
+        }
+
+        /* ===== NAVBAR STYLES ===== */
+        .navbar {
+            box-shadow: var(--shadow);
+            background: white !important;
+            padding: 1rem;
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            color: var(--primary-color) !important;
+            padding-left: 1rem;
+        }
+
+        .nav-item .nav-link {
+            padding: 0.7rem 1rem;
+            color: var(--secondary-color) !important;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-item .nav-link:hover {
+            color: var(--primary-color) !important;
+            background: rgba(78, 115, 223, 0.1);
+            border-radius: 0.35rem;
+        }
+
+        .nav-item .nav-link.active {
+            color: var(--primary-color) !important;
+            font-weight: 600;
+        }
+
+        /* ===== AVATAR STYLES ===== */
+        .avatar {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            border-radius: 0.35rem;
+            transition: all 0.3s ease;
+        }
+
+        .avatar:hover {
+            background: rgba(78, 115, 223, 0.1);
+        }
+
+        .avatar img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid var(--primary-color);
+            padding: 2px;
+        }
+
+        /* ===== HEADER STYLES ===== */
+        header {
+            padding: 2rem 0;
+            background: white;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        .imagenadmin {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .imagenadmin img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 3px solid var(--primary-color);
+            padding: 3px;
+            background: white;
+        }
+
+        header p {
+            text-align: center;
+            font-size: 1.5rem;
+            color: var(--dark-color);
+            margin: 0;
+            font-weight: 600;
+        }
+
+        /* ===== DROPDOWN STYLES ===== */
+        .dropdown-menu {
+            border: none;
+            box-shadow: var(--shadow);
+            border-radius: 0.35rem;
+        }
+
+        .dropdown-item {
+            padding: 0.5rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--secondary-color);
+        }
+
+        .dropdown-item:hover {
+            color: var(--primary-color);
+            background: rgba(78, 115, 223, 0.1);
+        }
+
+        /* ===== FOOTER STYLES ===== */
+        .footer {
+            background: white;
+            box-shadow: var(--shadow);
+            margin-top: 2rem;
+        }
+
+        .footer h5 {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .footer p {
+            color: var(--secondary-color);
+        }
+
+        .footer ul li a {
+            color: var(--secondary-color) !important;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 0;
+        }
+
+        .footer ul li a:hover {
+            color: var(--primary-color) !important;
+        }
+
+        .footer .text-center {
+            background: rgba(78, 115, 223, 0.1);
+            color: var(--secondary-color);
+        }
+
+        /* ===== RESPONSIVE STYLES ===== */
+        @media (max-width: 768px) {
+            .navbar-nav {
+                padding: 1rem 0;
+            }
+            
+            .nav-item .nav-link {
+                padding: 0.5rem 1rem;
+            }
+            
+            .imagenadmin img {
+                width: 120px;
+                height: 120px;
+            }
+            
+            header p {
+                font-size: 1.2rem;
+            }
+        }
+    
