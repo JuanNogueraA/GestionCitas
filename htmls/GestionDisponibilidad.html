@@ -176,7 +176,6 @@
                     document.getElementById('doctorDetails').style.display = 'block';
                     document.getElementById('displayname').innerText = data.user.name;
                     document.getElementById('currentEspecialidad').innerText = data.user.especialidad;
-
                 } else {
                     alert(data.message);
                 }
@@ -208,8 +207,8 @@
             .then(response => response.json())
             .then(data => {
                 if (data.status === 'success') {
-                    alert('Disponibilidad guardada con éxito');
                     loadAvailability(medicoId);
+                    alert('Disponibilidad guardada con éxito');
                 } else {
                     alert('Error: ' + data.message);
                 }
@@ -225,9 +224,16 @@
                 availabilityItems.innerHTML = '';
                 if (data.length > 0) {
                     data.forEach(item => {
-                        const li = document.createElement('li');
-                        li.textContent = `${item.fecha}: ${item.hora_inicio} - ${item.hora_fin}`;
-                        availabilityItems.appendChild(li);
+                        const card = document.createElement('div');
+                        card.className = 'card mb-3';
+                        card.innerHTML = `
+                            <div class="card-body">
+                                <h5 class="card-title">${item.fecha}</h5>
+                                <p class="card-text">Hora de Inicio: ${item.hora_inicio}</p>
+                                <p class="card-text">Hora de Fin: ${item.hora_fin}</p>
+                            </div>
+                        `;
+                        availabilityItems.appendChild(card);
                     });
                 } else {
                     const li = document.createElement('li');
