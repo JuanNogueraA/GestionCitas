@@ -1,123 +1,146 @@
+:root {
+    --primary-color: #005A9E;
+    --secondary-color: #87CEEB;
+    --tertiary-color: #4682B4;
+    --button-color: #4CAF50;
+    --button-hover-color: #45a049;
+    --text-color: #fff;
+    --background-color: linear-gradient(to bottom, var(--secondary-color), var(--tertiary-color));
+}
+
 body {
-    background: linear-gradient(to bottom, #87CEEB, #4682B4);
-    color: rgb(255, 255, 255);
+    background: var(--background-color);
+    color: var(--text-color);
     font-family: Helvetica Neue, Arial, Helvetica, sans-serif;
     padding: 0;
     margin: 0;
 }
-h1 {
-    color: rgb(255, 255, 255);
+
+h1, h2 {
+    color: var(--text-color);
 }
-h2 {
-    color: rgb(8, 164, 255);
-}
+
 button {
     background: grey;
     border: none;
     border-radius: 12px;
-    color: rgb(255, 255, 255);
+    color: var(--text-color);
 }
+
 header {
     background-image: url("https://gacetamedica.com/wp-content/uploads/2023/01/GettyImages-465308486.jpg");
-    background-size: 100%;
+    background-size: cover;
     background-repeat: no-repeat;
-    background-position-x: 0px;
-    background-position-y: 0px;
+    background-position: center;
     height: 400px;
     text-align: center;
     padding: 300px 50px;
 }
+
 ul {
     list-style-type: none;
     padding: 0;
     margin: 0;
 }
+
 li {
     display: inline-block;
     margin-right: 20px;
 }
-.navegacionhome{
+
+.navegacionhome {
     width: 100%;
-    background-color: #f8f9fa; /* Color de fondo */
+    background-color: #f8f9fa;
     position: fixed;
     top: 0;
     left: 0;
     display: flex;
     justify-content: center;
     padding: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra opcional */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-.navegacionhome a{
+
+.navegacionhome a {
     color: black;
     margin: 0 10px;
     text-decoration: none;
 }
-.button{
-    background-color: #005A9E;
-    color: #fff;
+
+.button {
+    background-color: var(--primary-color);
+    color: var(--text-color);
     padding: 8px 15px;
     border: none;
     cursor: pointer;
 }
-.login-container {   
-display: flex;
-justify-content: center;
-align-items: center;
-height: 100%;
-width: 100%;
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 400px);
+    width: 100%;
 }
+
 .login-box {
-background-color:white;
-padding: 30px;
-width: 300px;
-border-radius: 10px;
-box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-text-align: center;
+    background-color: white;
+    padding: 30px;
+    width: 300px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
 }
+
 /* Avatar */
 .avatar img {
-width: 80px;
-height: 80px;
-margin-bottom: 20px;
+    width: 80px;
+    height: 80px;
+    margin-bottom: 20px;
 }
+
 /* Estilo del formulario */
 form label {
-display: block;
-color: gray;
-font-weight: bold;
-margin-bottom: 5px;
-text-align: left;
+    display: block;
+    color: gray;
+    font-weight: bold;
+    margin-bottom: 5px;
+    text-align: left;
 }
+
 form input[type="text"],
 form input[type="password"] {
-width: 100%;
-padding: 10px;
-margin-bottom: 15px;
-border: none;
-border-radius: 5px;
-background-color: rgba(65, 61, 61, 0.1);
-color: #333;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: none;
+    border-radius: 5px;
+    background-color: rgba(65, 61, 61, 0.1);
+    color: #333;
 }
+
 .options {
-display: flex;
-align-items: center;
-font-size: 0.9em;
-margin: 0 0 20px 0;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9em;
+    margin: 0 0 20px 0;
 }
+
 .options a {
-color: rgb(119, 151, 255);
-text-decoration: none;
+    color: rgb(119, 151, 255);
+    text-decoration: none;
 }
+
 form button {
-width: 100%;
-padding: 10px;
-background-color: #4CAF50;
-border: none;
-border-radius: 5px;
-color: #fff;
-font-weight: bold;
-cursor: pointer;
+    width: 100%;
+    padding: 10px;
+    background-color: var(--button-color);
+    border: none;
+    border-radius: 5px;
+    color: var(--text-color);
+    font-weight: bold;
+    cursor: pointer;
 }
+
 form button:hover {
-background-color: #45a049;
+    background-color: var(--button-hover-color);
 }
