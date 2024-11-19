@@ -14,7 +14,7 @@ try {
             if ($file['error'] === UPLOAD_ERR_OK) {
                 $fileTmpPath = $file['tmp_name'];
                 $fileContent = file_get_contents($fileTmpPath);
-                $id = 1041771424;
+                $id = $_POST['patientId'];
                 // Insertar la información del archivo en la base de datos
                 $sql = "INSERT INTO historial_clinico (id, descripcion, archivo) VALUES (?, ?, ?)";
                 $stmt = $conn->prepare($sql);

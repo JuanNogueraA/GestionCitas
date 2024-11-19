@@ -35,9 +35,26 @@
         </div>
     </div>
     <script>
+        // Function to get query parameters from the URL
+        function getQueryParams() {
+            const params = {};
+            const queryString = window.location.search.substring(1);
+            const regex = /([^&=]+)=([^&]*)/g;
+            let m;
+            while (m = regex.exec(queryString)) {
+                params[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
+            }
+            return params;
+        }
+
+        // Get the patient ID from the URL
+        const params = getQueryParams();
+        const patientId = params['id'];
+
         document.getElementById('uploadForm').addEventListener('submit', function(event) {
             event.preventDefault();
             const formData = new FormData(this);
+            formData.append('patientId', patientId); // Append the patient ID to the form data
 
             fetch('subirArchivo.php', {
                 method: 'POST',
