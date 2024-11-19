@@ -121,9 +121,8 @@ body {
     border-radius: 5px;
     transition: background-color 0.3s ease;
 }
-
 .button:hover {
-    background-color: var(--gunmetal);
+    background-color: var(--viridian);
 }
 
 /* Estilos para formularios */

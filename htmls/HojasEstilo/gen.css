@@ -113,7 +113,7 @@ body {
 
 /* Estilos para botones */
 .button {
-    background-color: var(--viridian);
+    background-color: blue;
     color: var(--white);
     border: none;
     padding: 10px 20px;
@@ -123,7 +123,7 @@ body {
 }
 
 .button:hover {
-    background-color: var(--gunmetal);
+    background-color: purple;
 }
 
 /* Estilos para formularios */
@@ -156,12 +156,12 @@ form textarea {
 form button[type="submit"] {
     width: 100%;
     padding: 10px;
-    background-color: var(--viridian);
+    background-color: rgb(120, 120, 233);
     color: var(--white);
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    
 }
 
 form button[type="submit"]:hover {
