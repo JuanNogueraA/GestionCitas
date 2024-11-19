@@ -63,13 +63,13 @@
                 <label for="optionSelect" class="form-label">Seleccionar Método de búsqueda</label>
                 <select class="form-select" id="optionSelect" required>
                     <option value="">Seleccionar...</option>
-                    <option value="optionmedico">Por médico</option>
-                    <option value="optionespecialidad">Por especialidad</option>
-                    <!-- Opciones de médicos se cargarán dinámicamente -->
+                    <option value="medico">Por médico</option>
+                    <option value="especialidad">Por especialidad</option>
                 </select>
-                <div id="optionfield" class="form-label" style="display: none;">
-                  <label for="optionvalue" style="margin-top: 20px;">Valor: </label>
-                  <input type="text" class="form-control" id="optionvalue" name="optionvalue">
+                <div id="optionfield" class="form-label" style="display: none; margin-top: 30px;">
+                  <select class="form-control" id="optionvalue" name="optionvalue">
+                    <option value="">Seleccionar...</option>
+                </select>
               </div>
             </div>
             <div class="mb-3">
@@ -137,10 +137,59 @@
         }
       });
 
-      document.getElementById('optionSelect').addEventListener('change', function(event) {
-            const option = document.getElementById('optionSelect').value;
-            optionfield.style.display = 'block';
-        });
+      document.getElementById('optionSelect').addEventListener('change', function() {
+        const optionSelect = document.getElementById('optionSelect').value;
+        const optionField = document.getElementById('optionfield');
+        const optionValue = document.getElementById('optionvalue');
+        optionValue.innerHTML = ''; // Clear previous options
+        if (optionSelect) {
+          optionField.style.display = 'block';
+          if (optionSelect === 'medico') {
+            // Cargar médicos disponibles
+            fetch('getMedicos.php')
+              .then(response => response.json())
+              .then(data => {
+                data.forEach(medico => {
+                  const option = document.createElement('option');
+                  option.value = medico.id;
+                  option.textContent = medico.nombre;
+                  optionValue.appendChild(option);
+                });
+              })
+              .catch(error => console.error('Error:', error));
+          } else if (optionSelect === 'especialidad') {
+            // Cargar especialidades disponibles
+            fetch('getEspecialidades.php')  // Updated path
+              .then(response => {
+                if (!response.ok) {
+                    return response.json().then(err => {
+                        throw new Error(err.error || 'Error del servidor');
+                    });
+                }
+                return response.json();
+              })
+              .then(data => {
+                if (!Array.isArray(data)) {
+                    throw new Error('Formato de datos inválido');
+                }
+                const optionValue = document.getElementById('optionvalue');
+                optionValue.innerHTML = '<option value="">Seleccionar...</option>';
+                data.forEach(especialidad => {
+                    const option = document.createElement('option');
+                    option.value = especialidad.especialidad;
+                    option.textContent = especialidad.especialidad;
+                    optionValue.appendChild(option);
+                });
+              })
+              .catch(error => {
+                console.error('Error detallado:', error);
+                alert('Error al cargar las especialidades: ' + error.message);
+              });
+          }
+        } else {
+          optionField.style.display = 'none';
+        }
+      });
 
       document.addEventListener('DOMContentLoaded', function(event) {
         // Cargar médicos disponibles
