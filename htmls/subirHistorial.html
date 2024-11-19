@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Subir y Buscar Historial Clínico</title>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Subir Historial Clínico</h2>
+        <form id="uploadForm" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label for="descripcion" class="form-label">Descripción</label>
+                <input type="text" class="form-control" id="descripcion" name="descripcion" placeholder="Ingrese una descripción" required>
+            </div>
+            <div class="mb-3">
+                <label for="file" class="form-label">Archivo de Historial Clínico (.docx)</label>
+                <input type="file" class="form-control" id="file" name="file" accept=".docx" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Subir</button>
+        </form>
+
+        <h2 class="mt-5">Buscar Historial Clínico</h2>
+        <form id="searchForm">
+            <div class="mb-3">
+                <label for="fileId" class="form-label">ID del Archivo</label>
+                <input type="text" class="form-control" id="fileId" name="fileId" placeholder="Ingrese el ID del archivo" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Buscar</button>
+        </form>
+        <div id="fileList" class="mt-4" style="display: none;">
+            <h3>Archivos del Paciente</h3>
+            <ul id="files" class="list-group"></ul>
+        </div>
+    </div>
+    <script>
+        document.getElementById('uploadForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+
+            fetch('subirArchivo.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    alert('Archivo subido correctamente');
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+
+        document.getElementById('searchForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const fileId = document.getElementById('fileId').value;
+
+            fetch('DescargarArchivo.php?action=search', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: 'fileId=' + encodeURIComponent(fileId)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    const fileList = document.getElementById('fileList');
+                    const files = document.getElementById('files');
+                    files.innerHTML = '';
+                    data.files.forEach(file => {
+                        const li = document.createElement('li');
+                        li.className = 'list-group-item';
+                        const a = document.createElement('a');
+                        a.href = 'DescargarArchivo.php?action=download&id=' + file.id;
+                        a.textContent = file.descripcion;
+                        li.appendChild(a);
+                        files.appendChild(li);
+                    });
+                    fileList.style.display = 'block';
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    </script>
+</body>
+</html>

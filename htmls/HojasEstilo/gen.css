@@ -35,7 +35,6 @@ body {
     color: var(--text-primary);
     font-family: var(--font-family);
     min-height: 100vh;
-    padding-top: 80px;
     line-height: 1.5;
 }
 /* Estilos para el contenedor principal */
@@ -50,13 +49,11 @@ body {
     background-color: var(--viridian);
     color: var(--white);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    padding: 10px 20px;
 }
 
 .navbar a {
     color: var(--white);
     text-decoration: none;
-    padding: 10px;
 }
 
 .navbar a:hover {
