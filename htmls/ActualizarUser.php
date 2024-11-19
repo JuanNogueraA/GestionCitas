@@ -6,15 +6,16 @@ try {
     $conn = DataBase::getInstance()->getConnection();
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        if (isset($_POST['id']) && isset($_POST['name']) && isset($_POST['lastname']) && isset($_POST['address']) && isset($_POST['phone'])) {
+        if (isset($_POST['id']) && isset($_POST['name']) && isset($_POST['lastname']) && isset($_POST['address']) && isset($_POST['phone']) && isset($_POST['correo'])) {
             $id = $_POST['id'];
             $name = $_POST['name'];
             $lastname = $_POST['lastname'];
             $address = $_POST['address'];
             $phone = $_POST['phone'];
-            $sql = "UPDATE usuario SET nombres = ?, apellidos = ?, direccion = ?, telefono = ? WHERE id = ?";
+            $correo = $_POST['correo'];
+            $sql = "UPDATE usuario SET nombres = ?, apellidos = ?, direccion = ?, telefono = ?, correo = ? WHERE id = ?";
             $stmt = $conn->prepare($sql);
-            $stmt->bind_param("ssssi", $name, $lastname, $address, $phone, $email, $id);
+            $stmt->bind_param("sssssi", $name, $lastname, $address, $phone, $correo, $id);
 
             if ($stmt->execute()) {
                 echo json_encode(['status' => 'success', 'message' => 'Datos actualizados correctamente']);

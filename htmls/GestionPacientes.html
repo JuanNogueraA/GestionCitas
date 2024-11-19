@@ -45,9 +45,6 @@
                     <li class="nav-item">
                         <a class="nav-link" href="GestionRoles.html">Gestionar Roles</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="subirHistorial.html">Subir Historial</a>
-                    </li>
                 </ul>
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item dropdown">
@@ -80,9 +77,12 @@
             <h3>Detalles del Usuario</h3>
             <p><strong>Nombre:</strong> <span id="displayname"></span></p>
             <p><strong>Apellido:</strong> <span id="lastName"></span></p>
+            <p><strong>Rol:</strong> <span id="roleUser"></span></p>
             <p><strong>Dirección:</strong> <span id="AddressUser"></span></p>
             <p><strong>Número:</strong> <span id="userNumber"></span></p>
-            <p><strong>email:</strong> <span id="email"></span></p>
+            <p><strong>Correo electrónico:</strong> <span id="email"></span></p>
+            <button id="showUpdateFormBtn" class="btn btn-primary mt-3">Actualizar Usuario</button>
+            <button id="uploadHistoryBtn" class="btn btn-primary mt-3" style="display: none;">Subir Historial Clínico</button>
         </div>
         <div class="container mt-5">
             <form id="updateUserForm" style="display: none;">
@@ -102,6 +102,10 @@
                 <div class="mb-3">
                     <label for="phone" class="form-label">Número</label>
                     <input type="text" class="form-control" id="phone" placeholder="Ingrese el número" required>
+                </div>
+                <div class="mb-3">
+                    <label for="correo" class="form-label">Correo</label>
+                    <input type="email" class="form-control" id="correo" placeholder="Ingrese el email" required>
                 </div>
                 <button type="submit" class="btn btn-primary">Actualizar</button>
             </form>
@@ -171,16 +175,27 @@
                     if (data.status === 'success') {
                         document.getElementById('displayname').innerText = data.user.name;
                         document.getElementById('lastName').innerText = data.user.lastname;
+                        document.getElementById('roleUser').innerText = data.user.role;
                         document.getElementById('AddressUser').innerText = data.user.address;
                         document.getElementById('userNumber').innerText = data.user.phone;
                         document.getElementById('email').innerText = data.user.email;
                         document.getElementById('userDetails').style.display = 'block';
-                        document.getElementById('updateUserForm').style.display = 'block';
+                        document.getElementById('updateUserForm').style.display = 'none';
+                        document.getElementById('showUpdateFormBtn').style.display = 'block';
+                        if (data.user.role === 'paciente') {
+                            document.getElementById('uploadHistoryBtn').style.display = 'block';
+                        } else {
+                            document.getElementById('uploadHistoryBtn').style.display = 'none';
+                        }
                     } else {
                         alert(data.message);
                     }
                 })
                 .catch(error => console.error('Error:', error));
+        });
+
+        document.getElementById('showUpdateFormBtn').addEventListener('click', function () {
+            document.getElementById('updateUserForm').style.display = 'block';
         });
 
         document.getElementById('updateUserForm').addEventListener('submit', function(event) {
@@ -190,8 +205,8 @@
             const lastname = document.getElementById('lastname').value;
             const address = document.getElementById('address').value;
             const phone = document.getElementById('phone').value;
-            const email = document.getElementById('email').value;
-            const body = `id=${encodeURIComponent(id)}&name=${encodeURIComponent(name)}&lastname=${encodeURIComponent(lastname)}&address=${encodeURIComponent(address)}&phone=${encodeURIComponent(phone)}&email=${encodeURIComponent(email)}`;
+            const correo = document.getElementById('correo').value;
+            const body = `id=${encodeURIComponent(id)}&name=${encodeURIComponent(name)}&lastname=${encodeURIComponent(lastname)}&address=${encodeURIComponent(address)}&phone=${encodeURIComponent(phone)}&correo=${encodeURIComponent(correo)}`;
 
 
             fetch('ActualizarUser.php', {
@@ -204,12 +219,23 @@
             .then(response => response.json())
             .then(data => {
                 if (data.status === 'success') {
+                    document.getElementById('displayname').innerText = name;
+                    document.getElementById('lastName').innerText = lastname;
+                    document.getElementById('AddressUser').innerText = address;
+                    document.getElementById('userNumber').innerText = phone;
+                    document.getElementById('email').innerText = correo;
                     alert('Datos actualizados correctamente');
+                    document.getElementById('updateUserForm').style.display = 'none';
                 } else {
                     alert('Error: ' + data.message);
                 }
             })
             .catch(error => console.error('Error:', error));
+        });
+
+        document.getElementById('uploadHistoryBtn').addEventListener('click', function () {
+            const id = document.getElementById('id').value;
+            window.location.href = 'subirHistorial.html?id=' + encodeURIComponent(id);
         });
     </script>
 </body>
