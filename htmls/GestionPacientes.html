@@ -104,10 +104,6 @@
                     <label for="phone" class="form-label">Número</label>
                     <input type="text" class="form-control" id="phone" placeholder="Ingrese el número" required>
                 </div>
-                <div class="mb-3">
-                    <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="email" placeholder="Ingrese el email" required>
-                </div>
                 <button type="submit" class="btn btn-primary">Actualizar</button>
             </form>
         </div>
@@ -194,7 +190,6 @@
             const lastname = document.getElementById('lastname').value;
             const address = document.getElementById('address').value;
             const phone = document.getElementById('phone').value;
-            const email = document.getElementById('email').value;
 
             fetch('ActualizarUser.php', {
                 method: 'POST',
@@ -205,8 +200,7 @@
                       '&name=' + encodeURIComponent(name) +
                       '&lastname=' + encodeURIComponent(lastname) +
                       '&address=' + encodeURIComponent(address) +
-                      '&phone=' + encodeURIComponent(phone) +
-                      '&email=' + encodeURIComponent(email)
+                      '&phone=' + encodeURIComponent(phone)
             })
             .then(response => response.json())
             .then(data => {
