@@ -129,7 +129,7 @@
         }
       });
 
-      document.addEventListener('DOMContentLoaded', function() {
+      document.addEventListener('DOMContentLoaded', function(event) {
         // Cargar médicos disponibles
         fetch('getDoctors.php')
             .then(response => response.json())

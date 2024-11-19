@@ -174,7 +174,7 @@
             document.getElementById('medicoId').value = document.getElementById('id').value;
         });
 
-        document.getElementById('botondisponibilidad').addEventListener('click', function(event) {
+        document.getElementById('availabilityForm').addEventListener('submit', function(event) {
             event.preventDefault();
             const medicoId = document.getElementById('medicoId').value;
             const fecha = document.getElementById('fecha').value;

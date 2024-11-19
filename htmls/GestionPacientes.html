@@ -82,12 +82,8 @@
             <p><strong>email:</strong> <span id="email"></span></p>
         </div>
         <div class="container mt-5">
-            <h2>Actualizar Datos del Usuario</h2>
-            <form id="updateUserForm">
-                <div class="mb-3">
-                    <label for="id" class="form-label">ID del Usuario</label>
-                    <input type="text" class="form-control" id="id" placeholder="Ingrese el ID del usuario" required>
-                </div>
+            <form id="updateUserForm" style="display: none;">
+                <h2>Actualizar Datos del Usuario</h2>
                 <div class="mb-3">
                     <label for="name" class="form-label">Nombre</label>
                     <input type="text" class="form-control" id="name" placeholder="Ingrese el nombre" required>
@@ -180,6 +176,7 @@
                         document.getElementById('userNumber').innerText = data.user.phone;
                         document.getElementById('email').innerText = data.user.email;
                         document.getElementById('userDetails').style.display = 'block';
+                        document.getElementById('updateUserForm').style.display = 'block';
                     } else {
                         alert(data.message);
                     }
@@ -195,18 +192,15 @@
             const address = document.getElementById('address').value;
             const phone = document.getElementById('phone').value;
             const email = document.getElementById('email').value;
+            const body = `id=${encodeURIComponent(id)}&name=${encodeURIComponent(name)}&lastname=${encodeURIComponent(lastname)}&address=${encodeURIComponent(address)}&phone=${encodeURIComponent(phone)}&email=${encodeURIComponent(email)}`;
+
 
             fetch('ActualizarUser.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 },
-                body: 'id=' + encodeURIComponent(id) +
-                      '&name=' + encodeURIComponent(name) +
-                      '&lastname=' + encodeURIComponent(lastname) +
-                      '&address=' + encodeURIComponent(address) +
-                      '&phone=' + encodeURIComponent(phone) +
-                      '&email=' + encodeURIComponent(email)
+                body: body
             })
             .then(response => response.json())
             .then(data => {
