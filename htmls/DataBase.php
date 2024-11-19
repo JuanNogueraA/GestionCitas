@@ -1,5 +1,6 @@
 <?php
-class Database {
+class DataBase
+{
     private static $instance = null;
     private $connection;
     private $host = 'localhost';
@@ -7,7 +8,8 @@ class Database {
     private $password = '';
     private $database = 'gestiondecitas';
 
-    private function __construct() {
+    private function __construct()
+    {
         $this->connection = new mysqli($this->host, $this->username, $this->password, $this->database);
 
         if ($this->connection->connect_error) {
@@ -15,15 +17,17 @@ class Database {
         }
     }
 
-    public static function getInstance() {
+    public static function getInstance()
+    {
         if (self::$instance == null) {
-            self::$instance = new Database();
+            self::$instance = new DataBase();
         }
 
         return self::$instance;
     }
 
-    public function getConnection() {
+    public function getConnection()
+    {
         return $this->connection;
     }
 }

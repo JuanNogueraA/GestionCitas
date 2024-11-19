@@ -7,7 +7,7 @@ $conexion = DataBase::getInstance()->getConnection();
 
 if ($conexion->connect_errno) {
     die("Conexion Fallida" . $conexion->connect_errno);
-} 
+}
 // Inicializar la variable de error
 $error = "";
 
@@ -28,10 +28,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $_SESSION['user_direccion'] = $user['direccion'];
                 $_SESSION['user_telefono'] = $user['telefono'];
                 $_SESSION['user_rol'] = $user['rol'];
-                
+
                 // Redirection based on user role
                 if ($user['rol'] == 'administrador') {
-                    header("Location: Administrador.html");
+                    header("Location: Administrador.php");
                 } elseif ($user['rol'] == 'medico') {
                     header("Location: Medico.html");
                 } elseif ($user['rol'] == 'paciente') {
