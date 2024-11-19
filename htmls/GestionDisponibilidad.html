@@ -77,8 +77,7 @@
         </form>
     </div>
     <div class="container" id="containerdisp" style="display: none;">
-        <form id="availabilityForm">
-            <input type="hidden" id="medicoId" name="medicoId">
+        <form id="availabilityForm" style="margin-top: -30px;">
             <div class="mb-3">
                 <label for="fecha" class="form-label">Fecha</label>
                 <input type="date" class="form-control" id="fecha" name="fecha" required>
@@ -186,12 +185,14 @@
         document.getElementById('manageAvailabilityButton').addEventListener('click', function(event) {
             event.preventDefault();
             document.getElementById('containerdisp').style.display = 'block';
-            document.getElementById('medicoId').value = document.getElementById('id').value;
+            const medicoId = document.getElementById('id').value;
+            document.getElementById('availabilityList').style.display = 'block';
+            loadAvailability(medicoId);
         });
 
         document.getElementById('availabilityForm').addEventListener('submit', function(event) {
             event.preventDefault();
-            const medicoId = document.getElementById('medicoId').value;
+            const medicoId = document.getElementById('id').value;
             const fecha = document.getElementById('fecha').value;
             const horaInicio = document.getElementById('horaInicio').value;
             const horaFin = document.getElementById('horaFin').value;
@@ -207,8 +208,6 @@
             .then(response => response.json())
             .then(data => {
                 if (data.status === 'success') {
-                    document.getElementById('availabilityList').style.display = 'block';
-                    loadAvailability(medicoId);
                     alert('Disponibilidad guardada con éxito');
                 } else {
                     alert('Error: ' + data.message);
