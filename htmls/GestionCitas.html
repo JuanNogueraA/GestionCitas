@@ -61,17 +61,18 @@
         </div>
     </nav>
     <br>
-    <div class="container">
+    <div class="container mt-5">
         <h2>Gestionar Citas</h2>
+        <form id="citaSearch">
+            <div class="mb-3">
+                <label for="id" class="form-label">Buscar Médico</label>
+                <input type="text" class="form-control" id="id" placeholder="Ingrese el id del paciente">
+            </div>
+            <button type="button" class="btn btn-primary" id="searchButton">Buscar Cita</button>
+            <button type="button" class="btn btn-primary" id="searchButto">Crear Nueva Cita</button>
+        </form>
     </div>
-    <form id="citaSearch">
-        <div class="mb-3">
-            <label for="id" class="form-label">Buscar Médico</label>
-            <input type="text" class="form-control" id="id" placeholder="Ingrese el id del médico">
-        </div>
-        <button type="button" class="btn btn-primary" id="searchButton">Buscar Cita</button>
-        <button type="button" class="btn btn-primary" id="searchButton">Crear Nueva Cita</button>
-    </form>
+    
     
     <footer class="footer text-center text-lg-start">
         <div class="container p-4">
