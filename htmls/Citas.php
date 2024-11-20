@@ -1,3 +1,6 @@
+<?php 
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -71,6 +74,9 @@
                     <option value="">Seleccionar...</option>
                 </select>
               </div>
+              <div class="mb-3" id=opciondemedico style="margin-top: 20px; display: none;">
+                <input type="text" class="form-control" id="nombremedico">
+              </div>
             </div>
             <div class="mb-3">
                 <label for="dateSelect" class="form-label">Seleccionar Fecha</label>
@@ -116,8 +122,8 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script>
-      
-      document.getElementById('timeSelect').addEventListener('change', function(e) {
+      document.addEventListener('DOMContentLoaded', function(event) {
+        document.getElementById('timeSelect').addEventListener('change', function(e) {
         let time = e.target.value;
           if (time) {
               // Extrae solo la hora y establece los minutos a 00
@@ -137,28 +143,20 @@
         }
       });
 
+      //Cargar médicos y especialidades
       document.getElementById('optionSelect').addEventListener('change', function() {
         const optionSelect = document.getElementById('optionSelect').value;
         const optionField = document.getElementById('optionfield');
         const optionValue = document.getElementById('optionvalue');
         optionValue.innerHTML = ''; // Clear previous options
         if (optionSelect) {
-          optionField.style.display = 'block';
           if (optionSelect === 'medico') {
-            // Cargar médicos disponibles
-            fetch('getMedicos.php')
-              .then(response => response.json())
-              .then(data => {
-                data.forEach(medico => {
-                  const option = document.createElement('option');
-                  option.value = medico.id;
-                  option.textContent = medico.nombre;
-                  optionValue.appendChild(option);
-                });
-              })
-              .catch(error => console.error('Error:', error));
+            document.getElementById('optionfield').style.display = 'none';
+            document.getElementById('opciondemedico').style.display = 'block';
+            
           } else if (optionSelect === 'especialidad') {
-            // Cargar especialidades disponibles
+            document.getElementById('opciondemedico').style.display = 'none';
+            optionField.style.display = 'block';
             fetch('getEspecialidades.php')  // Updated path
               .then(response => {
                 if (!response.ok) {
@@ -190,21 +188,6 @@
           optionField.style.display = 'none';
         }
       });
-
-      document.addEventListener('DOMContentLoaded', function(event) {
-        // Cargar médicos disponibles
-        fetch('getDoctors.php')
-            .then(response => response.json())
-            .then(data => {
-                const doctorSelect = document.getElementById('doctorSelect');
-                data.forEach(doctor => {
-                    const option = document.createElement('option');
-                    option.value = doctor.id;
-                    option.textContent = doctor.name;
-                    doctorSelect.appendChild(option);
-                });
-            });
-
         // Manejar el envío del formulario
         document.getElementById('appointmentForm').addEventListener('submit', function(event) {
             event.preventDefault();
@@ -235,31 +218,39 @@
                           card.innerHTML = `
                               <div class="card mb-4">
                                   <div class="card-body">
-                                      <h5 class="card-title">${doctor.name}</h5>
-                                      <p class="card-text">Especialidad: ${doctor.specialty}</p>
+                                      <h5 class="card-title">${doctor.nombres}</h5>
+                                      <p class="card-text">Especialidad: ${doctor.especialidad}</p>
                                       <button class="btn btn-primary assign-btn" data-doctor-id="${doctor.id}">Asignar Cita</button>
                                   </div>
                               </div>
                           `;
                           availableDoctors.appendChild(card);
                       });
-
-                      document.querySelectorAll('.assign-btn').forEach(button => {
-                          button.addEventListener('click', function() {
+                  } else {
+                      availableDoctors.innerHTML = '<p>No hay médicos disponibles para la fecha y hora seleccionadas.</p>';
+                  }
+              });
+        });
+        document.querySelectorAll('.assign-btn').forEach(button => {
+                          button.addEventListener('click', function(event) {
+                           
+                              const patientId = <?php echo $_SESSION['user_id']; ?>;
                               const doctorId = this.getAttribute('data-doctor-id');
+                              let body = JSON.stringify({
+                                  patientId: patientId,
+                                  doctorId: doctorId,
+                                  fecha: date,
+                                  hora: time
+                              });
                               fetch('assignAppointment.php', {
                                   method: 'POST',
                                   headers: {
                                       'Content-Type': 'application/json'
                                   },
-                                  body: JSON.stringify({
-                                      doctorId: doctorId,
-                                      fecha: date,
-                                      hora: time
-                                  })
+                                  body: body
                               }).then(response => response.json())
                                 .then(data => {
-                                    if (data.success) {
+                                    if (data.status === 'success') {
                                         alert('Cita asignada con éxito');
                                     } else {
                                         alert('Error al asignar la cita');
@@ -267,11 +258,6 @@
                                 });
                           });
                       });
-                  } else {
-                      availableDoctors.innerHTML = '<p>No hay médicos disponibles para la fecha y hora seleccionadas.</p>';
-                  }
-              });
-        });
     });
     </script>
 </body>

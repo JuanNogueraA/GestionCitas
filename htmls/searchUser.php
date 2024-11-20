@@ -56,7 +56,7 @@ try {
                 }
                 if($newRole === 'medico'){
                     $specialty = isset($_POST['specialty']) ? $_POST['specialty'] : '';
-                    $disponible = 0;
+                    $disponible = 1;
                     $sqlMedico = "INSERT INTO medico (id,id_usuario, especialidad, disponible) VALUES (?,?,?,?)";
                     $stmtMedico = $conn->prepare($sqlMedico);
                     $stmtMedico->bind_param("issi", $id, $id, $specialty, $disponible);

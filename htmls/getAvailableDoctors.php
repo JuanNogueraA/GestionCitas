@@ -11,7 +11,10 @@ require_once 'DataBase.php';
 
 try {
     $conn = DataBase::getInstance()->getConnection();
-    $sql = "SELECT id, especialidad FROM doctors WHERE especialidad = ? AND fecha = ?";
+    $sql = "SELECT medico.id, medico.especialidad, usuario.nombres FROM medico
+    JOIN disponibilidad ON medico.id = disponibilidad.id_medico 
+    JOIN usuario ON medico.id_usuario = usuario.id
+    WHERE medico.especialidad = ? AND disponibilidad.fecha = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param('ss', $valorOpcion, $fecha);
     $stmt->execute();

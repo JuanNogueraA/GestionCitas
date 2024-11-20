@@ -1,7 +1,6 @@
 <?php
-header('Content-Type: application/json');
-error_reporting(E_ALL);
 ini_set('display_errors', 1);
+error_reporting(E_ALL);
 
 try {
     $dbPath = __DIR__ . DIRECTORY_SEPARATOR . 'DataBase.php';
@@ -17,24 +16,26 @@ try {
         throw new Exception("Error de conexión a la base de datos");
     }
 
-    $sql = "SELECT DISTINCT especialidad FROM medico WHERE especialidad IS NOT NULL AND especialidad != ''";
-    $result = $conn->query($sql);
+    $rol = 'medico';
+    $sql = "SELECT id, nombres FROM usuario WHERE rol = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('s', $rol);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
     if (!$result) {
         throw new Exception("Error en la consulta: " . $conn->error);
     }
 
-    $especialidades = [];
+    $medicos = [];
     while($row = $result->fetch_assoc()) {
-        $especialidades[] = ['especialidad' => $row['especialidad']];
+        $medicos[] = ['id' => $row['id'], 'nombre' => $row['nombres']];
     }
-
-    echo json_encode($especialidades);
-
+    
+    echo json_encode($medicos);
+    $stmt->close();
+    $conn->close();
 } catch (Exception $e) {
-    error_log('Error en getEspecialidades.php: ' . $e->getMessage());
-    http_response_code(500);
-    echo json_encode(['error' => $e->getMessage()]);
+    echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
 }
-
 ?>

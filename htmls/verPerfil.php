@@ -42,11 +42,11 @@
                             echo '<li class="nav-item"><a class="nav-link" href="GestionRoles.html">Gestionar roles</a></li>';
                         } elseif ($_SESSION['user_rol'] == 'medico') {
                             echo '<li class="nav-item"><a class="nav-link active" aria-current="page" href="Medico.html">Home</a></li>';
-                            echo '<li class="nav-item"><a class="nav-link" href="Citas.html">Citas</a></li>';
+                            echo '<li class="nav-item"><a class="nav-link" href="Citas.php">Citas</a></li>';
                             echo '<li class="nav-item"><a class="nav-link" href="Agenda.html">Agenda</a></li>';
                         } elseif ($_SESSION['user_rol'] == 'paciente') {
                             echo '<li class="nav-item"><a class="nav-link active" aria-current="page" href="Paciente.html">Home</a></li>';
-                            echo '<li class="nav-item"><a class="nav-link" href="Citas.html">Citas</a></li>';
+                            echo '<li class="nav-item"><a class="nav-link" href="Citas.php">Citas</a></li>';
                             echo '<li class="nav-item"><a class="nav-link" href="Calendario.html">Calendario</a></li>';
                         }
                     }
