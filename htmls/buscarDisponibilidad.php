@@ -13,13 +13,13 @@ try {
         $hora = $_POST['hora'];
         $valorOpcion = $_POST['valorOpcion'];
         // Consulta para obtener la disponibilidad del médico
-        if($valorOpcion==="optionmedico"){
+        if ($valorOpcion === "optionmedico") {
             $sqlDisponibilidad = "SELECT * FROM disponibilidad WHERE medico_id = (SELECT id FROM medico WHERE nombre = ?) AND dia_semana = DAYNAME(?)";
-        }else if($valorOpcion==="optionpaciente"){
+        } else if ($valorOpcion === "optionpaciente") {
             $sqlDisponibilidad = "SELECT * FROM disponibilidad WHERE medico_id = (SELECT id FROM medico WHERE nombre = ?) AND dia_semana = DAYNAME(?)";
         }
 
-        
+
         $stmtDisponibilidad = $conn->prepare($sqlDisponibilidad);
         $stmtDisponibilidad->bind_param("ss", $nombremedico, $fecha);
         $stmtDisponibilidad->execute();
@@ -56,3 +56,13 @@ try {
     echo json_encode(['success' => false, 'message' => $e->getMessage()]);
 }
 ?>
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Buscar Disponibilidad</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+</html>

@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($e->getCode() === 1062) {
             $error = "La fecha ingresada ya se encuentra registrada. Por favor, use una diferente.";
             echo json_encode(['status' => 'error', 'message' => $error]);
-        }else{
+        } else {
             echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
         }
     }
