@@ -3,107 +3,140 @@ session_start();
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clinica General Mata Sanos</title>
+    <title>Inicio - Gestión Citas</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Estilos Personalizados -->
     <link rel="stylesheet" href="HojasEstilo/index.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
+
 <body>
-    <!-- Encabezado -->
-    <header class="header">
-        <div class="logo">
-            <h1>Clinica General Mata Sanos</h1>
+    <!-- Barra de navegación -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Gestión Citas</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Alternar navegación">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav">
+                    <?php if (isset($_SESSION['user_id'])): ?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="Agenda.html">Agenda</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="verPerfil.php">Perfil</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="logout.php">Cerrar Sesión</a>
+                        </li>
+                    <?php else: ?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="iniciarsesion.php">Iniciar Sesión</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="registro.php">Registrar</a>
+                        </li>
+                    <?php endif; ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="preguntasfrecuentes.php">Preguntas Frecuentes</a>
+                    </li>
+                </ul>
+            </div>
         </div>
-        <nav class="nav-links">
-            <ul>
-                <li><a href="index.php">Home</a></li>
-                <?php if (!isset($_SESSION['user_id'])): ?>
-                    <li><a href="iniciarsesion.php">Sign-in / Sign-up</a></li>
-                <?php else: ?>
-                    <li><a href="logout.php">Cerrar Sesión</a></li>
-                <?php endif; ?>
-                <li><a href="preguntasfrecuentes.php">Preguntas Frecuentes</a></li>
-            </ul>
-        </nav>
-    </header>
-    <!-- Carrusel -->
-    <section id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img src="https://static.vecteezy.com/system/resources/previews/010/503/718/non_2x/therapist-examining-old-patient-in-hospital-2d-isolated-illustration-treatment-flat-characters-on-cartoon-background-health-colourful-editable-scene-for-mobile-website-presentation-vector.jpg" class="d-block w-100" alt="Imagen 1">
+    </nav>
+
+    <!-- Banner -->
+    <section class="banner d-flex align-items-center justify-content-center">
+        <div class="banner-text text-center">
+            <h2>Bienvenido a Gestión Citas</h2>
+            <a href="registro.php" class="btn btn-warning btn-lg button-animated">Regístrate Ahora</a>
+        </div>
+    </section>
+
+    <!-- Contenido Principal -->
+    <main class="main-content container my-5">
+        <h2>Nuestros Servicios</h2>
+        <p>Ofrecemos una plataforma eficiente para gestionar tus citas médicas de manera sencilla y rápida.
+            Accede a tus citas, historial médico y más con solo unos clics.</p>
+
+        <!-- Carousel Automático -->
+        <section class="carousel-section my-5">
+            <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0"
+                        class="active" aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
+                        aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
+                        aria-label="Slide 3"></button>
+                </div>
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src="https://www.unir.net/wp-content/uploads/sites/22/2021/10/hospitalinreior3.jpg"
+                            class="d-block w-100" alt="Imagen Slider 1">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5>¿Conoces la importancia de atender una cita?</h5>
+                            <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#videoModal">Te
+                                Contamos</button>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="https://mexico.unir.net/wp-content/uploads/sites/6/2019/06/administracion-hospitalaria-unir-mexico.jpg"
+                            class="d-block w-100" alt="Imagen Slider 2">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="https://ecuador.unir.net/wp-content/uploads/sites/8/2021/03/male-senior-doctor-briefing-his-team-and-colleagues-picture-id1220810742.jpg"
+                            class="d-block w-100" alt="Imagen Slider 3">
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+                    data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Anterior</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+                    data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Siguiente</span>
+                </button>
             </div>
-            <div class="carousel-item">
-                <img src="https://www.unir.net/wp-content/uploads/2023/01/el-gerente-del-hospital-mostrando-un-documento-al-mC3A9dico-y-al-enfermero-sonriendo-1.jpg_s1024x1024wisk20cRz_RN_tmX8hZnEmx4_I46yqkBQ_hsTmzgEJRyaWzryI-1.jpg" class="d-block w-100" alt="Imagen 2">
-            </div>
-            <div class="carousel-item">
-                <img src="https://static.vecteezy.com/system/resources/previews/010/503/718/non_2x/therapist-examining-old-patient-in-hospital-2d-isolated-illustration-treatment-flat-characters-on-cartoon-background-health-colourful-editable-scene-for-mobile-website-presentation-vector.jpg" class="d-block w-100" alt="Imagen 3">
-                <div class="carousel-caption d-none d-md-block">
-                    <h5>Conoces la importancia de atender una cita médica</h5>
-                    <button class="btn btn-primary" onclick="window.open('https://www.youtube.com/watch?v=VQJfdDl5CyY', '_blank')">Te contamos</button>
+        </section>
+    </main>
+
+    <!-- Modal de Video -->
+    <div class="modal fade" id="videoModal" tabindex="-1" aria-labelledby="videoModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="videoModalLabel">Importancia de Sacar una Cita</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="ratio ratio-16x9">
+                        <iframe src="https://www.youtube.com/embed/VQJfdDl5CyY?t=2s" title="YouTube video"
+                            allowfullscreen></iframe>
+                    </div>
                 </div>
             </div>
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
-    </section>
-
-    <!-- Contenido principal -->
-    <main class="main-content">
-        <h2>¡Hemos mejorado la experiencia pensando en ti!</h2>
-        <p>Ahora vas a poder acceder a todos tus Servicios a un clic en tu nuevo sitio...</p>
-        <div class="highlight">
-        </div>
-        <!-- Mensaje de espera para asignación de rol -->
-        <?php if (isset($_GET['registro']) && $_GET['registro'] === 'exitoso'): ?>
-            <div class="role-assignment-message">
-                <h3>¡Registro Exitoso!</h3>
-                <p>Espere a que un rol se le sea asignado por uno de los administradores para iniciar sesión.</p>
-            </div>
-        <?php endif; ?>
-    </main>
-
-    <!-- Contenedor del pop-up -->
-    <div id="miModal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn" onclick="closeModal()">&times;</span>
-            <h2>Registro exitoso</h2>
-            <p>Su registro ha sido completado con éxito</p>
-            <button onclick="closeModal()">Aceptar</button>
-        </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-    <script>
-        function redirectToRegister() {
-            window.location.href = "registro1.php"; // Cambia "registro1.php" a la URL de tu página de registro
-        }
-        // Función para abrir el pop-up
-        function openModal() {
-            document.getElementById("miModal").style.display = "flex";
-        }
+    <!-- Pie de página -->
+    <footer class="footer bg-primary text-white text-center py-4">
+        <p>&copy; 2024 Gestión Citas. Todos los derechos reservados.</p>
+        <a href="politica_privacidad.php" class="text-white">Política de Privacidad</a> |
+        <a href="terminos_servicio.php" class="text-white">Términos de Servicio</a>
+    </footer>
 
-        // Función para cerrar el pop-up
-        function closeModal() {
-            document.getElementById("miModal").style.display = "none";
-        }
-        //Función para comprobar el registro exitoso
-        function checkRegistration() {
-            const params = new URLSearchParams(window.location.search);
-            if (params.get('registro') === 'exitoso') {
-                openModal();
-            }
-        }
-        // Llamar a la función para comprobar el registro exitoso al cargar la página
-        window.onload = checkRegistration;
-    </script>
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
