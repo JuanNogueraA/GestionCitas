@@ -59,9 +59,19 @@ $conn->close();
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="index.php">Home</a>
-                    </li>
+                <?php
+                if (isset($_SESSION['user_rol'])) {
+                        if ($_SESSION['user_rol'] == 'medico') {
+                            echo '<li class="nav-item"><a class="nav-link active" aria-current="page" href="Medico.html">Home</a></li>';
+                            echo '<li class="nav-item"><a class="nav-link" href="Citas.php">Citas</a></li>';
+                            echo '<li class="nav-item"><a class="nav-link" href="Agenda.html">Agenda</a></li>';
+                        } elseif ($_SESSION['user_rol'] == 'paciente') {
+                            echo '<li class="nav-item"><a class="nav-link active" aria-current="page" href="PacienteInicio.html">Home</a></li>';
+                            echo '<li class="nav-item"><a class="nav-link" href="Citas.php">Citas</a></li>';
+                            echo '<li class="nav-item"><a class="nav-link" href="Calendario.html">Calendario</a></li>';
+                        }
+                    }
+                    ?>
                 </ul>
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item dropdown">
@@ -105,6 +115,7 @@ $conn->close();
             <p>No tiene eventos para este día.</p>
         <?php endif; ?>
     </div>
+    <button type="button" style="margin-left: 175px;" class="btn btn-primary" id="regresarButton">Regresar</button>
     <footer class="footer text-center text-lg-start mt-5">
         <div class="container p-4">
             <div class="row">
@@ -138,6 +149,13 @@ $conn->close();
                 }).then(() => {
                     window.location.href = 'iniciarsesion.php';
                 });
+            }
+        });
+        document.getElementById('regresarButton').addEventListener('click', function () {
+            if('<?php echo $userRole; ?>' == 'medico')
+                window.location.href = 'Agenda.html';
+            else{
+                window.location.href = 'Calendario.html';
             }
         });
     </script>

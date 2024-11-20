@@ -1,39 +1,41 @@
 <?php
-require_once 'DataBase.php';  // Include singleton database connection file
+require_once 'DataBase.php'; // Ajusta la ruta según sea necesario
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $patientId = $_POST['patientId'];
-    $doctorId = $_POST['doctorId'];
-    $appointmentDate = $_POST['fecha'];
-    $appointmentTime = $_POST['hora'];
+header('Content-Type: application/json');
 
-    // Validate inputs
-    if (empty($patientId) || empty($doctorId) || empty($appointmentDate) || empty($appointmentTime)) {
-        echo json_encode(["status" => "error", "message" => "All fields are required."]);
-        exit;
-    }
+try {
+    $conn = DataBase::getInstance()->getConnection();
 
-    try {
-        // Get the singleton instance of the database connection
-        $conn = DataBase::getInstance()->getConnection();
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $data = json_decode(file_get_contents('php://input'), true);
 
-        // Prepare SQL statement
-        $sql = "INSERT INTO cita(id_paciente, id_medico, fecha, hora) VALUES (?, ?, ?, ?)";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("iiss", $patientId, $doctorId, $appointmentDate, $appointmentTime);
+        if (isset($data['patientId']) && isset($data['doctorId']) && isset($data['fecha']) && isset($data['hora'])) {
+            $consultorio = 0;
+            $especialidad = $data['especialidad'];
+            $patientId = $data['patientId'];
+            $doctorId = $data['doctorId'];
+            $fecha = $data['fecha'];
+            $hora = $data['hora'];
+            $sql = "INSERT INTO cita (id_paciente, id_medico, especialidad, num_consultorio, fecha, hora) VALUES (?, ?, ?, ?, ?, ?)";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("iissss", $patientId, $doctorId, $especialidad, $consultorio, $fecha, $hora);
 
-        // Execute SQL statement
-        if ($stmt->execute()) {
-            echo json_encode(["status" => "success", "message" => "Appointment assigned successfully."]);
+            if ($stmt->execute()) {
+                echo json_encode(['status' => 'success', 'message' => 'Cita asignada con éxito']);
+            } else {
+                echo json_encode(['status' => 'error', 'message' => 'Error al asignar la cita']);
+            }
+
+            $stmt->close();
         } else {
-            echo json_encode(["status" => "error", "message" => "Error: " . $stmt->error]);
-        }       
-        // Close statement
-        $stmt->close();
-    } catch (Exception $e) {
-        echo json_encode(["status" => "error", "message" => "Error: " . $e->getMessage()]);
+            echo json_encode(['status' => 'error', 'message' => 'Datos incompletos']);
+        }
+    } else {
+        echo json_encode(['status' => 'error', 'message' => 'Método de solicitud no válido']);
     }
-} else {
-    echo json_encode(["status" => "error", "message" => "Invalid request method."]);
+
+    $conn->close();
+} catch (Exception $e) {
+    echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
 }
 ?>

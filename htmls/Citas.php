@@ -36,7 +36,7 @@ session_start();
                 <a class="nav-link active" aria-current="page" href="PacienteInicio.html">Home</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="Citas.html">Citas</a>
+                <a class="nav-link" href="Citas.php">Citas</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="Calendario.html">Calendario</a>
@@ -226,38 +226,40 @@ session_start();
                           `;
                           availableDoctors.appendChild(card);
                       });
+                      // Asignar eventos de clic a los botones de asignación
+                  document.querySelectorAll('.assign-btn').forEach(button => {
+                      button.addEventListener('click', function(event) {
+                          const patientId = <?php echo $_SESSION['user_id']; ?>;
+                          const doctorId = this.getAttribute('data-doctor-id');
+                          let body = JSON.stringify({
+                              especialidad: valorOpcion,
+                              patientId: patientId,
+                              doctorId: doctorId,
+                              fecha: date,
+                              hora: time
+                          });
+                          fetch('assignAppointment.php', {
+                              method: 'POST',
+                              headers: {
+                                  'Content-Type': 'application/json'
+                              },
+                              body: body
+                          }).then(response => response.json())
+                            .then(data => {
+                                if (data.status === 'success') {
+                                    alert('Cita asignada con éxito');
+                                } else {
+                                    alert(data.message);
+                                }
+                            });
+                      });
+                  });
                   } else {
                       availableDoctors.innerHTML = '<p>No hay médicos disponibles para la fecha y hora seleccionadas.</p>';
                   }
-              });
+              })
+              .catch(error => console.error('Error:', error));
         });
-        document.querySelectorAll('.assign-btn').forEach(button => {
-                          button.addEventListener('click', function(event) {
-                           
-                              const patientId = <?php echo $_SESSION['user_id']; ?>;
-                              const doctorId = this.getAttribute('data-doctor-id');
-                              let body = JSON.stringify({
-                                  patientId: patientId,
-                                  doctorId: doctorId,
-                                  fecha: date,
-                                  hora: time
-                              });
-                              fetch('assignAppointment.php', {
-                                  method: 'POST',
-                                  headers: {
-                                      'Content-Type': 'application/json'
-                                  },
-                                  body: body
-                              }).then(response => response.json())
-                                .then(data => {
-                                    if (data.status === 'success') {
-                                        alert('Cita asignada con éxito');
-                                    } else {
-                                        alert('Error al asignar la cita');
-                                    }
-                                });
-                          });
-                      });
     });
     </script>
 </body>
