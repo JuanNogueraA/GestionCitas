@@ -69,8 +69,9 @@
                 <input type="text" class="form-control" id="id" placeholder="Ingrese el id del paciente">
             </div>
             <button type="button" class="btn btn-primary" id="searchButton">Buscar Cita</button>
-            <button type="button" class="btn btn-primary" id="searchButto">Crear Nueva Cita</button>
+            <button type="button" class="btn btn-primary" id="createButton">Crear Nueva Cita</button>
         </form>
+        <div id="citasList" class="mt-4"></div>
     </div>
     
     
@@ -108,20 +109,65 @@
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script>
-        document.getElementById('logout-link').addEventListener('click', function(event) {
-            event.preventDefault();
-            if (confirm('¿Desea salir de la sesión?')) {
-                fetch('logout.php', {
-                    method: 'POST'
-                }).then(() => {
-                    window.location.href = 'iniciarsesion.php';
-                });
+        document.getElementById('searchButton').addEventListener('click', function(event) {
+            const id = document.getElementById('id').value;
+            try {
+                fetch('getCitas.php?id=' + encodeURIComponent(id))
+                    .then(response => response.json())
+                    .then(data => {
+                        const citasList = document.getElementById('citasList');
+                        citasList.innerHTML = '';
+                        if (data.length > 0) {
+                            data.forEach(cita => {
+                                const citaItem = document.createElement('div');
+                                citaItem.className = 'card mb-3';
+                                citaItem.innerHTML = `
+                                    <div class="card-body">
+                                        <h5 class="card-title">Cita ID: ${cita.id_cita}</h5>
+                                        <p class="card-text">Fecha: ${cita.fecha}</p>
+                                        <p class="card-text">Hora: ${cita.hora}</p>
+                                        <p class="card-text">Médico: ${cita.medico}</p>
+                                        <button class="btn btn-primary modify-btn" data-patient-id="${cita.id_paciente}">Modificar cita</button>
+                                    </div>
+                                `;
+                                citasList.appendChild(citaItem);
+                            });
+                        } else {
+                            citasList.innerHTML = '<p>No se encontraron citas para este paciente.</p>';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error fetching citas:', error);
+                        alert('Error fetching citas. Please try again later.');
+                    });
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An unexpected error occurred. Please try again later.');
             }
         });
 
-        document.getElementById('uploadHistoryBtn').addEventListener('click', function () {
+        document.getElementById('logout-link').addEventListener('click', function(event) {
+            event.preventDefault();
+            if (confirm('¿Desea salir de la sesión?')) {
+                try {
+                    fetch('logout.php', {
+                        method: 'POST'
+                    }).then(() => {
+                        window.location.href = 'iniciarsesion.php';
+                    }).catch(error => {
+                        console.error('Error logging out:', error);
+                        alert('Error logging out. Please try again later.');
+                    });
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('An unexpected error occurred. Please try again later.');
+                }
+            }
+        });
+
+        document.getElementById('createButton').addEventListener('click', function () {
             const id = document.getElementById('id').value;
-            window.location.href = 'subirHistorial.html?id=' + encodeURIComponent(id);
+            window.location.href = 'crearCita.html?id=' + encodeURIComponent(id);
         });
     </script>
 </body>

@@ -13,18 +13,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   try {
     $conn->begin_transaction();
-
-    // Insert appointment
-    $stmt = $conn->prepare("INSERT INTO citas (id_paciente, id_medico, fecha, hora) VALUES (?, ?, ?, ?)");
-    $stmt->bind_param("iiss", $idPaciente, $idMedico, $fecha, $hora);
-    $stmt->execute();
-
     // Get patient and doctor information for email
     $stmt = $conn->prepare("SELECT p.nombres as patient_name, p.correo as patient_email, 
-                                     m.nombres as doctor_name 
-                              FROM usuario p 
-                              JOIN usuario m ON m.id = ? 
-                              WHERE p.id = ?");
+                                       m.nombres as doctor_name 
+                                FROM citas c
+                                JOIN usuario p ON c.id_paciente = p.id
+                                JOIN usuario m ON c.id_medico = m.id
+                                WHERE c.id_paciente = ? AND c.id_medico = ?");
     $stmt->bind_param("ii", $idMedico, $idPaciente);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -298,6 +293,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 button.addEventListener('click', function (event) {
                   const patientId = <?php echo $_SESSION['user_id']; ?>;
                   const doctorId = this.getAttribute('data-doctor-id');
+                  const correo = "<?php echo $_SESSION['user_correo']; ?>";
                   let body = JSON.stringify({
                     especialidad: valorOpcion,
                     patientId: patientId,
@@ -317,9 +313,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         Swal.fire({
                           icon: 'success',
                           title: 'Cita Asignada',
-                          text: `Email de recordatorio enviado a: ${data.emailAddress}`,
+                          text: `Email de recordatorio enviado a: ${correo}`,
                           confirmButtonText: 'Aceptar'
                         });
+                        
                       } else {
                         alert(data.message);
                       }
