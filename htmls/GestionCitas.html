@@ -55,7 +55,7 @@
                             <li><a class="dropdown-item" href="verPerfil.php">Ver Perfil</a></li>
                             <li><a class="dropdown-item" href="#" id="logout-link">Cerrar Sesión</a></li>
                         </ul>
-                    </li>
+                    </li> 
                 </ul>
             </div>
         </div>
@@ -127,10 +127,18 @@
                                         <p class="card-text">Fecha: ${cita.fecha}</p>
                                         <p class="card-text">Hora: ${cita.hora}</p>
                                         <p class="card-text">Médico: ${cita.medico}</p>
-                                        <button class="btn btn-primary modify-btn" data-patient-id="${cita.id_paciente}">Modificar cita</button>
+                                        <button class="btn btn-primary modify-btn" data-cita-id="${cita.id_cita}">Modificar cita</button>
+                                        <button class="btn btn-primary cancel-btn" data-patientcancel-id="${cita.id_paciente}">Cancelar cita</button>
                                     </div>
                                 `;
                                 citasList.appendChild(citaItem);
+                            });
+
+                            document.querySelectorAll('.modify-btn').forEach(button => {
+                                button.addEventListener('click', function (event) {
+                                    const citaId = this.getAttribute('data-cita-id');
+                                    window.location.href = 'modifyAppointment.php?id_cita=' + encodeURIComponent(citaId);
+                                });
                             });
                         } else {
                             citasList.innerHTML = '<p>No se encontraron citas para este paciente.</p>';
