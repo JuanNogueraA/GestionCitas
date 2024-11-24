@@ -1,4 +1,5 @@
 <?php
+header('Content-Type: application/json');
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
@@ -17,7 +18,9 @@ try {
     }
 
     $rol = 'medico';
-    $sql = "SELECT id, nombres FROM usuario WHERE rol = ?";
+    $sql = "SELECT medico.id, CONCAT(usuario.nombres, ' ', usuario.apellidos) AS nombre_completo 
+    FROM medico 
+    INNER JOIN usuario ON medico.id_usuario = usuario.id WHERE usuario.rol = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param('s', $rol);
     $stmt->execute();
@@ -29,7 +32,7 @@ try {
 
     $medicos = [];
     while($row = $result->fetch_assoc()) {
-        $medicos[] = ['id' => $row['id'], 'nombre' => $row['nombres']];
+        $medicos[] = ['id' => $row['id'], 'nombre' => $row['nombre_completo']];
     }
     
     echo json_encode($medicos);

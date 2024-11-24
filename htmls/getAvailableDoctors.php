@@ -11,14 +11,25 @@ require_once 'DataBase.php';
 
 try {
     $conn = DataBase::getInstance()->getConnection();
-    $sql = "SELECT medico.id, medico.especialidad, usuario.nombres FROM medico
-    JOIN disponibilidad ON medico.id = disponibilidad.id_medico 
-    JOIN usuario ON medico.id_usuario = usuario.id
-    WHERE medico.especialidad = ? AND disponibilidad.fecha = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param('ss', $valorOpcion, $fecha);
-    $stmt->execute();
-    $result = $stmt->get_result();
+    if($opcion === 'especialidad'){
+        $sql = "SELECT medico.id, medico.especialidad, CONCAT(usuario.nombres, ' ', usuario.apellidos) AS nombres FROM medico
+        JOIN disponibilidad ON medico.id = disponibilidad.id_medico 
+        JOIN usuario ON medico.id_usuario = usuario.id
+        WHERE medico.especialidad = ? AND disponibilidad.fecha = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param('ss', $valorOpcion, $fecha);
+        $stmt->execute();
+        $result = $stmt->get_result();
+    }else if($opcion === 'medico'){
+        $sql = "SELECT medico.id, medico.especialidad, CONCAT(usuario.nombres, ' ', usuario.apellidos) AS nombres FROM medico
+        JOIN disponibilidad ON medico.id = disponibilidad.id_medico 
+        JOIN usuario ON medico.id_usuario = usuario.id
+        WHERE medico.id = ? AND disponibilidad.fecha = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param('ss', $valorOpcion, $fecha);
+        $stmt->execute();
+        $result = $stmt->get_result();
+    }
 
     $doctors = [];
     while ($row = $result->fetch_assoc()) {

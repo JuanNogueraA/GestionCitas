@@ -133,9 +133,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <option value="">Seleccionar...</option>
           </select>
         </div>
-        <div class="mb-3" id=opciondemedico style="margin-top: 20px; display: none;">
-          <input type="text" class="form-control" id="nombremedico">
-        </div>
       </div>
       <div class="mb-3">
         <label for="dateSelect" class="form-label">Seleccionar Fecha</label>
@@ -213,11 +210,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         optionValue.innerHTML = ''; // Clear previous options
         if (optionSelect) {
           if (optionSelect === 'medico') {
-            document.getElementById('optionfield').style.display = 'none';
-            document.getElementById('opciondemedico').style.display = 'block';
-
+            optionField.style.display = 'block';
+            fetch('getMedicos.php')  // Updated path
+              .then(response => {
+                if (!response.ok) {
+                  return response.json().then(err => {
+                    throw new Error(err.error || 'Error del servidor');
+                  });
+                }
+                return response.json();
+              })
+              .then(data => {
+                if (!Array.isArray(data)) {
+                  throw new Error('Formato de datos inválido');
+                }
+                const optionValue = document.getElementById('optionvalue');
+                optionValue.innerHTML = '<option value="">Seleccionar...</option>';
+                data.forEach(medico => {
+                  const option = document.createElement('option');
+                  option.value = medico.id;
+                  option.textContent = medico.nombre;
+                  optionValue.appendChild(option);
+                });
+              })
+              .catch(error => {
+                console.error('Error detallado:', error);
+                alert('Error al cargar los médicos: ' + error.message);
+              });
           } else if (optionSelect === 'especialidad') {
-            document.getElementById('opciondemedico').style.display = 'none';
             optionField.style.display = 'block';
             fetch('getEspecialidades.php')  // Updated path
               .then(response => {
