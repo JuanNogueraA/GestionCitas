@@ -74,17 +74,37 @@
             </div>
             <button type="submit" class="btn btn-light">Buscar</button>
         </form>
-        <div id="userDetails" class="mt-4" style="display: none;">
-            <h3>Detalles del Usuario</h3>
-            <p><strong>Nombre:</strong> <span id="displayname"></span></p>
-            <p><strong>Apellido:</strong> <span id="lastName"></span></p>
-            <p><strong>Rol:</strong> <span id="roleUser"></span></p>
-            <p><strong>Dirección:</strong> <span id="AddressUser"></span></p>
-            <p><strong>Número:</strong> <span id="userNumber"></span></p>
-            <p><strong>Correo electrónico:</strong> <span id="email"></span></p>
-            <button id="showUpdateFormBtn" class="btn btn-primary mt-3">Actualizar Usuario</button>
-            <button id="uploadHistoryBtn" class="btn btn-primary mt-3" style="display: none;">Subir Historial Clínico</button>
+        
+        <div class="card mb-4" id="cardUser" style="display: none; max-width: 600px; margin-left: 0px;">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4" id="imagenPaciente" style="display: none; margin-top: 30px;">
+                        <img src="https://cdn-icons-png.flaticon.com/512/1430/1430402.png" alt="Logo" class="img-fluid">
+                    </div>
+                    <div class="col-md-4" id="imagenMedico" style="display: none; margin-top: 30px;">
+                        <img src="https://e7.pngegg.com/pngimages/494/374/png-clipart-physician-assistant-medicine-clinic-health-care-doctor-logo-medicine.png" alt="Logo" class="img-fluid">
+                    </div>
+                    <div class="col-md-4" id="imagenAdmin" style="display: none; margin-top: 30px;">
+                        <img src="https://cdn-icons-png.flaticon.com/512/2942/2942813.png" alt="Logo" class="img-fluid">
+                    </div>
+                    <div class="col-md-8">
+                        <div id="userDetails" class="mt-4">
+                            <h3>Detalles del Usuario</h3>
+                            <p><strong>Nombre:</strong> <span id="displayname"></span></p>
+                            <p><strong>Apellido:</strong> <span id="lastName"></span></p>
+                            <p><strong>Rol:</strong> <span id="roleUser"></span></p>
+                            <p><strong>Dirección:</strong> <span id="AddressUser"></span></p>
+                            <p><strong>Número:</strong> <span id="userNumber"></span></p>
+                            <p><strong>Correo electrónico:</strong> <span id="email"></span></p>
+                            <button id="showUpdateFormBtn" class="btn btn-primary mt-3">Actualizar Usuario</button>
+                            <button id="uploadHistoryBtn" class="btn btn-primary mt-3" style="display: none;">Subir Historial Clínico</button>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+        
         <div class="container mt-5">
             <form id="updateUserForm" style="display: none;">
                 <h2>Actualizar Datos del Usuario</h2>
@@ -149,6 +169,7 @@
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('logout-link').addEventListener('click', function (event) {
             event.preventDefault();
             if (confirm('¿Desea salir de la sesión?')) {
@@ -180,14 +201,22 @@
                         document.getElementById('AddressUser').innerText = data.user.address;
                         document.getElementById('userNumber').innerText = data.user.phone;
                         document.getElementById('email').innerText = data.user.email;
-                        document.getElementById('userDetails').style.display = 'block';
+                        document.getElementById('cardUser').style.display = 'block';
+                        document.getElementById('imagenPaciente').style.display = 'none';
+                        document.getElementById('imagenMedico').style.display = 'none';
+                        document.getElementById('imagenAdmin').style.display = 'none';
                         document.getElementById('updateUserForm').style.display = 'none';
                         document.getElementById('showUpdateFormBtn').style.display = 'block';
                         if (data.user.role === 'paciente') {
                             document.getElementById('uploadHistoryBtn').style.display = 'block';
-                        } else {
+                            document.getElementById('imagenPaciente').style.display = 'block';
+                        }else if (data.user.role === 'medico') {
+                            document.getElementById('imagenMedico').style.display = 'block';
                             document.getElementById('uploadHistoryBtn').style.display = 'none';
-                        }
+                        }else if (data.user.role === 'administrador') {
+                            document.getElementById('imagenAdmin').style.display = 'block';
+                            document.getElementById('uploadHistoryBtn').style.display = 'none';
+                        } 
                     } else {
                         alert(data.message);
                     }
@@ -238,6 +267,7 @@
             const id = document.getElementById('id').value;
             window.location.href = 'subirHistorial.html?id=' + encodeURIComponent(id);
         });
+    });
     </script>
 </body>
 
