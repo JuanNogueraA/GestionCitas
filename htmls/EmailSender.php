@@ -15,15 +15,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $data = $result->fetch_assoc();
     $emailDestino = $data['correo'];
 
+
+    $nombrePaciente = $data['nombrePaciente'];
+    $nombreDoctor = 'Nombre del Doctor: '+$_POST['nombreMedico']; // Reemplaza con el nombre real del doctor
+    $fechaCita = 'Fecha de la Cita'; // Reemplaza con la fecha real de la cita
+    $horaCita = 'Hora de la Cita'; // Reemplaza con la hora real de la cita
+
     $apiKey = 're_VHssSs7B_ZxtvmeCHHUUyMgEGQbzV5vgD';
     $emailSender = new EmailSender($apiKey);
     $emailSender->sendAppointmentEmail(
         $emailDestino,
-        'Nombre del Paciente',
-        'Nombre del Doctor',
-        'Fecha de la Cita',
-        'Hora de la Cita'
-    );
+        $nombrePaciente,
+        $nombreDoctor,
+        $fechaCita,
+        $horaCita
+        );
     echo "El recordatorio de la cita ha sido enviado a $emailDestino.";
 }
 ?>
