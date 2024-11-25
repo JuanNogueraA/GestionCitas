@@ -331,6 +331,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                   }).then(response => response.json())
                     .then(data => {
                       if (data.status === 'success') {
+
                         Swal.fire({
                           icon: 'success',
                           title: 'Cita Asignada',
@@ -338,6 +339,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                           confirmButtonText: 'Aceptar'
                         });
                         
+
+                        fetch('EmailSender.php', {
+                          method: 'POST',
+                          headers: {
+                            'Content-Type': 'application/json'
+                          },
+                          body: body
+                        }).then(response => response.json())
+                          .then(data => {
+                            if (data.status === 'success') {
+                              console.log('Email enviado correctamente');
+                            } else {
+                              console.error('Error al enviar el email:', data.message);
+                            }
+                          })
+                          .catch(error => console.error('Error:', error));
                       } else {
                         alert(data.message);
                       }

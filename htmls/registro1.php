@@ -76,8 +76,11 @@
             <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
             <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" required>
 
-            <?php if (!empty($error) && $error !== "Hubo un problema al procesar su registro. Por favor, inténtelo de nuevo."): ?>
+            <?php if (!empty($error)): ?>
                 <p style="color: red;"><?php echo $error; ?></p>
+            <?php endif; ?>
+            <?php if (!empty($_GET['error'])): ?>
+                <p style="color: red;"><?php echo $_GET['error']; ?></p>
             <?php endif; ?>
 
             <button type="submit">Registrarse</button>

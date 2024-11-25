@@ -34,6 +34,75 @@ session_start();
             height: 30px;
             border-radius: 50%;
         }
+
+      /* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(15, 23, 42, 0.6);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(4px);
+}
+
+.modal-content {
+    background-color: white;
+    padding: 2.5rem;
+    border-radius: 20px;
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+    position: relative;
+    animation: modalSlideIn 0.3s ease-out;
+}
+
+.close-btn {
+    position: absolute;
+    right: 1.5rem;
+    top: 1rem;
+    font-size: 1.5rem;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: color var(--transition-quick);
+}
+
+.close-btn:hover {
+    color: var(--error-color);
+}
+
+.modal-content h2 {
+    color: var(--success-color);
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+.modal-content p {
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+}
+
+.modal-content button {
+    background-color: var(--success-color);
+    border: none;
+    border-radius: 12px;
+    color: white;
+    cursor: pointer;
+    font-family: var(--font-family);
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 0.75rem 2rem;
+    transition: all var(--transition-quick);
+}
+
+.modal-content button:hover {
+    background-color: #16a34a;
+    transform: translateY(-2px);
+}
     </style>
 </head>
 
@@ -65,7 +134,7 @@ session_start();
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="registro.php" style="color: white;">
+                    <a class="nav-link" href="registro1.php" style="color: white;">
                         Registrar
                     </a>
                 </li>
@@ -84,7 +153,7 @@ session_start();
     <section class="banner d-flex align-items-center justify-content-center">
         <div class="banner-text text-center">
             <h2>Bienvenido a Gestión Citas</h2>
-            <a href="registro.php" class="btn btn-warning btn-lg button-animated">Regístrate Ahora</a>
+            <a href="registro1.php" class="btn btn-warning btn-lg button-animated">Regístrate Ahora</a>
         </div>
     </section>
 
@@ -93,7 +162,8 @@ session_start();
         <h2>Nuestros Servicios</h2>
         <p>Ofrecemos una plataforma eficiente para gestionar tus citas médicas de manera sencilla y rápida.
             Accede a tus citas, historial médico y más con solo unos clics.</p>
-
+            <!-- Contenedor del pop-up de registro exitoso -->
+        
         <!-- Carousel Automático -->
         <section class="carousel-section my-5">
             <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
@@ -138,6 +208,8 @@ session_start();
         </section>
     </main>
 
+    
+
     <!-- Modal de Video -->
     <div class="modal fade" id="videoModal" tabindex="-1" aria-labelledby="videoModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -163,9 +235,47 @@ session_start();
         <a href="terminos_servicio.php" class="text-white">Términos de Servicio</a>
     </footer>
 
+    <div id="miModal" class="modal">
+            <div class="modal-content">
+                <span class="close-btn" onclick="closeModal()">&times;</span>
+                <h2>Registro exitoso</h2>
+                <p>Su registro ha sido completado con éxito</p>
+                <button onclick="closeModal()">Aceptar</button>
+            </div>
+        </div>
+        
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        // Función para abrir el pop-up
+        function openModal() {
+            document.getElementById("miModal").style.display = "flex";
+        }
+
+        // Función para cerrar el pop-up
+        function closeModal() {
+            document.getElementById("miModal").style.display = "none";
+        }
+        //Función para comprobar el registro exitoso
+        function checkRegistration() {
+            const params = new URLSearchParams(window.location.search);
+            if (params.get("registro") === "exitoso") {
+                openModal();
+            }
+        }
+         // Ejecutar la función al cargar la página
+         window.onload = checkRegistration;
+        // Cerrar el pop-up al hacer clic fuera del contenido
+        window.onclick = function(event) {
+            var modal = document.getElementById("miModal");
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+
+
+    </script>
 </body>
 
 </html>

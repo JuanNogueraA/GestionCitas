@@ -21,24 +21,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($resultado) {
             if ($resultado->num_rows > 0) {
                 $user = $resultado->fetch_assoc();
-                $_SESSION['user_id'] = $user['id'];
-                $_SESSION['user_correo'] = $user['correo'];
-                $_SESSION['user_nombres'] = $user['nombres'];
-                $_SESSION['user_apellidos'] = $user['apellidos'];
-                $_SESSION['user_direccion'] = $user['direccion'];
-                $_SESSION['user_telefono'] = $user['telefono'];
-                $_SESSION['user_rol'] = $user['rol'];
+                if($user['rol'] == 'usuario'){
+                    header("Location: index.php?error=No tienes permisos para acceder a esta página. Espere a que se le asigne un rol.");
+                }else{
+                    $_SESSION['user_id'] = $user['id'];
+                    $_SESSION['user_correo'] = $user['correo'];
+                    $_SESSION['user_nombres'] = $user['nombres'];
+                    $_SESSION['user_apellidos'] = $user['apellidos'];
+                    $_SESSION['user_direccion'] = $user['direccion'];
+                    $_SESSION['user_telefono'] = $user['telefono'];
+                    $_SESSION['user_rol'] = $user['rol'];
 
-                // Redirection based on user role
-                if ($user['rol'] == 'administrador') {
-                    header("Location: Administrador.php");
-                } elseif ($user['rol'] == 'medico') {
-                    header("Location: Medico.html");
-                } elseif ($user['rol'] == 'paciente') {
-                    header("Location: PacienteInicio.html");
-                } else {
-                    header("Location: index.php");
+                        // Redirección basada en el rol del usuario
+                    if ($user['rol'] == 'administrador') {
+                        header("Location: Administrador.php");
+                    } else if ($user['rol'] == 'medico') {
+                        header("Location: Medico.html");
+                    } else if ($user['rol'] == 'paciente') {
+                        header("Location: PacienteInicio.html");
+                    }
+                    
                 }
+
                 exit();
             } else {
                 $error = "Id o Contraseña inválidos";
