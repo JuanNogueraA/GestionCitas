@@ -243,6 +243,14 @@ session_start();
                 <button onclick="closeModal()">Aceptar</button>
             </div>
         </div>
+        <div id="ModalInicioSesion" class="modal">
+            <div class="modal-content">
+                <span class="close-btn" onclick="closeModalAvisoInicioSesion()">&times;</span>
+                <h2>Redirección a la página de bienvenida</h2>
+                <p>Espere a que el administador le suministre un rol</p>
+                <button onclick="closeModalAvisoInicioSesion()">Aceptar</button>
+            </div>
+        </div>
         
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -257,11 +265,23 @@ session_start();
         function closeModal() {
             document.getElementById("miModal").style.display = "none";
         }
+
+        // Función para abrir el pop-up
+        function openModalAvisoInicioSesion() {
+            document.getElementById("ModalInicioSesion").style.display = "flex";
+        }
+
+        // Función para cerrar el pop-up
+        function closeModalAvisoInicioSesion() {
+            document.getElementById("ModalInicioSesion").style.display = "none";
+        }
         //Función para comprobar el registro exitoso
         function checkRegistration() {
             const params = new URLSearchParams(window.location.search);
             if (params.get("registro") === "exitoso") {
                 openModal();
+            }else if(params.get("InicioSesion") === "enespera"){
+                openModalAvisoInicioSesion();
             }
         }
          // Ejecutar la función al cargar la página
@@ -269,8 +289,11 @@ session_start();
         // Cerrar el pop-up al hacer clic fuera del contenido
         window.onclick = function(event) {
             var modal = document.getElementById("miModal");
+            var modalInicioSesion = document.getElementById("ModalInicioSesion");
             if (event.target == modal) {
                 closeModal();
+            }else if(event.target == modalInicioSesion){
+                closeModalAvisoInicioSesion();
             }
         }
 

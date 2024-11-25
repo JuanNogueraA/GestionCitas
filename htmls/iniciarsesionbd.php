@@ -22,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if ($resultado->num_rows > 0) {
                 $user = $resultado->fetch_assoc();
                 if($user['rol'] == 'usuario'){
-                    header("Location: index.php?error=No tienes permisos para acceder a esta página. Espere a que se le asigne un rol.");
+                    header("Location: index.php?InicioSesion=enespera");
                 }else{
                     $_SESSION['user_id'] = $user['id'];
                     $_SESSION['user_correo'] = $user['correo'];
