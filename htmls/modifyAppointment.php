@@ -130,6 +130,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 document.getElementById("posponercita").style.display = 'none';
                 alert('Recordatorio enviado');
             });
+            function getQueryParams() {
+            const params = {};
+            const queryString = window.location.search.substring(1);
+            const regex = /([^&=]+)=([^&]*)/g;
+            let m;
+            while (m = regex.exec(queryString)) {
+                params[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
+            }
+            return params;
+            }
+
+            // Get the patient ID from the URL
+            const params = getQueryParams();
+            const citaId = params['id_cita'];
 
             // Manejar el envío del formulario
             document.getElementById('appointmentForm').addEventListener('submit', function (event) {
@@ -181,6 +195,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     doctorId: doctorId,
                                     fecha: date,
                                     hora: time
+                                    citaID: citaId
                                 });
                                 fetch('assignAppointment.php', {
                                     method: 'POST',

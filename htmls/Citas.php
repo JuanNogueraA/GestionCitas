@@ -315,7 +315,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                   const doctorId = this.getAttribute('data-doctor-id');
                   const correo = "<?php echo $_SESSION['user_correo']; ?>";
                   let body = JSON.stringify({
-                    especialidad: valorOpcion,
+                    opcion: opcion,
+                    valorOpcion: valorOpcion,
                     patientId: patientId,
                     doctorId: doctorId,
                     fecha: date,
