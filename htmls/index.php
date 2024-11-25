@@ -14,6 +14,27 @@ session_start();
     <!-- Estilos Personalizados -->
     <link rel="stylesheet" href="HojasEstilo/index.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        .nav-item .nav-link {
+            transition: transform 0.2s ease, color 0.2s ease;
+        }
+
+        .nav-item .nav-link:hover {
+            transform: scale(1.1);
+            color: #4e73df; /* Cambia el color al pasar el ratón */
+        }
+
+        .avatar {
+            display: flex;
+            justify-content: center;
+        }
+
+        .avatar img {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+        }
+    </style>
 </head>
 
 <body>
@@ -27,26 +48,32 @@ session_start();
             </button>
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul class="navbar-nav">
-                    <?php if (isset($_SESSION['user_id'])): ?>
-                        <li class="nav-item">
-                            <a class="nav-link" href="Agenda.html">Agenda</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="verPerfil.php">Perfil</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="logout.php">Cerrar Sesión</a>
-                        </li>
-                    <?php else: ?>
-                        <li class="nav-item">
-                            <a class="nav-link" href="iniciarsesion.php">Iniciar Sesión</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="registro.php">Registrar</a>
-                        </li>
-                    <?php endif; ?>
+                <?php if (isset($_SESSION['user_id'])): ?>
+                <li class="nav-item">
+                    <a class="nav-link" href="Agenda.html">Agenda</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="verPerfil.php">Perfil</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="logout.php">Cerrar Sesión</a>
+                </li>
+            <?php else: ?>
+                <li class="nav-item">
+                    <a class="nav-link" href="iniciarsesion.php" style="color: white;">
+                        Iniciar Sesión
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="registro.php" style="color: white;">
+                        Registrar
+                    </a>
+                </li>
+            <?php endif; ?>
                     <li class="nav-item">
-                        <a class="nav-link" href="preguntasfrecuentes.php">Preguntas Frecuentes</a>
+                        <a class="nav-link" href="preguntasfrecuentes.php" style="color: white;">
+                            <i class="fas fa-question"></i> Preguntas Frecuentes
+                        </a>
                     </li>
                 </ul>
             </div>
