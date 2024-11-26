@@ -31,6 +31,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $_SESSION['user_direccion'] = $user['direccion'];
                     $_SESSION['user_telefono'] = $user['telefono'];
                     $_SESSION['user_rol'] = $user['rol'];
+                    $sesionabierta = 1;
+                    $stmtiniciarsesion = $conexion->prepare("UPDATE usuario SET sesion_abierta = ? WHERE id = ?");
+                    $stmtiniciarsesion->bind_param("ii", $sesionabierta, $user['id']);
+                    $stmtiniciarsesion->execute();
 
                         // Redirección basada en el rol del usuario
                     if ($user['rol'] == 'administrador') {

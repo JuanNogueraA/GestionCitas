@@ -331,7 +331,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                   }).then(response => response.json())
                     .then(data => {
                       if (data.status === 'success') {
-
+                        
                         Swal.fire({
                           icon: 'success',
                           title: 'Cita Asignada',

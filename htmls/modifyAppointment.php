@@ -8,23 +8,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id_cita = $_POST['id_cita'];
     if (isset($_POST['consultorio'])) {
         $consultorio = $_POST['consultorio'];
-        $query = "UPDATE citas SET num_consultorio = ? WHERE id_cita = ?";
+        $query = "UPDATE cita SET num_consultorio = ? WHERE id_cita = ?";
         $stmt = $conexion->prepare($query);
         $stmt->bind_param('si', $consultorio, $id_cita);
+        
     } else {
         $fecha = $_POST['fecha'];
         $hora = $_POST['hora'];
-        $medico = $_POST['medico'];
-        $query = "UPDATE citas SET fecha = ?, hora = ?, medico = ? WHERE id_cita = ?";
+        $query = "UPDATE cita SET fecha = ?, hora = ? WHERE id_cita = ?";
         $stmt = $conexion->prepare($query);
-        $stmt->bind_param('sssi', $fecha, $hora, $medico, $id_cita);
+        $stmt->bind_param('ssi', $fecha, $hora, $id_cita);
     }
 
     if ($stmt->execute()) {
-        echo "Cita actualizada correctamente.";
+        echo json_encode(['status' => 'success', 'message' => 'Cita asignada correctamente']);
     } else {
-        echo "Error al actualizar la cita.";
+        echo json_encode(['status' => 'error', 'message' => 'Error al actualizar la cita']);
     }
+
 } else if (isset($_GET['id_cita'])) {
     $id_cita = $_GET['id_cita'];
     $query = "SELECT * FROM cita WHERE id_cita = ?";
@@ -45,12 +46,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
     <div class="container mt-5">
         <h2>Modificar Cita</h2>
-        <button type="button" class="btn btn-primary" style="margin-top: 40px; background-color: #0d6efd;" id="PosponerCita">Posponer cita</button>
+        <button type="button" class="btn btn-primary" style="margin-top: 40px; background-color: skyblue;" id="PosponerCita">Posponer cita</button>
         <button type="button" class="btn btn-primary" style="margin-top: 40px;" id="AsignarConsultorio">Asignar consultorio</button>
         <button type="button" class="btn btn-primary" style="margin-top: 40px;" id="EnviarRecordatorio">Enviar recordatorio</button>
         <hr>
-        <form method="POST" action="modifyAppointment.php" style="display: none;" id="formConsultorio">
-            <input type="hidden" name="id_cita" value="<?php echo $cita['id_cita']; ?>">
+        <form style="display: none;" id="formConsultorio">
+            <input type="hidden" name="id_cita" id="idcita" value="<?php echo $cita['id_cita']; ?>">
             <div class="mb-3">
                 <label for="consultorio" class="form-label">Número de consultorio</label>
                 <input type="text" class="form-control" id="consultorio" name="consultorio" value="<?php echo $cita['num_consultorio']; ?>" required>
@@ -58,24 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <button type="submit" class="btn btn-primary">Guardar cambios</button>
         </form>
 
-        <form method="POST" action="modifyAppointment.php" style="display: none;" id="posponercita">
-            <input type="hidden" name="id_cita" value="<?php echo $cita['id_cita']; ?>">
-            <div class="mb-3">
-                <label for="fecha" class="form-label">Fecha</label>
-                <input type="date" class="form-control" id="fecha" name="fecha" value="<?php echo $cita['fecha']; ?>" required>
-            </div>
-            <div class="mb-3">
-                <label for="hora" class="form-label">Hora</label>
-                <input type="time" class="form-control" id="hora" name="hora" value="<?php echo $cita['hora']; ?>" required>
-            </div>
-            <div class="mb-3">
-                <label for="medico" class="form-label">Médico</label>
-                <input type="text" class="form-control" id="medico" name="medico" value="<?php echo $cita['medico']; ?>" required>
-            </div>
-            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-        </form>
-
-        <form id="appointmentForm">
+        <form id="posponercita">
             <div class="mb-3">
             <input type="hidden" name="id_cita" value="<?php echo $cita['id_cita']; ?>">
             </div>
@@ -91,44 +75,84 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </form>
         <div id="availableDoctors" class="row mt-4"></div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function (event) {
+            document.getElementById('timeSelect').addEventListener('change', function (e) {
+                let time = e.target.value;
+                if (time) {
+                // Extrae solo la hora y establece los minutos a 00
+                let hour = time.split(':')[0];
+                e.target.value = hour + ':00';
+                }
+            });
+
             document.getElementById('AsignarConsultorio').addEventListener('click', function (event) {
-                document.getElementByID('AsignarConsultorio').style.backgroundColor = '#0d6efd';
+                document.getElementById('AsignarConsultorio').style.backgroundColor= 'skyblue';
+                document.getElementById('PosponerCita').style.backgroundColor= '#0d6efd';
+                document.getElementById('EnviarRecordatorio').style.backgroundColor= '#0d6efd';
                 document.getElementById("posponercita").style.display = 'none';
                 document.getElementById("formConsultorio").style.display = 'block';
             });
 
             document.getElementById('PosponerCita').addEventListener('click', function (event) {
+                document.getElementById('PosponerCita').style.backgroundColor= 'skyblue';
+                document.getElementById('EnviarRecordatorio').style.backgroundColor= '#0d6efd';
+                document.getElementById('AsignarConsultorio').style.backgroundColor= '#0d6efd';
                 document.getElementById("formConsultorio").style.display = 'none';
                 document.getElementById("posponercita").style.display = 'block';
             });
 
             document.getElementById('EnviarRecordatorio').addEventListener('click', function (event) {
+                document.getElementById('EnviarRecordatorio').style.backgroundColor= 'skyblue';
+                document.getElementById('PosponerCita').style.backgroundColor= '#0d6efd';
+                document.getElementById('AsignarConsultorio').style.backgroundColor= '#0d6efd';
                 document.getElementById("formConsultorio").style.display = 'none';
                 document.getElementById("posponercita").style.display = 'none';
                 alert('Recordatorio enviado');
             });
-            function getQueryParams() {
-            const params = {};
-            const queryString = window.location.search.substring(1);
-            const regex = /([^&=]+)=([^&]*)/g;
-            let m;
-            while (m = regex.exec(queryString)) {
-                params[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
-            }
-            return params;
-            }
 
-            // Get the patient ID from the URL
-            const params = getQueryParams();
-            const citaId = params['id_cita'];
-
-            // Manejar el envío del formulario
-            document.getElementById('appointmentForm').addEventListener('submit', function (event) {
+            document.getElementById('formConsultorio').addEventListener('submit', function (event) {
                 event.preventDefault();
-                const opcion = document.getElementById('optionSelect').value;
-                const valorOpcion = document.getElementById('optionvalue').value;
+                const formData = new FormData(event.target);
+                fetch('modifyAppointment.php', {
+                    method: 'POST',
+                    body: formData
+                }).then(response => response.json())
+                .then(data => {
+                    alert(data.message);
+                })
+                .catch(error => console.error('Error:', error));
+            });
+            
+            // Manejar el envío del formulario
+            document.getElementById('posponercita').addEventListener('submit', function (event) {
+                event.preventDefault();
+                const opcion = 'especialidad';
+                <?php 
+                try {
+                    $stmtespecialidad = $conexion->prepare("SELECT m.especialidad FROM medico m 
+                    JOIN cita c ON m.id = c.id_medico WHERE c.id_cita = ?");
+                    $stmtespecialidad->bind_param("i", $id_cita);
+                    $stmtespecialidad->execute();
+                    $result = $stmtespecialidad->get_result();
+                    $row = $result->fetch_assoc();
+                    $especialidad = $row['especialidad'];
+
+                    $stmtusuario = $conexion->prepare("SELECT correo FROM usuario u 
+                    JOIN cita c ON u.id = c.id_paciente WHERE c.id_cita = ?");
+                    $stmtusuario->bind_param("i", $id_cita);
+                    $stmtusuario->execute();    
+                    $resultusuario = $stmtusuario->get_result();
+                    $rowusuario = $resultusuario->fetch_assoc();
+                    $correo = $rowusuario['correo'];
+                    
+                } catch (Exception $e) {
+                    echo "Error al obtener la especialidad: " . $e->getMessage();
+                    exit();
+                }
+                ?>
+                const valorOpcion = '<?php echo $especialidad; ?>';
                 const date = document.getElementById('dateSelect').value;
                 const time = document.getElementById('timeSelect').value;
                 let body = JSON.stringify({
@@ -165,36 +189,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         // Asignar eventos de clic a los botones de asignación
                         document.querySelectorAll('.assign-btn').forEach(button => {
                             button.addEventListener('click', function (event) {
-                                const patientId = <?php echo $_SESSION['user_id']; ?>;
-                                const doctorId = this.getAttribute('data-doctor-id');
-                                const correo = "<?php echo $_SESSION['user_correo']; ?>";
-                                let body = JSON.stringify({
-                                    especialidad: valorOpcion,
-                                    patientId: patientId,
-                                    doctorId: doctorId,
-                                    fecha: date,
-                                    hora: time
-                                    citaID: citaId
-                                });
-                                fetch('assignAppointment.php', {
+                                const id_cita = <?php echo $cita['id_cita'] ?>;
+                                const formData = new FormData();
+                                const correo = '<?php echo $correo ?>';
+                                formData.append('id_cita', id_cita);
+                                formData.append('fecha', date);
+                                formData.append('hora', time);
+                                fetch('modifyAppointment.php', {
                                     method: 'POST',
-                                    headers: {
-                                        'Content-Type': 'application/json'
-                                    },
-                                    body: body
+                                    body: formData
                                 }).then(response => response.json())
                                 .then(data => {
                                     if (data.status === 'success') {
                                         Swal.fire({
                                             icon: 'success',
-                                            title: 'Cita Asignada',
+                                            title: 'Cita Pospuesta',
                                             text: `Email de recordatorio enviado a: ${correo}`,
                                             confirmButtonText: 'Aceptar'
+                                        }).then((result) => {
+                                            if (result.isConfirmed) {
+                                                location.reload(); // Recargar la página
+                                            }
                                         });
                                     } else {
                                         alert(data.message);
                                     }
-                                });
+                                })
+                                .catch(error => console.error('Error:', error));
                             });
                         });
                     } else {
@@ -203,10 +224,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 })
                 .catch(error => console.error('Error:', error));
             });
+
         });
     </script>
 </body>
 </html>
 <?php
+$stmtespecialidad->close();
 }
 ?>
