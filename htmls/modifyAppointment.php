@@ -45,8 +45,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
     <div class="container mt-5">
         <h2>Modificar Cita</h2>
+        <button type="button" class="btn btn-primary" style="margin-top: 40px; background-color: #0d6efd;" id="PosponerCita">Posponer cita</button>
         <button type="button" class="btn btn-primary" style="margin-top: 40px;" id="AsignarConsultorio">Asignar consultorio</button>
-        <button type="button" class="btn btn-primary" style="margin-top: 40px;" id="PosponerCita">Posponer cita</button>
         <button type="button" class="btn btn-primary" style="margin-top: 40px;" id="EnviarRecordatorio">Enviar recordatorio</button>
         <hr>
         <form method="POST" action="modifyAppointment.php" style="display: none;" id="formConsultorio">
@@ -78,28 +78,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <form id="appointmentForm">
             <div class="mb-3">
             <input type="hidden" name="id_cita" value="<?php echo $cita['id_cita']; ?>">
-                <label for="optionSelect" class="form-label">Seleccionar Método de búsqueda</label>
-                <select class="form-select" id="optionSelect" required>
-                    <?php 
-                    if($cita['opcion'] == 'medico') {
-                       ?> <option value="medico">Por médico</option> 
-                       <option value="especialidad">Por especialidad</option>
-                       <?php
-                    } else {
-                        ?> <option value="especialidad">Por especialidad</option>
-                        <option value="medico">Por médico</option> 
-                       <?php
-                    }
-                    ?>
-                </select>
-                <div id="optionfield" class="form-label" style="display: none; margin-top: 30px;">
-                    <select class="form-control" id="optionvalue" name="optionvalue">
-                        <option value="">Seleccionar...</option>
-                    </select>
-                </div>
-                <div class="mb-3" id="opciondemedico" style="margin-top: 20px; display: none;">
-                    <input type="text" class="form-control" id="nombremedico">
-                </div>
             </div>
             <div class="mb-3">
                 <label for="dateSelect" class="form-label">Seleccionar Fecha</label>
@@ -116,6 +94,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <script>
         document.addEventListener('DOMContentLoaded', function (event) {
             document.getElementById('AsignarConsultorio').addEventListener('click', function (event) {
+                document.getElementByID('AsignarConsultorio').style.backgroundColor = '#0d6efd';
                 document.getElementById("posponercita").style.display = 'none';
                 document.getElementById("formConsultorio").style.display = 'block';
             });
