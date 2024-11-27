@@ -1,4 +1,5 @@
 <?php 
+session_start();
 require_once 'DataBase.php'; // Ajusta la ruta según sea necesario
 
 // Obtener la conexión a la base de datos
@@ -57,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 </head>
 <body>
-<a href="GestionCitas.html" class="btn btn-primary" style="margin: 30px 0 0 30px;">← Volver</a>
+<a id="regresar" href="GestionCitas.html" class="btn btn-primary" style="margin: 30px 0 0 30px;">← Volver</a>
     <div class="container mt-5">
         <h2>Modificar Cita</h2>
         <button type="button" class="btn btn-primary" style="margin-top: 40px; background-color: skyblue;" id="PosponerCita">Posponer cita</button>
@@ -92,6 +93,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function (event) {
+            const rolusuario = <?php echo json_encode($_SESSION['user_rol']); ?>;
+            if(rolusuario === 'paciente'){
+                document.getElementById('AsignarConsultorio').style.display = 'none';
+                document.getElementById('EnviarRecordatorio').style.display = 'none';
+                document.getElementById('regresar').href = 'GestionCitasUsuario.php';
+
+            }
             document.getElementById('timeSelect').addEventListener('change', function (e) {
                 let time = e.target.value;
                 if (time) {

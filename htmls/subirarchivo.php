@@ -38,6 +38,12 @@ try {
 
     $conn->close();
 } catch (Exception $e) {
-    echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
+    if ($e->getCode() === 1062) {
+        $error = "Error: El id ya está registrado. Por favor, use uno diferente.";
+        echo json_encode(['status' => 'error', 'message' => $error]);
+    }else{
+        echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
+    }
+    
 }
 ?>

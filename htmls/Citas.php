@@ -1,56 +1,5 @@
 <?php
 session_start();
-require_once 'Database.php';
-require_once 'EmailSender.php';
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  $conn = Database::getInstance()->getConnection();
-
-  $idPaciente = $_POST['idPaciente'];
-  $idMedico = $_POST['idMedico'];
-  $fecha = $_POST['fecha'];
-  $hora = $_POST['hora'];
-
-  try {
-    $conn->begin_transaction();
-    // Get patient and doctor information for email
-    $stmt = $conn->prepare("SELECT p.nombres as patient_name, p.correo as patient_email, 
-                                       m.nombres as doctor_name 
-                                FROM citas c
-                                JOIN usuario p ON c.id_paciente = p.id
-                                JOIN usuario m ON c.id_medico = m.id
-                                WHERE c.id_paciente = ? AND c.id_medico = ?");
-    $stmt->bind_param("ii", $idMedico, $idPaciente);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $data = $result->fetch_assoc();
-
-    // Send email notification
-    $emailSender = new EmailSender('re_VHssSs7B_ZxtvmeCHHUUyMgEGQbzV5vgD');
-    $emailSent = $emailSender->sendAppointmentEmail(
-      $data['patient_email'],
-      $data['patient_name'],
-      $data['doctor_name'],
-      $fecha,
-      $hora
-    );
-
-    $conn->commit();
-
-    echo json_encode([
-      'status' => 'success',
-      'message' => 'Cita asignada correctamente',
-      'emailSent' => true,
-      'emailAddress' => $data['patient_email']
-    ]);
-
-  } catch (Exception $e) {
-    $conn->rollback();
-    echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
-  }
-
-  $conn->close();
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -93,6 +42,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           </li>
           <li class="nav-item">
             <a class="nav-link" href="Citas.php">Citas</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="GestionCitasUsuario.php">Gestionar Citas Usuario</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="Calendario.html">Calendario</a>
@@ -164,6 +116,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <li>
               <a href="Citas.html" class="text-dark">Citas</a>
             </li>
+            <li class="nav-item">
+            <a class="nav-link" href="GestionCitasUsuario.php">Gestionar Citas Usuario</a>
+          </li>
             <li>
               <a href="Calendario.html" class="text-dark">Calendario</a>
             </li>
@@ -311,8 +266,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               // Asignar eventos de clic a los botones de asignación
               document.querySelectorAll('.assign-btn').forEach(button => {
                 button.addEventListener('click', function (event) {
-                  const patientId = <?php echo $_SESSION['user_id']; ?>;
                   const doctorId = this.getAttribute('data-doctor-id');
+                  let patientId;
+                  <?php if ($_SESSION['user_rol'] === 'administrador') { ?>
+                    patientId = <?php echo $_GET['id']; ?>;
+                  <?php } else { ?>
+                    patientId = <?php echo $_SESSION['user_id']; ?>;
+                  <?php } ?>
                   const correo = "<?php echo $_SESSION['user_correo']; ?>";
                   let body = JSON.stringify({
                     opcion: opcion,
@@ -342,23 +302,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                                 location.reload(); // Recargar la página
                                             }
                                         });
-                        
-
-                        fetch('EmailSender.php', {
-                          method: 'POST',
-                          headers: {
-                            'Content-Type': 'application/json'
-                          },
-                          body: body
-                        }).then(response => response.json())
-                          .then(data => {
-                            if (data.status === 'success') {
-                              console.log('Email enviado correctamente');
-                            } else {
-                              console.error('Error al enviar el email:', data.message);
-                            }
-                          })
-                          .catch(error => console.error('Error:', error));
                       } else {
                         alert(data.message);
                       }

@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -32,18 +33,18 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="Administrador.php">Home</a>
+                      <a class="nav-link active" aria-current="page" href="PacienteInicio.html">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="GestionUsuario.html">Gestionar Usuarios</a>
+                      <a class="nav-link" href="Citas.php">Citas</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="GestionDisponibilidad.html">Gestionar Disponibilidad</a>
+                      <a class="nav-link" href="GestionCitasUsuario.php">Gestionar Citas Usuario</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="GestionRoles.html">Gestionar roles</a>
+                      <a class="nav-link" href="Calendario.html">Calendario</a>
                     </li>
-                </ul>
+                  </ul>
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -64,12 +65,7 @@
     <div class="container mt-5">
         <h2>Gestionar Citas</h2>
         <form id="citaSearch">
-            <div class="mb-3">
-                <label for="id" class="form-label">Buscar Médico</label>
-                <input type="text" class="form-control" id="id" placeholder="Ingrese el id del paciente">
-            </div>
-            <button type="button" class="btn btn-primary" id="searchButton">Buscar Cita</button>
-            <button type="button" class="btn btn-primary" id="createButton">Crear Nueva Cita</button>
+            <button type="button" class="btn btn-primary" id="searchButton">Ver todas las citas de paciente</button>
         </form>
         <div id="citasList" class="mt-4"></div>
     </div>
@@ -88,17 +84,13 @@
                     <h5 class="text-uppercase">Enlaces</h5>
                     <ul class="list-unstyled mb-0">
                         <li>
-                            <a href="AdminInicio.html" class="text-dark">Home</a>
-                        </li>
-                        <li>
-                            <a href="GestionUsuario.html" class="text-dark">Gestionar Usuarios</a>
-                        </li>
-                        <li>
-                            <a href="GestionCitas.html" class="text-dark">Gestionar Citas</a>
-                        </li>
-                        <li>
-                            <a href="GestionDisponibilidad.html" class="text-dark">Gestionar Disponibilidad</a>
-                        </li>
+                            <a href="PacienteInicio.html" class="text-dark">Home</a>
+                          </li>
+                          <li>
+                            <a href="Citas.php" class="text-dark">Citas</a>
+                          </li>
+                          <li>
+                            <a href="Calendario.html" class="text-dark">Calendario</a>
                     </ul>
                 </div>
             </div>
@@ -110,7 +102,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script>
         document.getElementById('searchButton').addEventListener('click', function(event) {
-            const id = document.getElementById('id').value;
+            const id = <?php echo $_SESSION['user_id']; ?>;
             try {
                 fetch('getCitas.php?id=' + encodeURIComponent(id))
                     .then(response => response.json())
@@ -182,10 +174,13 @@
             }
         });
 
-        document.getElementById('createButton').addEventListener('click', function () {
-            const patientId = document.getElementById('id').value;
-            window.location.href = 'Citas.php?id=' + encodeURIComponent(patientId);
-        });
+        const createButton = document.getElementById('createButton');
+        if (createButton) {
+            createButton.addEventListener('click', function () {
+                const id = document.getElementById('id').value;
+                window.location.href = 'crearCita.html?id=' + encodeURIComponent(id);
+            });
+        }
 
         function getQueryParams() {
             const params = {};
@@ -203,10 +198,6 @@
         if (params['mensaje']) {
             alert(params['mensaje']);
         }
-
-
-
-
     </script>
 </body>
 </html>
