@@ -8,15 +8,19 @@ class DataBase
     private $password = '';
     private $database = 'gestiondecitas';
 
+    // Constructor privado para prevenir múltiples instancias
     private function __construct()
     {
+        // Crear una nueva conexión a la base de datos
         $this->connection = new mysqli($this->host, $this->username, $this->password, $this->database);
 
+        // Verificar si hay errores en la conexión
         if ($this->connection->connect_error) {
             die("Connection failed: " . $this->connection->connect_error);
         }
     }
 
+    // Obtener la instancia singleton
     public static function getInstance()
     {
         if (self::$instance == null) {
@@ -26,6 +30,7 @@ class DataBase
         return self::$instance;
     }
 
+    // Obtener la conexión a la base de datos
     public function getConnection()
     {
         return $this->connection;
