@@ -44,7 +44,7 @@ session_start();
             <a class="nav-link" href="Citas.php">Citas</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="GestionCitasUsuario.php">Gestionar Citas Usuario</a>
+            <a class="nav-link" href="GestionCitasUsuario.php">Gestionar Citas</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="Calendario.html">Calendario</a>
@@ -117,7 +117,7 @@ session_start();
               <a href="Citas.html" class="text-dark">Citas</a>
             </li>
             <li class="nav-item">
-            <a class="nav-link" href="GestionCitasUsuario.php">Gestionar Citas Usuario</a>
+            <a class="nav-link" href="GestionCitasUsuario.php">Gestionar Citas</a>
           </li>
             <li>
               <a href="Calendario.html" class="text-dark">Calendario</a>

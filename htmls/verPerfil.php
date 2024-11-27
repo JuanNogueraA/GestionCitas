@@ -47,7 +47,7 @@
                         } elseif ($_SESSION['user_rol'] == 'paciente') {
                             echo '<li class="nav-item"><a class="nav-link active" aria-current="page" href="PacienteInicio.html">Home</a></li>';
                             echo '<li class="nav-item"><a class="nav-link" href="Citas.php">Citas</a></li>';
-                            echo '<li class="nav-item"><a class="nav-link" href="GestionCitasUsuario.php">Gestionar Citas Usuario</a></li>';
+                            echo '<li class="nav-item"><a class="nav-link" href="GestionCitasUsuario.php">Gestionar Citas</a></li>';
                             echo '<li class="nav-item"><a class="nav-link" href="Calendario.html">Calendario</a></li>';
                         }
                     }
