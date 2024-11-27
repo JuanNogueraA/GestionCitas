@@ -41,7 +41,7 @@
                 } else if ($_SESSION['user_rol'] == 'medico') {
                     echo '<li class="nav-item"><a class="nav-link active" aria-current="page" href="Medico.html">Home</a></li>';
                     echo '<li class="nav-item"><a class="nav-link" href="GestionCitasUsuario.php">Visualizar Citas</a></li>';
-                    echo '<li class="nav-item"><a class="nav-link" href="GestionUsuario.html">Gestionar Pacientes</a></li>';
+                    echo '<li class="nav-item"><a class="nav-link" href="GestionUsuario.php">Gestionar Pacientes</a></li>';
                     echo '<li class="nav-item"><a class="nav-link" href="Agenda.html">Agenda</a></li>';
                 } 
                         ?>

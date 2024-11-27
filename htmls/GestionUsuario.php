@@ -34,18 +34,19 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="Administrador.php">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="GestionCitas.html">Gestionar Citas</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="GestionDisponibilidad.html">Gestionar Disponibilidad</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="GestionRoles.html">Gestionar Roles</a>
-                    </li>
+                    <?php
+                    if ($_SESSION['user_rol'] == 'administrador') {
+                        echo '<li class="nav-item"><a class="nav-link active" aria-current="page" href="Administrador.php">Home</a></li>';
+                        echo '<li class="nav-item"><a class="nav-link" href="GestionUsuario.php">Gestionar Usuarios</a></li>';
+                        echo '<li class="nav-item"><a class="nav-link" href="GestionDisponibilidad.html">Gestionar Disponibilidad</a></li>';
+                        echo '<li class="nav-item"><a class="nav-link" href="GestionRoles.html">Gestionar roles</a></li>';
+                    } else if ($_SESSION['user_rol'] == 'medico') {
+                        echo '<li class="nav-item"><a class="nav-link active" aria-current="page" href="Medico.html">Home</a></li>';
+                        echo '<li class="nav-item"><a class="nav-link" href="GestionCitasUsuario.php">Visualizar Citas</a></li>';
+                        echo '<li class="nav-item"><a class="nav-link" href="GestionUsuario.php">Gestionar Pacientes</a></li>';
+                        echo '<li class="nav-item"><a class="nav-link" href="Agenda.html">Agenda</a></li>';
+                    } 
+                    ?>
                 </ul>
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item dropdown">
@@ -156,6 +157,9 @@
                         </li>
                         <li>
                             <a href="GestionRoles.html">Gestionar Roles</a>
+                        </li>
+                        <li>
+                            <a href="GestionUsuario.php" class="text-dark">Gestionar Usuarios</a>
                         </li>
                     </ul>
                 </div>

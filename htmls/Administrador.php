@@ -93,7 +93,7 @@ if (empty($avatar_path)) {
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="GestionUsuario.html">
+                        <a class="nav-link" href="GestionUsuario.php">
                             <i class="fas fa-users me-2"></i>Gestionar Usuarios
                         </a>
                     </li>
@@ -183,7 +183,7 @@ if (empty($avatar_path)) {
                             </a>
                         </li>
                         <li class="mb-2">
-                            <a href="GestionUsuario.html" class="text-dark">
+                            <a href="GestionUsuario.php" class="text-dark">
                                 <i class="fas fa-users me-2"></i>Usuarios
                             </a>
                         </li>
