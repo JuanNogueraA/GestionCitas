@@ -1,15 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Meta datos requeridos-->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <!-- Hojas de estilo -->
     <link rel="stylesheet" href="HojasEstilo/gen.css">
     <link rel="stylesheet" href="HojasEstilo/Administrador.css">
+    <!-- FullCalendar -->
     <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.css' rel='stylesheet' />
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.js'></script>
+    <!-- Título de la página -->
     <title>Calendario</title>
-    <style>
+    <style> /* Estilos personalizados para la página */
       .avatar {
         display: flex;
         justify-content: center;
@@ -30,7 +34,7 @@
       }
     </style>
 </head>
-<body>
+<body> <!-- Barra de navegación y contenido de la página -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
           <a class="navbar-brand" href="#">Calendario</a>
@@ -38,6 +42,7 @@
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarNav">
+            <!-- Opciones de la barra de navegación -->
             <ul class="navbar-nav">
               <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="PacienteInicio.html">Home</a>
@@ -59,6 +64,7 @@
                     <img src="https://static.vecteezy.com/system/resources/previews/005/005/840/non_2x/user-icon-in-trendy-flat-style-isolated-on-grey-background-user-symbol-for-your-web-site-design-logo-app-ui-illustration-eps10-free-vector.jpg" alt="User Avatar">
                   </div>
                 </a>
+                <!-- Menú desplegable con opciones de perfil y cerrar sesión -->
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                   <li><a class="dropdown-item" href="verPerfil.php">Ver Perfil</a></li>
                   <li><a class="dropdown-item" href="#" id="logout-link">Cerrar Sesión</a></li>
@@ -79,6 +85,7 @@
               <h5 class="text-uppercase">Citas</h5>
               <p>Aquí puedes gestionar todas tus citas de manera fácil y rápida.</p>
             </div>
+            <!-- Enlaces de la página -->
             <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
               <h5 class="text-uppercase">Enlaces</h5>
               <ul class="list-unstyled mb-0">
@@ -96,8 +103,10 @@
           © 2023 Citas. Todos los derechos reservados.
         </div>
       </footer>
+      <!-- Scripts de Bootstrap y FullCalendar -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script>
+      // Cerrar sesión
       document.getElementById('logout-link').addEventListener('click', function(event) {
         event.preventDefault();
         if (confirm('¿Desea salir de la sesión?')) {
@@ -108,19 +117,19 @@
           });
         }
       });
-
+      // Calendario
       document.addEventListener('DOMContentLoaded', function() {
         var calendarEl = document.getElementById('calendar');
         var tooltip = document.getElementById('tooltip');
         var calendar = new FullCalendar.Calendar(calendarEl, {
           initialView: 'dayGridMonth',
-          events: 'fetchEvents.php', // URL to fetch events from the server
+          events: 'fetchEvents.php', // URL que devuelve los eventos
           headerToolbar: {
             left: 'prev,next today',
             center: 'title',
             right: 'dayGridMonth,timeGridWeek,timeGridDay'
           },
-          eventMouseEnter: function(info) {
+          eventMouseEnter: function(info) { // Mostrar información de la cita al pasar el ratón
             var event = info.event;
             var content = `
               <strong>${event.title}</strong><br>
@@ -132,10 +141,10 @@
             tooltip.style.left = info.jsEvent.pageX + 'px';
             tooltip.style.top = info.jsEvent.pageY + 'px';
           },
-          eventMouseLeave: function(info) {
+          eventMouseLeave: function(info) { // Ocultar información de la cita al salir el ratón
             tooltip.style.display = 'none';
           },
-          dateClick: function(info) {
+          dateClick: function(info) { // Redirigir a la página de eventos del día al hacer clic en una fecha
             window.location.href = 'eventosDia.php?date=' + info.dateStr;
           }
         });

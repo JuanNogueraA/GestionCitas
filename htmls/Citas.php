@@ -5,6 +5,7 @@ session_start();
 <html lang="en">
 
 <head>
+  <!-- Metadatos y enlaces a hojas de estilo -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -12,7 +13,7 @@ session_start();
   <link rel="stylesheet" href="HojasEstilo/gen.css">
   <link rel="stylesheet" href="HojasEstilo/Administrador.css">
   <title>Citas</title>
-  <style>
+  <style> /* Estilos para el avatar */
     .avatar {
       display: flex;
       justify-content: center;
@@ -27,7 +28,7 @@ session_start();
   </style>
 </head>
 
-<body>
+<body> <!-- Barra de navegación -->
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">Citas</a>
@@ -70,26 +71,32 @@ session_start();
     </div>
   </nav>
   <br>
+  <!-- Contenido de la página -->
   <div class="container">
+    <!-- Formulario para asignar citas -->
     <h2>Asignar Cita</h2>
     <form id="appointmentForm">
       <div class="mb-3">
         <label for="optionSelect" class="form-label">Seleccionar Método de búsqueda</label>
         <select class="form-select" id="optionSelect" required>
+          <!-- Opciones para seleccionar el método de búsqueda -->
           <option value="">Seleccionar...</option>
           <option value="medico">Por médico</option>
           <option value="especialidad">Por especialidad</option>
         </select>
+        <!-- Campo para seleccionar el médico o especialidad -->
         <div id="optionfield" class="form-label" style="display: none; margin-top: 30px;">
           <select class="form-control" id="optionvalue" name="optionvalue">
             <option value="">Seleccionar...</option>
           </select>
         </div>
       </div>
+      <!-- Campos para seleccionar la fecha y hora -->
       <div class="mb-3">
         <label for="dateSelect" class="form-label">Seleccionar Fecha</label>
         <input type="date" class="form-control" id="dateSelect" required>
       </div>
+      <!-- Campo para seleccionar la hora -->
       <div class="mb-3">
         <label for="timeSelect" class="form-label">Seleccionar Hora</label>
         <input type="time" class="form-control" id="timeSelect" step="3600" required min="07:00" max="18:00">
@@ -130,12 +137,13 @@ session_start();
       © 2024 Citas. Todos los derechos reservados.
     </div>
   </footer>
-
+    <!-- Scripts de Bootstrap y SweetAlert -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
     crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script>
+    // Manejar el evento de carga del documento
     document.addEventListener('DOMContentLoaded', function (event) {
       document.getElementById('timeSelect').addEventListener('change', function (e) {
         let time = e.target.value;
@@ -145,7 +153,7 @@ session_start();
           e.target.value = hour + ':00';
         }
       });
-
+      // Manejar el evento de cierre de sesión
       document.getElementById('logout-link').addEventListener('click', function (event) {
         event.preventDefault();
         if (confirm('¿Desea salir de la sesión?')) {
@@ -162,32 +170,32 @@ session_start();
         const optionSelect = document.getElementById('optionSelect').value;
         const optionField = document.getElementById('optionfield');
         const optionValue = document.getElementById('optionvalue');
-        optionValue.innerHTML = ''; // Clear previous options
+        optionValue.innerHTML = ''; // Limpiar opciones
         if (optionSelect) {
           if (optionSelect === 'medico') {
             optionField.style.display = 'block';
-            fetch('getMedicos.php')  // Updated path
+            fetch('getMedicos.php')  
               .then(response => {
                 if (!response.ok) {
                   return response.json().then(err => {
                     throw new Error(err.error || 'Error del servidor');
                   });
                 }
-                return response.json();
+                return response.json();  // Parsear respuesta a JSON
               })
               .then(data => {
-                if (!Array.isArray(data)) {
+                if (!Array.isArray(data)) { // Verificar si la respuesta es un array
                   throw new Error('Formato de datos inválido');
                 }
-                const optionValue = document.getElementById('optionvalue');
+                const optionValue = document.getElementById('optionvalue'); // Obtener el campo de selección
                 optionValue.innerHTML = '<option value="">Seleccionar...</option>';
-                data.forEach(medico => {
+                data.forEach(medico => { // Iterar sobre los médicos
                   const option = document.createElement('option');
                   option.value = medico.id;
                   option.textContent = medico.nombre;
-                  optionValue.appendChild(option);
+                  optionValue.appendChild(option); // Agregar opción al campo de selección
                 });
-              })
+              }) // Capturar errores
               .catch(error => {
                 console.error('Error detallado:', error);
                 alert('Error al cargar los médicos: ' + error.message);
@@ -206,10 +214,10 @@ session_start();
               .then(data => {
                 if (!Array.isArray(data)) {
                   throw new Error('Formato de datos inválido');
-                }
+                } // Actualizar el campo de selección con las especialidades
                 const optionValue = document.getElementById('optionvalue');
                 optionValue.innerHTML = '<option value="">Seleccionar...</option>';
-                data.forEach(especialidad => {
+                data.forEach(especialidad => { // Iterar sobre las especialidades
                   const option = document.createElement('option');
                   option.value = especialidad.especialidad;
                   option.textContent = especialidad.especialidad;
@@ -221,7 +229,7 @@ session_start();
                 alert('Error al cargar las especialidades: ' + error.message);
               });
           }
-        } else {
+        } else { // Ocultar el campo de selección si no se ha seleccionado una opción
           optionField.style.display = 'none';
         }
       });
@@ -237,7 +245,7 @@ session_start();
           valorOpcion: valorOpcion,
           fecha: date,
           hora: time
-        });
+        }); // Enviar solicitud para obtener los médicos disponibles
         fetch('getAvailableDoctors.php', {
           method: 'POST',
           headers: {
@@ -246,6 +254,7 @@ session_start();
           body: body
         }).then(response => response.json())
           .then(data => {
+            // Mostrar los médicos disponibles
             const availableDoctors = document.getElementById('availableDoctors');
             availableDoctors.innerHTML = '';
             if (data.length > 0) {
@@ -281,7 +290,7 @@ session_start();
                     doctorId: doctorId,
                     fecha: date,
                     hora: time
-                  });
+                  }); // Enviar solicitud para asignar la cita
                   fetch('assignAppointment.php', {
                     method: 'POST',
                     headers: {
@@ -291,7 +300,7 @@ session_start();
                   }).then(response => response.json())
                     .then(data => {
                       if (data.status === 'success') {
-                        
+                        // Mostrar mensaje de éxito y recargar la página
                         Swal.fire({
                           icon: 'success',
                           title: 'Cita Asignada',
@@ -304,7 +313,7 @@ session_start();
                                         });
                       } else {
                         alert(data.message);
-                      }
+                      } // Capturar errores
                     });
                 });
               });

@@ -13,12 +13,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         $conn->begin_transaction();
 
-        // Insert appointment
+        // Insertar cita
         $stmt = $conn->prepare("INSERT INTO citas (id_paciente, id_medico, fecha, hora) VALUES (?, ?, ?, ?)");
         $stmt->bind_param("iiss", $idPaciente, $idMedico, $fecha, $hora);
         $stmt->execute();
 
-        // Get patient and doctor information for email
+        // Obtener información del paciente y médico
         $stmt = $conn->prepare("SELECT p.nombres as patient_name, p.correo as patient_email, 
                                      m.nombres as doctor_name 
                               FROM usuario p 
@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $result = $stmt->get_result();
         $data = $result->fetch_assoc();
 
-        // Send email notification
+        // Enviar correo electrónico
         $emailSender = new EmailSender('re_VHssSs7B_ZxtvmeCHHUUyMgEGQbzV5vgD');
         $emailSent = $emailSender->sendAppointmentEmail(
             $data['patient_email'],

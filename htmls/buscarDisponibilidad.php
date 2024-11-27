@@ -34,12 +34,13 @@ try {
             $stmtCitas->bind_param("sss", $nombremedico, $fecha, $hora);
             $stmtCitas->execute();
             $resultCitas = $stmtCitas->get_result();
-
+            // Verificar si el médico está disponible en la fecha y hora especificadas
             if ($resultCitas->num_rows > 0) {
                 echo json_encode(['success' => false, 'message' => 'El médico no está disponible en la fecha y hora especificadas']);
             } else {
                 echo json_encode(['success' => true, 'message' => 'El médico está disponible']);
             }
+            // Cerrar consultas preparadas
 
             $stmtCitas->close();
         } else {
@@ -50,7 +51,7 @@ try {
     } else {
         echo json_encode(['success' => false, 'message' => 'Método de solicitud no válido']);
     }
-
+    // Cerrar conexión
     $conn->close();
 } catch (Exception $e) {
     echo json_encode(['success' => false, 'message' => $e->getMessage()]);
