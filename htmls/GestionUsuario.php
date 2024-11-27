@@ -3,13 +3,25 @@
 <html lang="en">
 
 <head>
+    <?php $titulo = '' ; 
+        if ($_SESSION['user_rol'] == 'medico') {
+            $titulo = 'Gestionar Pacientes';
+        } else {
+            $titulo = 'Gestionar Usuarios';
+        }
+    ?>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="HojasEstilo/gen.css">
     <link rel="stylesheet" href="HojasEstilo/Administrador.css">
-    <title>Gestionar Usuarios</title>
+
+    <title>
+        <?php
+        echo $titulo;
+        ?>
+    </title>
     <style>
         .avatar {
             display: flex;
@@ -26,9 +38,12 @@
 </head>
 
 <body>
+    
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
-            <a class="navbar-brand" id="titulo" href="#">Gestionar Usuarios</a>
+            <a class="navbar-brand" id="titulo" href="#">
+                <?php echo $titulo ?>
+            </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -68,7 +83,10 @@
         </div>
     </nav>
     <div class="container mt-5">
-        <h2>Gestionar Usuarios</h2>
+        <h2>
+        <?php echo $titulo ?>
+
+        </h2>
         <form id="searchUserForm">
             <div class="mb-3">
                 <label for="id" class="form-label">Buscar Usuario</label>
@@ -98,8 +116,8 @@
                             <p><strong>Dirección:</strong> <span id="AddressUser"></span></p>
                             <p><strong>Número:</strong> <span id="userNumber"></span></p>
                             <p><strong>Correo electrónico:</strong> <span id="email"></span></p>
-                            <button id="showUpdateFormBtn" class="btn btn-primary mt-3">Actualizar Usuario</button>
-                            <button id="uploadHistoryBtn" class="btn btn-primary mt-3" style="display: none;">Subir Historial Clínico</button>
+                            <button id="showUpdateFormBtn" class="btn btn-primary mt-3" style="display: none;">Actualizar Usuario</button>
+                            <button id="uploadHistoryBtn" class="btn btn-primary mt-3" style="display: none;">Historial Clínico</button>
                             
                         </div>
                     </div>
@@ -212,6 +230,11 @@
                         document.getElementById('imagenAdmin').style.display = 'none';
                         document.getElementById('updateUserForm').style.display = 'none';
                         document.getElementById('showUpdateFormBtn').style.display = 'block';
+                        <?php
+                        if ($_SESSION['user_rol'] == 'medico') {
+                            ?> document.getElementById('showUpdateFormBtn').style.display = 'none'; <?php
+                        }
+                        ?>
                         if (data.user.role === 'paciente') {
                             document.getElementById('uploadHistoryBtn').style.display = 'block';
                             document.getElementById('imagenPaciente').style.display = 'block';
