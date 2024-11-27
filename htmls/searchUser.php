@@ -1,6 +1,6 @@
 <?php
 require_once 'DataBase.php'; // Adjust the path as necessary
-
+session_start();
 try {
     // Create connection using singleton pattern
     $conn = DataBase::getInstance()->getConnection();
@@ -82,7 +82,11 @@ try {
             $stmt->close();
         } else if (isset($_POST['id'])) {
             $id = $_POST['id'];
-            $sql = "SELECT * FROM usuario WHERE id = ?";
+            if($_SESSION['user_rol']==='medico'){
+                $sql = "SELECT * FROM usuario WHERE id = ? AND rol = 'paciente'";
+            }else{
+                $sql = "SELECT * FROM usuario WHERE id = ?";
+            }
             $stmt = $conn->prepare($sql);
             $stmt->bind_param("i", $id);
             $stmt->execute();
@@ -99,7 +103,11 @@ try {
                     'phone' => $user['telefono'] // Ensure 'telefono' is the correct column name for the phone
                 ]]);
             } else {
-                throw new Exception('Usuario no encontrado');
+                if($_SESSION['user_rol']==='medico'){
+                    throw new Exception('Paciente no encontrado');
+                }else{
+                    throw new Exception('Usuario no encontrado');
+                }
             }
             $stmt->close();
         }
