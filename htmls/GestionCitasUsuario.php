@@ -103,14 +103,19 @@ session_start();
                 <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
                     <h5 class="text-uppercase">Enlaces</h5>
                     <ul class="list-unstyled mb-0">
-                        <li>
-                            <a href="PacienteInicio.html" class="text-dark">Home</a>
-                          </li>
-                          <li>
-                            <a href="Citas.php" class="text-dark">Citas</a>
-                          </li>
-                          <li>
-                            <a href="Calendario.html" class="text-dark">Calendario</a>
+                                <?php 
+                            if ($_SESSION['user_rol'] == 'paciente') {
+                            echo '<li><a class="text-dark" href="PacienteInicio.html">Home</a></li>';
+                            echo '<li><a class="text-dark" href="Citas.php">Citas</a></li>';
+                            echo '<li><a class="text-dark" href="GestionCitasUsuario.php">Gestionar Citas</a></li>';
+                            echo '<li><a class="text-dark" href="Calendario.html">Calendario</a></li>';
+                        } else if ($_SESSION['user_rol'] == 'medico') {
+                            echo '<li><a class="text-dark" active" aria-current="page" href="Medico.html">Home</a></li>';
+                            echo '<li><a class="text-dark" href="GestionCitasUsuario.php">Visualizar Citas</a></li>';
+                            echo '<li><a class="text-dark" href="GestionUsuario.php">Gestionar Pacientes</a></li>';
+                            echo '<li><a class="text-dark" href="Agenda.html">Agenda</a></li>';
+                        } 
+                        ?>
                     </ul>
                 </div>
             </div>

@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <!-- Meta datos requeridos-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="HojasEstilo/gen.css">
@@ -9,6 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <title>Portal Médico</title>
     <style>
+        /* Estilos personalizados para la página */
         :root {
             --primary-color: #4e73df;
             --secondary-color: #858796;
@@ -17,7 +19,6 @@
             --warning-color: #f6c23e;
             --danger-color: #e74a3b;
         }
-
         body {
             background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
         }
@@ -98,7 +99,7 @@
             margin-bottom: 1.5rem;
             font-weight: 600;
         }
-
+        
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
@@ -220,6 +221,7 @@
     </style>
 </head>
 <body>
+    <!-- Barra de navegación -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">Portal Médico</a>
@@ -250,6 +252,7 @@
                                 <img src="https://static.vecteezy.com/system/resources/previews/005/005/840/non_2x/user-icon-in-trendy-flat-style-isolated-on-grey-background-user-symbol-for-your-web-site-design-logo-app-ui-illustration-eps10-free-vector.jpg" alt="User Avatar">
                               </div>
                         </a>
+                        <!-- Menú desplegable con opciones de perfil y cerrar sesión -->
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                             <li><a class="dropdown-item" href="verPerfil.php">Ver Perfil</a></li>
                             <li><a class="dropdown-item" href="#" id="logout-link">Cerrar Sesión</a></li>
@@ -259,22 +262,22 @@
             </div>
         </div>
     </nav>
+    <!-- Contenido de la página -->
     <div class="profile-section">
         <img src="https://img.freepik.com/vector-premium/lindo-medico-masculino-ilustracion-dibujado-mano-arte-dibujos-animados-vector-alta-calidad-diseno-tematico-medico_625233-1426.jpg" 
              alt="Doctor Profile" 
              class="profile-image">
     </div>
+    <!-- Información del médico -->
     <div class="container mt-5 fade-in">
         <h2>Disponibilidad y Citas Pendientes</h2>
         <div class="row">
             <div class="col-md-6">
                 <h3>Disponibilidad de Horario</h3>
-                <!-- Add your availability schedule here -->
             </div>
             <div class="col-md-6">
                 <h3>Citas Pendientes</h3>
                 <ul class="list-group">
-                    <!-- Example of a pending appointment -->
                     <li class="list-group-item">
                         <a href="#" class="appointment-link" data-appointment-id="1">Cita con Juan Pérez - 10:00 AM</a>
                     </li>
@@ -323,7 +326,6 @@
             link.addEventListener('click', function(event) {
                 event.preventDefault();
                 const appointmentId = this.getAttribute('data-appointment-id');
-                // Fetch and display appointment details based on appointmentId
                 alert('Detalles de la cita ' + appointmentId);
             });
         });

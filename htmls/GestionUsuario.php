@@ -165,21 +165,19 @@
                 <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
                     <h5 class="text-uppercase">Enlaces</h5>
                     <ul class="list-unstyled mb-0">
-                        <li>
-                            <a href="AdminInicio.html" class="text-dark">Home</a>
-                        </li>
-                        <li>
-                            <a href="GestionCitas.html" class="text-dark">Gestionar Citas</a>
-                        </li>
-                        <li>
-                            <a href="GestionDisponibilidad.html" class="text-dark">Gestionar Disponibilidad</a>
-                        </li>
-                        <li>
-                            <a href="GestionRoles.html">Gestionar Roles</a>
-                        </li>
-                        <li>
-                            <a href="GestionUsuario.php" class="text-dark">Gestionar Usuarios</a>
-                        </li>
+                        <?php
+                    if ($_SESSION['user_rol'] == 'administrador') {
+                        echo '<li><a class="text-dark" href="Administrador.php">Home</a></li>';
+                        echo '<li><a class="text-dark" href="GestionUsuario.php">Gestionar Usuarios</a></li>';
+                        echo '<li><a class="text-dark" href="GestionDisponibilidad.html">Gestionar Disponibilidad</a></li>';
+                        echo '<li><a class="text-dark" href="GestionRoles.html">Gestionar roles</a></li>';
+                    } else if ($_SESSION['user_rol'] == 'medico') {
+                        echo '<li><a class="text-dark" href="Medico.html">Home</a></li>';
+                        echo '<li><a class="text-dark" href="GestionCitasUsuario.php">Visualizar Citas</a></li>';
+                        echo '<li><a class="text-dark" href="GestionUsuario.php">Gestionar Pacientes</a></li>';
+                        echo '<li><a class="text-dark" href="Agenda.html">Agenda</a></li>';
+                    } 
+                    ?>
                     </ul>
                 </div>
             </div>
