@@ -7,32 +7,33 @@ $userRole = $_SESSION['user_rol']; // Obtener el rol del usuario desde la sesió
 $date = $_GET['date']; // Obtener la fecha desde la URL
 
 $conn = DataBase::getInstance()->getConnection();
-
+// Consulta para obtener los eventos del día
 if ($userRole == 'medico') {
     $sql = "SELECT c.id_cita AS id, c.especialidad AS title, c.fecha, c.hora, p.id AS paciente_id, p.nombres AS paciente_nombre, c.num_consultorio AS consultorio
             FROM cita c
             JOIN usuario p ON c.id_paciente = p.id
             WHERE c.id_medico = ? AND c.fecha = ?";
-} else {
+} else { // Si el usuario es un paciente
     $sql = "SELECT c.id_cita AS id, c.especialidad AS title, c.fecha, c.hora, m.id AS medico_id, m.nombres AS medico_nombre, c.num_consultorio AS consultorio
             FROM cita c
             JOIN usuario m ON c.id_medico = m.id
             WHERE c.id_paciente = ? AND c.fecha = ?";
 }
-
+// Preparar la consulta
 $stmt = $conn->prepare($sql);
 if (!$stmt) {
     die("Error en la preparación de la consulta: " . $conn->error);
 }
 $stmt->bind_param("is", $userId, $date);
 $stmt->execute();
-$result = $stmt->get_result();
-
+$result = $stmt->get_result(); //   Ejecutar la consulta
+// Obtener los eventos del día
 $events = [];
+// Recorrer los resultados y almacenarlos en un array
 while ($row = $result->fetch_assoc()) {
     $events[] = $row;
 }
-
+// Cerrar la consulta y la conexión
 $stmt->close();
 $conn->close();
 ?>
@@ -60,6 +61,7 @@ $conn->close();
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                 <?php
+                // Iniciar sesión y verificar el rol del usuario
                 if (isset($_SESSION['user_rol'])) {
                         if ($_SESSION['user_rol'] == 'medico') {
                             echo '<li class="nav-item"><a class="nav-link active" aria-current="page" href="Medico.html">Home</a></li>';
@@ -82,6 +84,7 @@ $conn->close();
                                     alt="User Avatar">
                             </div>
                         </a>
+                        <!-- Menú desplegable para el logout de usuario -->
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                             <li><a class="dropdown-item" href="verPerfil.php">Ver Perfil</a></li>
                             <li><a class="dropdown-item" href="#" id="logout-link">Cerrar Sesión</a></li>
@@ -101,9 +104,11 @@ $conn->close();
                         Fecha: <?php echo $event['fecha']; ?><br>
                         Hora: <?php echo $event['hora']; ?><br>
                         <?php if ($userRole == 'medico'): ?>
+                            <!-- Mostrar información del paciente -->
                             ID del Paciente: <?php echo $event['paciente_id']; ?><br>
                             Nombre del Paciente: <?php echo $event['paciente_nombre']; ?><br>
                         <?php else: ?>
+                            <!-- Mostrar información del médico -->
                             ID del Médico: <?php echo $event['medico_id']; ?><br>
                             Nombre del Médico: <?php echo $event['medico_nombre']; ?><br>
                         <?php endif; ?>
@@ -111,7 +116,7 @@ $conn->close();
                     </li>
                 <?php endforeach; ?>
             </ul>
-        <?php else: ?>
+        <?php else: ?> <!-- No hay eventos para el día -->
             <p>No tiene eventos para este día.</p>
         <?php endif; ?>
     </div>
@@ -141,6 +146,7 @@ $conn->close();
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
     <script>
+        // Manejar el evento de cierre de sesión
         document.getElementById('logout-link').addEventListener('click', function (event) {
             event.preventDefault();
             if (confirm('¿Desea salir de la sesión?')) {
@@ -151,6 +157,7 @@ $conn->close();
                 });
             }
         });
+        // Manejar el evento de regresar
         document.getElementById('regresarButton').addEventListener('click', function () {
             if('<?php echo $userRole; ?>' == 'medico')
                 window.location.href = 'Agenda.html';

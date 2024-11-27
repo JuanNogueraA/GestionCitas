@@ -7,7 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $idCita = $_POST['citaID'];
 
-    // Get patient email from database
+    // obtener email de paciente de la cita
     $stmt = $conn->prepare("SELECT p.correo, CONCAT(p.nombres, ' ', p.apellidos) AS nombrePaciente, 
     CONCAT(m.nombres, ' ', m.apellidos) AS nombreMedico, c.fecha, c.hora 
     FROM usuario p INNER JOIN cita c ON p.id = c.id_paciente 

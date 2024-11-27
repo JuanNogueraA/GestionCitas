@@ -1,18 +1,20 @@
 <?php
 session_start();
-require_once 'DataBase.php'; // Include the database connection
+require_once 'DataBase.php'; // incluir el archivo de conexión a la base de datos
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nombres = $_POST['nombres'];
     $correo = $_POST['correo'];
     $telefono = $_POST['telefono'];
 
-    // Use the singleton database connection
+    // Crear conexión usando el patrón singleton
     $conn = DataBase::getInstance()->getConnection();
 
-    $user_id = $_SESSION['user_id'];
+    $user_id = $_SESSION['user_id']; // obtener el ID del usuario de la sesión
+    // Actualizar los datos del usuario en la base de datos
     $sql = "UPDATE usuario SET nombres='$nombres', correo='$correo', telefono='$telefono' WHERE id='$user_id'";
     if ($conn->query($sql) === TRUE) {
+        // Actualizar los datos de la sesión
         $_SESSION['user_nombres'] = $nombres;
         $_SESSION['user_correo'] = $correo;
         $_SESSION['user_telefono'] = $telefono;
@@ -27,18 +29,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 ?>
 <!DOCTYPE html>
 <html lang="en">
-<head>
+<head> 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="HojasEstilo/gen.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <title>Editar Perfil</title>
 </head>
-<body>
+<body> 
 <a href="VerPerfil.php" class="btn btn-primary" style="margin: 30px 0 0 30px;">← Volver</a>
+<!-- Mostrar mensaje de éxito si existe -->
     <div class="container" style="margin-top: 40px;">
         <h1>Editar Perfil</h1>
+        <!-- Formulario para editar los datos del usuario -->
         <form method="POST" action="editarPerfil.php">
+            <!-- Mostrar mensaje de éxito si existe -->
             <div class="mb-3">
                 <label for="nombres" class="form-label">Nombres</label>
                 <input type="text" class="form-control" id="nombres" name="nombres" value="<?php echo $_SESSION['user_nombres']; ?>" required>
@@ -55,6 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <label for="telefono" class="form-label">Teléfono</label>
                 <input type="text" class="form-control" id="telefono" name="telefono" value="<?php echo $_SESSION['user_telefono']; ?>" required>
             </div>
+            <!--- Botón para guardar los cambios -->
             <button type="submit" class="btn btn-primary">Guardar Cambios</button>
         </form>
     </div>

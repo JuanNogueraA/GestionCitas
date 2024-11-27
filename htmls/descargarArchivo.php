@@ -23,12 +23,12 @@ try {
                         $files[] = $row;
                     }
                     echo json_encode(['status' => 'success', 'files' => $files]);
-                } else {
+                } else { // Si no se encuentran archivos para el ID proporcionado
                     echo json_encode(['status' => 'error', 'message' => 'No se encontraron archivos para este ID']);
                 }
 
                 $stmt->close();
-            } else {
+            } else { // Si no se proporciona el ID del archivo
                 echo json_encode(['status' => 'error', 'message' => 'Datos incompletos']);
             }
         }
@@ -54,15 +54,15 @@ try {
             } else {
                 echo 'Archivo no encontrado';
             }
-
+            // Cerrar la consulta preparada
             $stmt->close();
         } else {
             echo 'ID de archivo no proporcionado';
         }
     }
 
-    $conn->close();
-} catch (Exception $e) {
+    $conn->close(); // Cerrar conexión
+} catch (Exception $e) { // Capturar excepciones
     echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
 }
 ?>
