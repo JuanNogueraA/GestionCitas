@@ -19,11 +19,10 @@
         border-radius: 50%;
     }</style>
     <title>Gestionar Citas</title>
-    <style>
-        /* Add custom styles here */
-    </style>
+    <!-- Enlace a la hoja de estilos -->
 </head>
 <body>
+    <!-- Barra de navegación -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">Visualizar Citas</a>
@@ -33,6 +32,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <?php
+                    // Iniciar sesión y verificar el rol del usuario
                 if ($_SESSION['user_rol'] == 'paciente') {
                     echo '<li class="nav-item"><a class="nav-link active" aria-current="page" href="PacienteInicio.html">Home</a></li>';
                     echo '<li class="nav-item"><a class="nav-link" href="Citas.php">Citas</a></li>';
@@ -46,6 +46,7 @@
                 } 
                         ?>
                   </ul>
+                  <!-- Avatar y menú desplegable -->
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
