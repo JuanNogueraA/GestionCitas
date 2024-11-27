@@ -119,10 +119,15 @@
                                         <p class="card-text">Fecha: ${cita.fecha}</p>
                                         <p class="card-text">Hora: ${cita.hora}</p>
                                         <p class="card-text">Médico: ${cita.medico}</p>
+                                        <?php if ($_SESSION['user_rol'] === 'paciente' || $_SESSION['user_rol'] === 'administrador') {
+                                        ?> 
                                         <button class="btn btn-primary modify-btn" data-cita-id="${cita.id_cita}">Modificar cita</button>
                                         <button class="btn btn-primary cancel-btn" data-cita-id="${cita.id_cita}">Cancelar cita</button>
+                                        <?php
+                                        } ?>
                                     </div>
                                 `;
+                                
                                 citasList.appendChild(citaItem);
                             });
 
