@@ -337,7 +337,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                           title: 'Cita Asignada',
                           text: `Email de recordatorio enviado a: ${correo}`,
                           confirmButtonText: 'Aceptar'
-                        });
+                        }).then((result) => {
+                                            if (result.isConfirmed) {
+                                                location.reload(); // Recargar la página
+                                            }
+                                        });
                         
 
                         fetch('EmailSender.php', {

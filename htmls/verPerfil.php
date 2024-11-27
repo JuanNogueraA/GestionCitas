@@ -84,6 +84,9 @@
                 <h5 class="card-title">Nombre:
                     <?php echo isset($_SESSION['user_nombres']) ? $_SESSION['user_nombres'] : 'N/A'; ?>
                 </h5>
+                <p class="card-text">Apellidos:
+                    <?php echo isset( $_SESSION['user_apellidos']) ?  $_SESSION['user_apellidos'] : 'N/A'; ?>
+                </p>
                 <p class="card-text">Correo electrónico:
                     <?php echo isset($_SESSION['user_correo']) ? $_SESSION['user_correo'] : 'N/A'; ?>
                 </p>

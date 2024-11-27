@@ -26,9 +26,10 @@ try {
             }
             $fecha = $data['fecha'];
             $hora = $data['hora'];
-            $sql = "INSERT INTO cita (id_paciente, id_medico, especialidad, num_consultorio, fecha, hora) VALUES (?, ?, ?, ?, ?, ?)";
+            $estado = 'activa';
+            $sql = "INSERT INTO cita (id_paciente, id_medico, especialidad, num_consultorio, fecha, hora, estado) VALUES (?, ?, ?, ?, ?, ?, ?)";
             $stmt = $conn->prepare($sql);
-            $stmt->bind_param("iissss", $patientId, $doctorId, $especialidad, $consultorio, $fecha, $hora);
+            $stmt->bind_param("iisssss", $patientId, $doctorId, $especialidad, $consultorio, $fecha, $hora, $estado);
             $stmt->execute();
             echo json_encode(['status' => 'success', 'message' => 'Cita asignada correctamente']);
             }else {

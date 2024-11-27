@@ -128,7 +128,7 @@
                                         <p class="card-text">Hora: ${cita.hora}</p>
                                         <p class="card-text">Médico: ${cita.medico}</p>
                                         <button class="btn btn-primary modify-btn" data-cita-id="${cita.id_cita}">Modificar cita</button>
-                                        <button class="btn btn-primary cancel-btn" data-patientcancel-id="${cita.id_paciente}">Cancelar cita</button>
+                                        <button class="btn btn-primary cancel-btn" data-cita-id="${cita.id_cita}">Cancelar cita</button>
                                     </div>
                                 `;
                                 citasList.appendChild(citaItem);
@@ -140,17 +140,26 @@
                                     window.location.href = 'modifyAppointment.php?id_cita=' + encodeURIComponent(citaId);
                                 });
                             });
+
+                            document.querySelectorAll('.cancel-btn').forEach(button => {
+                                button.addEventListener('click', function (event) {
+                                    const citaId = this.getAttribute('data-cita-id');
+                                    const estado = 'cancelada';
+                                    window.location.href = 'modifyAppointment.php?id_cita=' + encodeURIComponent(citaId) + 
+                                    '&estado=' + encodeURIComponent(estado);
+                                });
+                            });
                         } else {
                             citasList.innerHTML = '<p>No se encontraron citas para este paciente.</p>';
                         }
                     })
                     .catch(error => {
                         console.error('Error fetching citas:', error);
-                        alert('Error fetching citas. Please try again later.');
+                        alert('Error al obtener las citas. Por favor, inténtelo de nuevo más tarde.');
                     });
             } catch (error) {
                 console.error('Error:', error);
-                alert('An unexpected error occurred. Please try again later.');
+                alert('Ocurrió un error inesperado. Por favor, inténtelo de nuevo más tarde.');
             }
         });
 
@@ -177,6 +186,25 @@
             const id = document.getElementById('id').value;
             window.location.href = 'crearCita.html?id=' + encodeURIComponent(id);
         });
+
+        function getQueryParams() {
+            const params = {};
+            const queryString = window.location.search.substring(1);
+            const regex = /([^&=]+)=([^&]*)/g;
+            let m;
+            while (m = regex.exec(queryString)) {
+                params[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
+            }
+            return params;
+        }
+
+        // Get the patient ID from the URL
+        const params = getQueryParams();
+        alert(params['mensaje']);
+
+
+
+
     </script>
 </body>
 </html>

@@ -30,16 +30,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="HojasEstilo/gen.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <title>Editar Perfil</title>
 </head>
 <body>
-    <div class="container">
+<a href="VerPerfil.php" class="btn btn-primary" style="margin: 30px 0 0 30px;">← Volver</a>
+    <div class="container" style="margin-top: 40px;">
         <h1>Editar Perfil</h1>
         <form method="POST" action="editarPerfil.php">
             <div class="mb-3">
-                <label for="nombres" class="form-label">Nombre</label>
+                <label for="nombres" class="form-label">Nombres</label>
                 <input type="text" class="form-control" id="nombres" name="nombres" value="<?php echo $_SESSION['user_nombres']; ?>" required>
+            </div>
+            <div class="mb-3">
+                <label for="apellidos" class="form-label">Apellidos</label>
+                <input type="text" class="form-control" id="apellidos" name="apellidos" value="<?php echo $_SESSION['user_apellidos']; ?>" required>
             </div>
             <div class="mb-3">
                 <label for="correo" class="form-label">Correo electrónico</label>

@@ -26,6 +26,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo json_encode(['status' => 'error', 'message' => 'Error al actualizar la cita']);
     }
 
+}else if(isset($_GET['id_cita']) && isset($_GET['estado'])){
+    $id_cita = $_GET['id_cita'];
+    $estado = $_GET['estado'];
+    $query = "UPDATE cita SET estado = ? WHERE id_cita = ?";
+    $stmt = $conexion->prepare($query);
+    $stmt->bind_param('si', $estado, $id_cita);
+    if ($stmt->execute()) {
+        header("Location: GestionCitas.html?mensaje=cancelación exitosa de cita");
+    } else {
+        header("Location: GestionCitas.html?mensaje=error al cancelar cita");
+    }
 } else if (isset($_GET['id_cita'])) {
     $id_cita = $_GET['id_cita'];
     $query = "SELECT * FROM cita WHERE id_cita = ?";
@@ -41,9 +52,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Modificar Cita</title>
+    <link rel="stylesheet" href="HojasEstilo/gen.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
 </head>
 <body>
+<a href="GestionCitas.html" class="btn btn-primary" style="margin: 30px 0 0 30px;">← Volver</a>
     <div class="container mt-5">
         <h2>Modificar Cita</h2>
         <button type="button" class="btn btn-primary" style="margin-top: 40px; background-color: skyblue;" id="PosponerCita">Posponer cita</button>

@@ -10,9 +10,9 @@ $userId = $_SESSION['user_id']; // Obtener el ID del usuario desde la sesión
 $userRole = $_SESSION['user_rol']; // Obtener el rol del usuario desde la sesión
 
 if ($userRole == 'medico') {
-    $sql = "SELECT id_cita AS id, especialidad AS title, CONCAT(fecha, 'T', hora) AS start FROM cita WHERE id_medico = ?";
+    $sql = "SELECT id_cita AS id, especialidad AS title, CONCAT(fecha, 'T', hora) AS start FROM cita WHERE id_medico = ? AND estado != 'cancelada'";
 } else {
-    $sql = "SELECT id_cita AS id, especialidad AS title, CONCAT(fecha, 'T', hora) AS start FROM cita WHERE id_paciente = ?";
+    $sql = "SELECT id_cita AS id, especialidad AS title, CONCAT(fecha, 'T', hora) AS start FROM cita WHERE id_paciente = ? AND estado != 'cancelada'";
 }
 
 $stmt = $conn->prepare($sql);
