@@ -21,6 +21,13 @@
     /* Transitions */
     --transition-quick: 0.2s ease;
     --transition-smooth: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    /* Nuevas Variables */
+    --navbar-height: 60px;
+    --navbar-bg-color: rgba(79, 70, 229, 0.9);
+    --navbar-transition: background-color var(--transition-smooth), box-shadow var(--transition-smooth);
+    --dropdown-bg-color: #ffffff;
+    --dropdown-hover-bg: rgba(79, 70, 229, 0.1);
 }
 
 * {
@@ -46,33 +53,68 @@ body {
 
 /* Estilos para la barra de navegación */
 .navbar {
-    background-color: var(--viridian);
-    color: var(--white);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: var(--navbar-bg-color);
+    color: var(--secondary-color);
+    padding: 0.5rem 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: var(--navbar-height);
+    transition: var(--navbar-transition);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar.scrolled {
+    background-color: var(--primary-color);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .navbar a {
-    color: var(--white);
+    color: var(--secondary-color);
+    margin: 0 0.5rem;
     text-decoration: none;
+    transition: color var(--transition-smooth);
+    position: relative;
+}
+
+.navbar a::after {
+    content: '';
+    position: absolute;
+    width: 0%;
+    height: 2px;
+    bottom: -5px;
+    left: 50%;
+    background-color: var(--accent-color);
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+.navbar a:hover::after {
+    width: 100%;
 }
 
 .navbar a:hover {
-    background-color: var(--gunmetal);
-    color: var(--white);
+    color: var(--accent-color);
 }
 
-/* Estilos para el menú desplegable */
-.navbar .dropdown-menu {
-    background-color: var(--viridian);
-    border: none;
+.dropdown-menu {
+    background-color: var(--dropdown-bg-color);
+    border-radius: 0.5rem;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
-.navbar .dropdown-menu a {
-    color: var(--white);
+.dropdown-item {
+    color: var(--text-primary);
+    transition: background-color var(--transition-smooth);
 }
 
-.navbar .dropdown-menu a:hover {
-    background-color: var(--gunmetal);
+.dropdown-item:hover {
+    background-color: var(--dropdown-hover-bg);
+    color: var(--primary-color);
 }
 
 /* Estilos para el pie de página */
@@ -110,17 +152,23 @@ body {
 
 /* Estilos para botones */
 .button {
-    background-color: blue;
-    color: var(--white);
+    background-color: var(--accent-color);
+    color: #333;
+    padding: 15px 30px;
     border: none;
-    padding: 10px 20px;
     cursor: pointer;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
+    font-size: 1.1em;
+    border-radius: 25px;
+    transition: transform var(--transition-smooth), background-color var(--transition-smooth), box-shadow 0.3s ease;
+    animation: fadeInUp 1s ease-out forwards;
+    animation-delay: 0.6s;
+    opacity: 0;
 }
 
 .button:hover {
-    background-color: purple;
+    background-color: #FFC107;
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 /* Estilos para formularios */
@@ -218,5 +266,235 @@ a:hover {
 }
 
 .profile-avatar:hover {
+    transform: scale(1.05);
+}
+
+/* ===== RESPONSIVIDAD ===== */
+@media (max-width: 768px) {
+    .navbar {
+        padding: 0.5rem 1rem;
+    }
+
+    .navbar a {
+        margin: 0 0.3rem;
+        font-size: 0.9em;
+    }
+}
+
+/* ===== BOTONES PRINCIPALES ===== */
+.btn-primary {
+    background-color: var(--primary-color);
+    border: none;
+    transition: background-color var(--transition-smooth), transform var(--transition-smooth);
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* ===== ANIMACIONES GENERALES ===== */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInBanner {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* ===== ELEMENTOS FLOTANTES ===== */
+.floating {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 15px;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    animation: bounce 2s infinite;
+    font-size: 24px;
+}
+
+.floating:hover {
+    transform: scale(1.1);
+    background-color: var(--primary-hover);
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-10px);
+    }
+    60% {
+        transform: translateY(-5px);
+    }
+}
+
+/* ===== RESPONSIVIDAD MEJORADA ===== */
+@media (max-width: 1024px) {
+    .container {
+        width: 90%;
+    }
+
+    .navbar-brand {
+        font-size: 1.5em;
+    }
+
+    .carousel-inner img {
+        height: 300px;
+    }
+}
+
+@media (max-width: 576px) {
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .navbar-nav {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .navbar a {
+        padding: 0.5rem 0;
+    }
+
+    .carousel-inner img {
+        height: 200px;
+    }
+
+    .floating {
+        bottom: 10px;
+        right: 10px;
+        padding: 10px;
+        font-size: 1.2em;
+    }
+}
+
+/* ===== ANIMACIONES ADICIONALES ===== */
+
+/* Efecto de Parpadeo en Imágenes */
+.img-flicker {
+    animation: flicker 1.5s infinite;
+}
+
+@keyframes flicker {
+    0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+        opacity: 1;
+    }
+    20%, 22%, 24%, 55% {
+        opacity: 0;
+    }
+}
+
+/* Efecto de Rotación en Iconos */
+.rotate-icon {
+    display: inline-block;
+    transition: transform 0.5s ease;
+}
+
+.rotate-icon:hover {
+    transform: rotate(360deg);
+}
+
+/* Efecto de Despliegue en Tarjetas */
+.card {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: cardSlideIn 0.8s forwards;
+}
+
+@keyframes cardSlideIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ===== GRADIENTES PARA FONDOS ===== */
+.header-banner {
+    background: linear-gradient(135deg, var(--background-gradient-start), var(--background-gradient-end));
+    padding: 100px 20px;
+    text-align: center;
+    color: white;
+    position: relative;
+    overflow: hidden;
+    animation: fadeInBanner 2s ease-out forwards;
+}
+
+.header-banner::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+}
+
+/* ===== TRANSICIONES SUAVES ===== */
+a {
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+a:hover {
+    color: var(--primary-hover);
+    transform: translateY(-2px);
+}
+
+.card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* ===== ESTILOS DEL CARRUSEL ===== */
+.carousel-image {
+    max-height: 500px; /* Ajusta este valor según tus necesidades */
+    object-fit: cover;
+    /* filter: brightness(75%); */ /* Comenta temporalmente para verificar */
+    transition: filter 0.3s ease, transform 0.5s ease;
+}
+
+.carousel-image:hover {
+    /* filter: brightness(85%); */ /* Comenta temporalmente para verificar */
+    transform: scale(1.05);
+}
+
+/* ===== RESPONSIVIDAD DEL CARRUSEL ===== */
+@media (max-width: 768px) {
+    .carousel-image {
+        max-height: 300px;
+    }
+}
+
+@media (max-width: 576px) {
+    .carousel-image {
+        max-height: 200px;
+    }
+}
+
+/* ===== EFECTO DE ESCALA AL HOVER ===== */
+.carousel-item:hover .carousel-image {
     transform: scale(1.05);
 }
