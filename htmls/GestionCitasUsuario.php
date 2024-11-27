@@ -45,18 +45,6 @@
                     echo '<li class="nav-item"><a class="nav-link" href="Agenda.html">Agenda</a></li>';
                 } 
                         ?>
-                    <li class="nav-item">
-                      <a class="nav-link active" aria-current="page" href="PacienteInicio.html">Home</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="Citas.php">Citas</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="GestionCitasUsuario.php">Gestionar Citas Usuario</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="Calendario.html">Calendario</a>
-                    </li>
                   </ul>
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item dropdown">
