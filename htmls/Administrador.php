@@ -211,32 +211,34 @@ if (empty($avatar_path)) {
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+        // Manejador de eventos para subir un avatar
         const profileAvatar = document.getElementById('profile-avatar');
         const avatarInput = document.getElementById('avatar-input');
 
         profileAvatar.addEventListener('click', () => {
             avatarInput.click();
         });
-
+        // Subir el avatar
         avatarInput.addEventListener('change', () => {
             const file = avatarInput.files[0];
-            if (file) {
+            if (file) { // Verificar si se seleccionó un archivo
                 const formData = new FormData();
+                // Agregar el archivo al formulario
                 formData.append('avatar', file);
-
+                // Enviar el archivo al servidor
                 fetch('upload_avatar.php', {
                     method: 'POST',
                     body: formData
-                })
+                })  // Procesar la respuesta del servidor
                     .then(response => response.json())
-                    .then(data => {
+                    .then(data => { // Mostrar mensaje de éxito o error
                         if (data.status === 'success') {
                             profileAvatar.src = data.avatar_path + '?' + new Date().getTime(); // Evita caché
                             alert('Avatar actualizado correctamente.');
                         } else {
                             alert('Error al subir el avatar: ' + data.message);
                         }
-                    })
+                    }) // Capturar errores de red
                     .catch(error => {
                         console.error('Error:', error);
                         alert('Ocurrió un error al subir el avatar.');

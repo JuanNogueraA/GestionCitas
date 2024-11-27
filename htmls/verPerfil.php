@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+    <!-- Metadatos y enlaces a hojas de estilo -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="HojasEstilo/gen.css">
@@ -10,6 +11,7 @@
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <title>Perfil del Administrador</title>
     <style>
+        /* Estilos para el avatar */
         .avatar {
             display: flex;
             justify-content: center;
@@ -23,6 +25,7 @@
 </head>
 
 <body>
+    <!-- Barra de navegación -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">Gestionar Citas</a>
@@ -33,8 +36,10 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <?php
+                    // Iniciar sesión y verificar el rol del usuario
                     session_start();
                     if (isset($_SESSION['user_rol'])) {
+                        // Mostrar opciones de navegación según el rol del usuario
                         if ($_SESSION['user_rol'] == 'administrador') {
                             echo '<li class="nav-item"><a class="nav-link active" aria-current="page" href="Administrador.php">Home</a></li>';
                             echo '<li class="nav-item"><a class="nav-link" href="GestionUsuario.php">Gestionar Usuarios</a></li>';
@@ -76,6 +81,7 @@
     <div class="container">
         <h1>Perfil del Usuario</h1>
         <?php
+        // Mostrar mensaje de éxito si existe
         if (isset($_SESSION['success_message'])) {
             echo '<div class="alert alert-success" role="alert">' . $_SESSION['success_message'] . '</div>';
             unset($_SESSION['success_message']);
@@ -135,6 +141,7 @@
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
     <script>
+        // Manejar el evento de cierre de sesión
         document.getElementById('logout-link').addEventListener('click', function (event) {
             event.preventDefault();
             if (confirm('¿Desea salir de la sesión?')) {
