@@ -1,25 +1,36 @@
-<?php session_start(); ?>
+<?php 
+// Iniciar la sesión para mantener la información del usuario
+session_start(); 
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Metadatos para configuración de caracteres y diseño responsivo -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Enlace a hojas de estilo de Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    
+    <!-- Hojas de estilo personalizadas -->
     <link rel="stylesheet" href="HojasEstilo/gen.css">
     <link rel="stylesheet" href="HojasEstilo/Administrador.css">
+    
+    <!-- Estilos en línea para el avatar -->
     <style>
+    /* Contenedor del avatar centrado */
     .avatar {
         display: flex;
         justify-content: center;
     }
-    /* Estilos para la imagen dentro de .avatar */
+    /* Estilos para la imagen del avatar */
     .avatar img {
         width: 30px;
         height: 30px;
         border-radius: 50%;
     }</style>
+    
     <title>Gestionar Citas</title>
-    <!-- Enlace a la hoja de estilos -->
 </head>
 <body>
     <!-- Barra de navegación -->
@@ -30,29 +41,31 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
+                <!-- Menú de navegación dinámico según el rol del usuario -->
                 <ul class="navbar-nav">
                     <?php
-                    // Iniciar sesión y verificar el rol del usuario
-                if ($_SESSION['user_rol'] == 'paciente') {
-                    echo '<li class="nav-item"><a class="nav-link active" aria-current="page" href="PacienteInicio.html">Home</a></li>';
-                    echo '<li class="nav-item"><a class="nav-link" href="Citas.php">Citas</a></li>';
-                    echo '<li class="nav-item"><a class="nav-link" href="GestionCitasUsuario.php">Gestionar Citas</a></li>';
-                    echo '<li class="nav-item"><a class="nav-link" href="Calendario.html">Calendario</a></li>';
-                } else if ($_SESSION['user_rol'] == 'medico') {
-                    echo '<li class="nav-item"><a class="nav-link active" aria-current="page" href="Medico.html">Home</a></li>';
-                    echo '<li class="nav-item"><a class="nav-link" href="GestionCitasUsuario.php">Visualizar Citas</a></li>';
-                    echo '<li class="nav-item"><a class="nav-link" href="GestionUsuario.php">Gestionar Pacientes</a></li>';
-                    echo '<li class="nav-item"><a class="nav-link" href="Agenda.html">Agenda</a></li>';
-                } 
-                        ?>
-                  </ul>
-                  <!-- Avatar y menú desplegable -->
+                    // Generar menú de navegación basado en el rol del usuario
+                    if ($_SESSION['user_rol'] == 'paciente') {
+                        echo '<li class="nav-item"><a class="nav-link active" aria-current="page" href="PacienteInicio.html">Home</a></li>';
+                        echo '<li class="nav-item"><a class="nav-link" href="Citas.php">Citas</a></li>';
+                        echo '<li class="nav-item"><a class="nav-link" href="GestionCitasUsuario.php">Gestionar Citas</a></li>';
+                        echo '<li class="nav-item"><a class="nav-link" href="Calendario.html">Calendario</a></li>';
+                    } else if ($_SESSION['user_rol'] == 'medico') {
+                        echo '<li class="nav-item"><a class="nav-link active" aria-current="page" href="Medico.html">Home</a></li>';
+                        echo '<li class="nav-item"><a class="nav-link" href="GestionCitasUsuario.php">Visualizar Citas</a></li>';
+                        echo '<li class="nav-item"><a class="nav-link" href="GestionUsuario.php">Gestionar Pacientes</a></li>';
+                        echo '<li class="nav-item"><a class="nav-link" href="Agenda.html">Agenda</a></li>';
+                    } 
+                    ?>
+                </ul>
+                
+                <!-- Menú de avatar y opciones de usuario -->
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <div class="avatar">
-                                <img src="https://static.vecteezy.com/system/resources/previews/005/005/840/non_2x/user-icon-in-trendy-flat-style-isolated-on-grey-background-user-symbol-for-your-web-site-design-logo-app-ui-illustration-eps10-free-vector.jpg" alt="User Avatar">
-                              </div>
+                                <img src="https://static.vecteezy.com/system/resources/previews/005/005/840/non_2x/user-icon-in-trendy-flat-style-isolated-on-grey-background-user-symbol-for-your-web-site-design-logo-app-ui-illustration-eps10-free-vector.jpg" alt="Avatar de Usuario">
+                            </div>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                             <li><a class="dropdown-item" href="verPerfil.php">Ver Perfil</a></li>
@@ -63,16 +76,21 @@
             </div>
         </div>
     </nav>
+    
     <br>
+    
+    <!-- Contenedor principal para gestión de citas -->
     <div class="container mt-5">
         <h2>Gestionar Citas</h2>
+        <!-- Formulario de búsqueda de citas -->
         <form id="citaSearch">
             <button type="button" class="btn btn-primary" id="searchButton">Ver todas las citas</button>
         </form>
+        <!-- Contenedor para mostrar la lista de citas -->
         <div id="citasList" class="mt-4"></div>
     </div>
     
-    
+    <!-- Pie de página -->
     <footer class="footer text-center text-lg-start">
         <div class="container p-4">
             <div class="row">
@@ -101,17 +119,24 @@
             © 2023 Gestionar Citas. Todos los derechos reservados.
         </div>
     </footer>
+
+    <!-- Script de Bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    
     <script>
+        // Evento para buscar citas al hacer clic en el botón
         document.getElementById('searchButton').addEventListener('click', function(event) {
+            // Obtener el ID del usuario de la sesión actual
             const id = <?php echo $_SESSION['user_id']; ?>;
             try {
+                // Realizar una solicitud fetch para obtener las citas
                 fetch('getCitas.php?id=' + encodeURIComponent(id))
                     .then(response => response.json())
                     .then(data => {
                         const citasList = document.getElementById('citasList');
                         citasList.innerHTML = '';
                         if (data.length > 0) {
+                            // Crear tarjetas para cada cita
                             data.forEach(cita => {
                                 const citaItem = document.createElement('div');
                                 citaItem.className = 'card mb-3';
@@ -133,6 +158,7 @@
                                 citasList.appendChild(citaItem);
                             });
 
+                            // Agregar eventos para modificar citas
                             document.querySelectorAll('.modify-btn').forEach(button => {
                                 button.addEventListener('click', function (event) {
                                     const citaId = this.getAttribute('data-cita-id');
@@ -140,6 +166,7 @@
                                 });
                             });
 
+                            // Agregar eventos para cancelar citas
                             document.querySelectorAll('.cancel-btn').forEach(button => {
                                 button.addEventListener('click', function (event) {
                                     const citaId = this.getAttribute('data-cita-id');
@@ -149,11 +176,12 @@
                                 });
                             });
                         } else {
+                            // Mensaje si no hay citas
                             citasList.innerHTML = '<p>No se encontraron citas para este paciente.</p>';
                         }
                     })
                     .catch(error => {
-                        console.error('Error fetching citas:', error);
+                        console.error('Error al obtener las citas:', error);
                         alert('Error al obtener las citas. Por favor, inténtelo de nuevo más tarde.');
                     });
             } catch (error) {
@@ -162,25 +190,29 @@
             }
         });
 
+        // Evento para cerrar sesión
         document.getElementById('logout-link').addEventListener('click', function(event) {
             event.preventDefault();
             if (confirm('¿Desea salir de la sesión?')) {
                 try {
+                    // Solicitud fetch para cerrar sesión
                     fetch('logout.php', {
                         method: 'POST'
                     }).then(() => {
+                        // Redirigir a la página de inicio de sesión
                         window.location.href = 'iniciarsesion.php';
                     }).catch(error => {
-                        console.error('Error logging out:', error);
-                        alert('Error logging out. Please try again later.');
+                        console.error('Error al cerrar sesión:', error);
+                        alert('Error al cerrar sesión. Por favor, inténtelo de nuevo más tarde.');
                     });
                 } catch (error) {
                     console.error('Error:', error);
-                    alert('An unexpected error occurred. Please try again later.');
+                    alert('Ocurrió un error inesperado. Por favor, inténtelo de nuevo más tarde.');
                 }
             }
         });
 
+        // Evento para crear cita (si existe el botón)
         const createButton = document.getElementById('createButton');
         if (createButton) {
             createButton.addEventListener('click', function () {
@@ -188,7 +220,8 @@
                 window.location.href = 'crearCita.html?id=' + encodeURIComponent(id);
             });
         }
-
+        
+        // Función para obtener parámetros de la URL
         function getQueryParams() {
             const params = {};
             const queryString = window.location.search.substring(1);
@@ -200,7 +233,7 @@
             return params;
         }
 
-        // Get the patient ID from the URL
+        // Obtener parámetros de la URL y mostrar mensajes si existen
         const params = getQueryParams();
         if (params['mensaje']) {
             alert(params['mensaje']);
