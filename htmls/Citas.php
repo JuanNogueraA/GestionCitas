@@ -285,6 +285,8 @@ session_start();
                                   <div class="card-body">
                                       <h5 class="card-title">${doctor.nombres}</h5>
                                       <p class="card-text">Especialidad: ${doctor.especialidad}</p>
+                                      <p class="card-text">Fecha: ${doctor.fecha}</p>
+                                      <p class="card-text">Hora: ${time}</p>
                                       <button class="btn btn-primary assign-btn" data-doctor-id="${doctor.id}">Asignar Cita</button>
                                   </div>
                               </div>
