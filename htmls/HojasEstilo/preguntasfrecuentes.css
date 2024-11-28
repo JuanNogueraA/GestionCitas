@@ -1,32 +1,66 @@
-/* Estilos para Preguntas Frecuentes */
+/* ===== VARIABLES RAÍZ ===== */
+:root {
+    --primary-color: #3b82f6;
+    --secondary-color: #10b981;
+    --accent-color: #6366f1;
+    --background-color: #f0f9ff;
+    --text-color: #1f2937;
+    --white: #ffffff;
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
 
+/* Estilos Generales */
 body {
-    font-family: 'League Spartan', sans-serif;
-    background-color: #f0f4f8;
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
     margin: 0;
     padding: 0;
 }
 
+/* Encabezado */
 h1 {
     font-size: 2.5rem;
     font-weight: 700;
-    color: #4f46e5;
+    color: var(--primary-color);
+    text-align: center;
+    margin-bottom: 1.5rem;
+    animation: fadeInDown 0.8s ease-out forwards;
+    opacity: 0;
+}
+
+/* Acordeón */
+.accordion-item {
+    margin-bottom: 15px;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    transition: var(--transition-smooth);
+}
+
+.accordion-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 25px rgba(0,0,0,0.1);
 }
 
 .accordion-button {
-    background-color: #fff;
-    color: #4f46e5;
+    background-color: var(--white);
+    color: var(--primary-color);
     font-weight: 600;
-    transition: all 0.3s ease;
+    transition: var(--transition-smooth);
+    border-radius: 15px;
+    padding: 15px;
 }
 
 .accordion-button:not(.collapsed) {
-    background-color: #4f46e5;
-    color: #fff;
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    color: var(--white);
 }
 
 .accordion-button::after {
     filter: invert(34%) sepia(97%) saturate(5431%) hue-rotate(231deg) brightness(94%) contrast(104%);
+    transition: var(--transition-smooth);
 }
 
 .accordion-button:not(.collapsed)::after {
@@ -34,22 +68,87 @@ h1 {
 }
 
 .accordion-body {
-    background-color: #fff;
-    color: #333;
+    background-color: var(--white);
+    color: var(--text-color);
+    padding: 20px;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
 }
 
+/* Contenedor Principal */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+    animation: fadeIn 1s ease-out forwards;
+    opacity: 0;
+}
+
+/* Footer */
 .footer {
-    background-color: #4f46e5;
-    color: #fff;
-    padding: 1rem 0;
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    color: var(--white);
+    padding: 30px 20px;
+    text-align: center;
+    animation: fadeInUp 1s ease-out forwards;
+    opacity: 0;
 }
 
 .footer a {
-    color: #fff;
+    color: var(--white);
     text-decoration: none;
-    margin: 0 0.5rem;
+    margin: 0 10px;
+    transition: color var(--transition-smooth);
 }
 
 .footer a:hover {
+    color: var(--secondary-color);
     text-decoration: underline;
+}
+
+/* Animaciones */
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2rem;
+    }
+
+    .container {
+        padding: 1rem;
+    }
+
+    .accordion-button {
+        font-size: 0.9rem;
+    }
 }
