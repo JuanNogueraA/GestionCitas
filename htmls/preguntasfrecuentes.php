@@ -3,16 +3,89 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Preguntas Frecuentes</title>
-    <link rel="stylesheet" href="HojasEstilo/preguntasfrecuentes.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preguntas Frecuentes - Gestión Citas</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Estilos Personalizados -->
+    <link rel="stylesheet" href="HojasEstilo/preguntasfrecuentes.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos adicionales para la barra de navegación */
+        .navbar {
+            background: linear-gradient(135deg, #3b82f6, #6366f1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            color: white !important;
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .navbar-nav .nav-link {
+            color: white !important;
+            position: relative;
+            font-weight: 500;
+            border-radius: 20px;
+            padding: 8px 15px;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-nav .nav-link:hover {
+            background-color: rgba(255,255,255,0.2);
+            transform: translateY(-3px);
+        }
+
+        /* Estilo para el banner de preguntas frecuentes */
+        .faq-banner {
+            background: linear-gradient(135deg, rgba(59,130,246,0.8), rgba(99,102,241,0.8)), 
+                        url('https://img.freepik.com/vector-premium/fondo-preguntas-frecuentes-diseno-plano_23-2148763178.jpg');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .faq-banner h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .faq-banner p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 1rem auto;
+            color: rgba(255,255,255,0.9);
+        }
+
+        /* Estilos para los iconos de preguntas */
+        .accordion-button {
+            display: flex;
+            align-items: center;
+            color: #333 !important;
+            font-weight: 600;
+        }
+        .accordion-button i {
+            margin-right: 15px;
+            color: var(--primary-color);
+            font-size: 1.5rem;
+        }
+        .accordion-button:not(.collapsed) i {
+            color: white;
+        }
+    </style>
 </head>
 
 <body>
-
-    <!-- Encabezado -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <!-- Barra de navegación -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="index.php">Gestión Citas</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -35,32 +108,41 @@
         </div>
     </nav>
 
+    <!-- Banner de Preguntas Frecuentes -->
+    <div class="faq-banner">
+        <div class="container">
+            <h1>Preguntas Frecuentes</h1>
+            <p>Encuentra respuestas rápidas a las consultas más comunes sobre nuestro sistema de gestión de citas médicas.</p>
+        </div>
+    </div>
+
     <!-- Sección de Preguntas Frecuentes -->
     <div class="container py-5">
         <h1 class="text-center mb-4">Preguntas Frecuentes</h1>
         <div class="accordion" id="faqAccordion">
-            <!-- Pregunta 1 -->
+            <!-- Pregunta 1: Registro -->
             <div class="accordion-item">
                 <h2 class="accordion-header" id="headingOne">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                         data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                        ¿Cómo puedo registrarme en el sistema?
+                        <i class="fas fa-user-plus"></i> ¿Cómo puedo registrarme en el sistema?
                     </button>
                 </h2>
                 <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
                     data-bs-parent="#faqAccordion">
                     <div class="accordion-body">
                         Para registrarte, haz clic en el botón "Registrar" en la parte superior y llena el formulario
-                        con tus datos personales.
+                        con tus datos personales. Es un proceso simple y rápido.
                     </div>
                 </div>
             </div>
-            <!-- Pregunta 2 -->
+
+            <!-- Pregunta 2: Agendar Cita -->
             <div class="accordion-item">
                 <h2 class="accordion-header" id="headingTwo">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                         data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                        ¿Cómo puedo agendar una cita?
+                        <i class="fas fa-calendar-check"></i> ¿Cómo puedo agendar una cita?
                     </button>
                 </h2>
                 <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
@@ -71,12 +153,13 @@
                     </div>
                 </div>
             </div>
-            <!-- Pregunta 3 -->
+
+            <!-- Pregunta 3: Cancelar/Reprogramar Cita -->
             <div class="accordion-item">
                 <h2 class="accordion-header" id="headingThree">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                         data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                        ¿Puedo cancelar o reprogramar una cita?
+                        <i class="fas fa-calendar-times"></i> ¿Puedo cancelar o reprogramar una cita?
                     </button>
                 </h2>
                 <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
@@ -87,12 +170,13 @@
                     </div>
                 </div>
             </div>
-            <!-- Pregunta 4 -->
+
+            <!-- Pregunta 4: Soporte Técnico -->
             <div class="accordion-item">
                 <h2 class="accordion-header" id="headingFour">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                         data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                        ¿Cómo puedo contactar al soporte técnico?
+                        <i class="fas fa-headset"></i> ¿Cómo puedo contactar al soporte técnico?
                     </button>
                 </h2>
                 <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour"
@@ -103,12 +187,13 @@
                     </div>
                 </div>
             </div>
-            <!-- Pregunta 5 -->
+
+            <!-- Pregunta 5: Seguridad de Información -->
             <div class="accordion-item">
                 <h2 class="accordion-header" id="headingFive">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                         data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
-                        ¿Es seguro mi información personal en el sistema?
+                        <i class="fas fa-lock"></i> ¿Es seguro mi información personal en el sistema?
                     </button>
                 </h2>
                 <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive"
@@ -119,12 +204,13 @@
                     </div>
                 </div>
             </div>
-            <!-- Pregunta 6 -->
+
+            <!-- Pregunta 6: Cambiar Contraseña -->
             <div class="accordion-item">
                 <h2 class="accordion-header" id="headingSix">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                         data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
-                        ¿Cómo puedo cambiar mi contraseña?
+                        <i class="fas fa-key"></i> ¿Cómo puedo cambiar mi contraseña?
                     </button>
                 </h2>
                 <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingSix"
@@ -135,12 +221,13 @@
                     </div>
                 </div>
             </div>
-            <!-- Pregunta 7 -->
+
+            <!-- Pregunta 7: Olvidar Contraseña -->
             <div class="accordion-item">
                 <h2 class="accordion-header" id="headingSeven">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                         data-bs-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
-                        ¿Qué debo hacer si olvido mi contraseña?
+                        <i class="fas fa-question-circle"></i> ¿Qué debo hacer si olvido mi contraseña?
                     </button>
                 </h2>
                 <div id="collapseSeven" class="accordion-collapse collapse" aria-labelledby="headingSeven"
@@ -151,12 +238,13 @@
                     </div>
                 </div>
             </div>
-            <!-- Pregunta 8 -->
+
+            <!-- Pregunta 8: Historial Médico -->
             <div class="accordion-item">
                 <h2 class="accordion-header" id="headingEight">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                         data-bs-target="#collapseEight" aria-expanded="false" aria-controls="collapseEight">
-                        ¿Puedo acceder a mi historial médico en el sistema?
+                        <i class="fas fa-notes-medical"></i> ¿Puedo acceder a mi historial médico en el sistema?
                     </button>
                 </h2>
                 <div id="collapseEight" class="accordion-collapse collapse" aria-labelledby="headingEight"
@@ -166,12 +254,13 @@
                     </div>
                 </div>
             </div>
-            <!-- Pregunta 9 -->
+
+            <!-- Pregunta 9: Actualizar Datos -->
             <div class="accordion-item">
                 <h2 class="accordion-header" id="headingNine">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                         data-bs-target="#collapseNine" aria-expanded="false" aria-controls="collapseNine">
-                        ¿Cómo actualizo mis datos personales?
+                        <i class="fas fa-user-edit"></i> ¿Cómo actualizo mis datos personales?
                     </button>
                 </h2>
                 <div id="collapseNine" class="accordion-collapse collapse" aria-labelledby="headingNine"
@@ -182,12 +271,13 @@
                     </div>
                 </div>
             </div>
-            <!-- Pregunta 10 -->
+
+            <!-- Pregunta 10: Costo del Servicio -->
             <div class="accordion-item">
                 <h2 class="accordion-header" id="headingTen">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                         data-bs-target="#collapseTen" aria-expanded="false" aria-controls="collapseTen">
-                        ¿El servicio tiene algún costo?
+                        <i class="fas fa-money-bill-wave"></i> ¿El servicio tiene algún costo?
                     </button>
                 </h2>
                 <div id="collapseTen" class="accordion-collapse collapse" aria-labelledby="headingTen"
@@ -209,6 +299,7 @@
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </body>
 
 </html>
