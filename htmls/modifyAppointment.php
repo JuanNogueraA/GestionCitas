@@ -4,7 +4,9 @@ require_once 'DataBase.php'; // Ajusta la ruta según sea necesario
 
 // Obtener la conexión a la base de datos
 $conexion = DataBase::getInstance()->getConnection();
-
+$stmtauditoria = $conexion->prepare("INSERT INTO auditoria_cita (id_cita, id_admin, fecha, descripcion_accion) VALUES (?, ?, ?, ?)");
+date_default_timezone_set('America/Bogota'); // Ajusta la zona horaria a Bogotá, Colombia
+$fechaActual = date('Y-m-d H:i:s');
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id_cita = $_POST['id_cita'];
     if (isset($_POST['consultorio'])) {
@@ -12,6 +14,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $query = "UPDATE cita SET num_consultorio = ? WHERE id_cita = ?";
         $stmt = $conexion->prepare($query);
         $stmt->bind_param('si', $consultorio, $id_cita);
+        $descripcion = "Asignación de consultorio";
+        $stmtauditoria->bind_param("iiss", $id_cita, $_SESSION['user_id'], $fechaActual, $descripcion);
         
     } else {
         $fecha = $_POST['fecha'];
@@ -19,10 +23,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $query = "UPDATE cita SET fecha = ?, hora = ? WHERE id_cita = ?";
         $stmt = $conexion->prepare($query);
         $stmt->bind_param('ssi', $fecha, $hora, $id_cita);
+        $descripcion = "Posposición de cita";
+        $stmtauditoria->bind_param("iiss", $id_cita, $_SESSION['user_id'], $fechaActual, $descripcion);
     }
 
     if ($stmt->execute()) {
-        echo json_encode(['status' => 'success', 'message' => 'Cita asignada correctamente']);
+        $stmtauditoria->execute();
+        echo json_encode(['status' => 'success', 'message' => 'Cita actualizada correctamente']);
     } else {
         echo json_encode(['status' => 'error', 'message' => 'Error al actualizar la cita']);
     }
@@ -33,7 +40,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $query = "UPDATE cita SET estado = ? WHERE id_cita = ?";
     $stmt = $conexion->prepare($query);
     $stmt->bind_param('si', $estado, $id_cita);
+    $descripcion = "Cancelación de cita";
+    $stmtauditoria->bind_param("iiss", $id_cita, $_SESSION['user_id'], $fechaActual, $descripcion);
     if ($stmt->execute()) {
+        $stmtauditoria->execute();
         header("Location: GestionCitas.html?mensaje=cancelación exitosa de cita");
     } else {
         header("Location: GestionCitas.html?mensaje=error al cancelar cita");

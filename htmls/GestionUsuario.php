@@ -14,7 +14,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="HojasEstilo/gen.css">
     <link rel="stylesheet" href="HojasEstilo/Administrador.css">
 
     <title>
@@ -54,6 +53,7 @@
                     if ($_SESSION['user_rol'] == 'administrador') {
                         echo '<li class="nav-item"><a class="nav-link active" aria-current="page" href="Administrador.php">Home</a></li>';
                         echo '<li class="nav-item"><a class="nav-link" href="GestionUsuario.php">Gestionar Usuarios</a></li>';
+                        echo '<li class="nav-item"><a class="nav-link" href="GestionCitas.html">Gestionar Citas</a></li>';
                         echo '<li class="nav-item"><a class="nav-link" href="GestionDisponibilidad.html">Gestionar Disponibilidad</a></li>';
                         echo '<li class="nav-item"><a class="nav-link" href="GestionRoles.html">Gestionar roles</a></li>';
                     } else if ($_SESSION['user_rol'] == 'medico') {
@@ -92,7 +92,7 @@
                 <label for="id" class="form-label">Buscar Usuario</label>
                 <input type="text" class="form-control" id="id" placeholder="Ingrese el ID de usuario">
             </div>
-            <button type="submit" class="btn btn-light">Buscar</button>
+            <button type="submit" class="btn btn-primary">Buscar</button>
         </form>
         
         <div class="card mb-4" id="cardUser" style="display: none; max-width: 600px; margin-left: 0px;">
@@ -169,6 +169,7 @@
                     if ($_SESSION['user_rol'] == 'administrador') {
                         echo '<li><a class="text-dark" href="Administrador.php">Home</a></li>';
                         echo '<li><a class="text-dark" href="GestionUsuario.php">Gestionar Usuarios</a></li>';
+                        echo '<li><a class="text-dark" href="GestionCitas.html">Gestionar Citas</a></li>';
                         echo '<li><a class="text-dark" href="GestionDisponibilidad.html">Gestionar Disponibilidad</a></li>';
                         echo '<li><a class="text-dark" href="GestionRoles.html">Gestionar roles</a></li>';
                     } else if ($_SESSION['user_rol'] == 'medico') {
