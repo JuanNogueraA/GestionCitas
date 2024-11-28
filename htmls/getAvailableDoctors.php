@@ -18,9 +18,10 @@ try {
         JOIN disponibilidad ON medico.id = disponibilidad.id_medico 
         JOIN usuario ON medico.id_usuario = usuario.id  
         LEFT JOIN cita c ON medico.id = c.id_medico AND c.estado != 'cancelada' AND c.fecha = ? AND c.hora = ?
-        WHERE medico.especialidad = ? AND disponibilidad.fecha = ? AND c.id_cita IS NULL";
+        WHERE medico.especialidad = ? AND disponibilidad.fecha = ? AND (? BETWEEN disponibilidad.hora_inicio AND disponibilidad.hora_fin)
+        AND c.id_cita IS NULL";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param('ssss', $fecha, $hora, $valorOpcion, $fecha);
+        $stmt->bind_param('sssss', $fecha, $hora, $valorOpcion, $fecha, $hora);
         $stmt->execute();
         $result = $stmt->get_result();
     }else if($opcion === 'medico'){
@@ -29,9 +30,10 @@ try {
         JOIN disponibilidad ON medico.id = disponibilidad.id_medico 
         JOIN usuario ON medico.id_usuario = usuario.id
         LEFT JOIN cita c ON medico.id = c.id_medico AND c.estado != 'cancelada' AND c.fecha = ? AND c.hora = ?
-        WHERE medico.id = ? AND disponibilidad.fecha = ? AND c.id_cita IS NULL";
+        WHERE medico.id = ? AND c.id_cita IS NULL AND disponibilidad.fecha = ? 
+        AND ? BETWEEN disponibilidad.hora_inicio AND disponibilidad.hora_fin";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param('ssis', $fecha, $hora, $valorOpcion, $fecha);
+        $stmt->bind_param('sssss', $fecha, $hora, $valorOpcion, $fecha, $hora);
         $stmt->execute();
         $result = $stmt->get_result();
     }
