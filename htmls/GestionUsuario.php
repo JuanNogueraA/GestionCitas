@@ -5,8 +5,10 @@
 <head>
     <?php $titulo = '' ; 
         if ($_SESSION['user_rol'] == 'medico') {
+            $tituloactive = 'Medico';
             $titulo = 'Gestionar Pacientes';
         } else {
+            $tituloactive = 'Administrador';
             $titulo = 'Gestionar Usuarios';
         }
     ?>
@@ -16,6 +18,7 @@
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
         <link rel="stylesheet" href="HojasEstilo/Administrador.css">
+        <link rel="stylesheet" href="HojasEstilo/navigator.css">
 
     <title>
         <?php
@@ -42,7 +45,7 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
             <a class="navbar-brand" id="titulo" href="#">
-            <i class="fas fa-users me-2"></i><?php echo $titulo ?>
+            <i class="fas fa-user-shield me-2"></i> <?php echo $tituloactive ?>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -53,14 +56,15 @@
                     <?php
                     if ($_SESSION['user_rol'] == 'administrador') {
                         echo '<li class="nav-item"><a class="nav-link" href="Administrador.php"><i class="fas fa-home me-2"></i>Home</a></li>';
+                        echo '<li class="nav-item"><a class="nav-link active" href="GestionUsuario.php"><i class="fas fa-users me-2"></i>Gestionar Usuarios</a></li>';
                         echo '<li class="nav-item"><a class="nav-link" href="GestionCitas.html"><i class="fas fa-calendar-alt me-2"></i>Gestionar Citas</a></li>';
                         echo '<li class="nav-item"><a class="nav-link" href="GestionDisponibilidad.html"><i class="fas fa-clock me-2"></i>Gestionar Disponibilidad</a></li>';
                         echo '<li class="nav-item"><a class="nav-link" href="GestionRoles.html"><i class="fas fa-user-tag me-2"></i>Gestionar Roles</a></li>';
                     } else if ($_SESSION['user_rol'] == 'medico') {
-                        echo '<li class="nav-item"><a class="nav-link active" aria-current="page" href="Medico.html">Home</a></li>';
-                        echo '<li class="nav-item"><a class="nav-link" href="GestionCitasUsuario.php">Visualizar Citas</a></li>';
-                        echo '<li class="nav-item"><a class="nav-link" href="GestionUsuario.php">Gestionar Pacientes</a></li>';
-                        echo '<li class="nav-item"><a class="nav-link" href="Agenda.html">Agenda</a></li>';
+                        echo '<li class="nav-item"><a class="nav-link active" aria-current="page" href="Medico.html"><i class="fas fa-home me-2"></i>Home</a></li>';
+                        echo '<li class="nav-item"><a class="nav-link" href="GestionCitasUsuario.php"><i class="fas fa-calendar-alt me-2"></i>Visualizar Citas</a></li>';
+                        echo '<li class="nav-item"><a class="nav-link" href="GestionUsuario.php"><i class="fas fa-users me-2"></i>Gestionar Pacientes</a></li>';
+                        echo '<li class="nav-item"><a class="nav-link" href="Agenda.html"><i class="fas fa-calendar me-2"></i>Agenda</a></li>';
                     } 
                     ?>
                 </ul>
@@ -167,16 +171,32 @@
                     <ul class="list-unstyled mb-0">
                         <?php
                     if ($_SESSION['user_rol'] == 'administrador') {
-                        echo '<li><a class="text-dark" href="Administrador.php">Home</a></li>';
-                        echo '<li><a class="text-dark" href="GestionUsuario.php">Gestionar Usuarios</a></li>';
-                        echo '<li><a class="text-dark" href="GestionCitas.html">Gestionar Citas</a></li>';
-                        echo '<li><a class="text-dark" href="GestionDisponibilidad.html">Gestionar Disponibilidad</a></li>';
-                        echo '<li><a class="text-dark" href="GestionRoles.html">Gestionar roles</a></li>';
+                        echo '<li class="mb-2">
+                                <a href="Administrador.php" class="text-dark">
+                                    <i class="fas fa-home me-2"></i>Inicio
+                                </a>
+                            </li>';
+                        echo '<li class="mb-2">
+                                <a href="GestionUsuario.php" class="text-dark">
+                                    <i class="fas fa-users me-2"></i>Usuarios
+                                </a>
+                            </li>';
+                        echo '<li class="mb-2">
+                                <a href="GestionCitas.html" class="text-dark">
+                                    <i class="fas fa-calendar-alt me-2"></i>Citas
+                                </a>
+                            </li>';
+                        echo '<li class="mb-2">
+                                <a href="GestionDisponibilidad.html" class="text-dark">
+                                    <i class="fas fa-clock me-2"></i>Disponibilidad
+                                </a>
+                            </li>';
+                        echo '<li class="mb-2"><a href="GestionRoles.html" class="text-dark"><i class="fas fa-user-tag me-2"></i>Roles</a></li>';
                     } else if ($_SESSION['user_rol'] == 'medico') {
-                        echo '<li><a class="text-dark" href="Medico.html">Home</a></li>';
-                        echo '<li><a class="text-dark" href="GestionCitasUsuario.php">Visualizar Citas</a></li>';
-                        echo '<li><a class="text-dark" href="GestionUsuario.php">Gestionar Pacientes</a></li>';
-                        echo '<li><a class="text-dark" href="Agenda.html">Agenda</a></li>';
+                        echo '<li><a class="text-dark" href="Medico.html"><i class="fas fa-home me-2"></i>Home</a></li>';
+                        echo '<li><a class="text-dark" href="GestionCitasUsuario.php"><i class="fas fa-calendar-alt me-2"></i>Visualizar Citas</a></li>';
+                        echo '<li><a class="text-dark" href="GestionUsuario.php"><i class="fas fa-users me-2"></i>Gestionar Pacientes</a></li>';
+                        echo '<li><a class="text-dark" href="Agenda.html"><i class="fas fa-calendar me-2"></i>Agenda</a></li>';
                     } 
                     ?>
                     </ul>

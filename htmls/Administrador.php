@@ -47,6 +47,7 @@ if (empty($avatar_path)) {
     <link rel="stylesheet" href="HojasEstilo/Administrador.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="HojasEstilo/navigator.css">
     <style>
         .profile-avatar {
             width: 100px;
@@ -195,6 +196,11 @@ if (empty($avatar_path)) {
                         <li class="mb-2">
                             <a href="GestionDisponibilidad.html" class="text-dark">
                                 <i class="fas fa-clock me-2"></i>Disponibilidad
+                            </a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="GestionRoles.html" class="text-dark">
+                                <i class="fas fa-user-tag me-2"></i>Roles
                             </a>
                         </li>
                     </ul>

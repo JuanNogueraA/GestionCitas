@@ -1,0 +1,201 @@
+/* Estilos personalizados para la página */
+body {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+.navbar {
+    background: linear-gradient(45deg, var(--primary-color), var(--info-color)) !important;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+}
+
+.navbar-brand, .nav-link {
+    color: white !important;
+}
+
+.container.mt-5 {
+    animation: fadeIn 1s ease-out;
+}
+
+.profile-section {
+    margin-top: 5rem;
+    text-align: center;
+    margin-bottom: 2rem;
+    animation: slideInDown 1s ease-out;
+}
+
+.profile-image {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    margin: 0 auto 1rem;
+    transition: transform 0.3s ease;
+}
+
+.profile-image:hover {
+    transform: scale(1.05);
+}
+
+.card {
+    border-radius: 15px;
+    border: none;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    animation: fadeInUp 1s ease-out;
+    background: white;
+    margin-bottom: 1.5rem;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.list-group-item {
+    border-radius: 10px !important;
+    margin-bottom: 0.5rem;
+    transition: all 0.3s ease;
+    border: none;
+    background: #f8f9fc;
+}
+
+.list-group-item:hover {
+    transform: translateX(5px);
+    background: linear-gradient(45deg, #f8f9fc, #ffffff);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.appointment-link {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.appointment-link:hover {
+    color: var(--info-color);
+}
+
+h2, h3 {
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideInDown {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.avatar img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid white;
+    transition: transform 0.3s ease;
+}
+
+.avatar img:hover {
+    transform: scale(1.1);
+}
+
+.dropdown-menu {
+    border-radius: 10px;
+    border: none;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.dropdown-item {
+    transition: all 0.3s ease;
+    border-radius: 5px;
+}
+
+.dropdown-item:hover {
+    background: linear-gradient(45deg, var(--primary-color), var(--info-color));
+    color: white;
+    transform: translateX(5px);
+}
+
+.nav-link {
+    color: white !important;
+    position: relative;
+    transition: all 0.3s ease;
+    padding: 8px 15px !important;
+    font-weight: 500;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 50%;
+    background-color: white;
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+.nav-link:hover {
+    color: white !important;
+    transform: translateY(-2px);
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
+.nav-link.active {
+    color: white !important;
+    font-weight: 600;
+}
+
+.nav-link.active::after {
+    width: 100%;
+}
+
+.navbar-brand {
+    color: white !important;
+    font-weight: 600;
+}
+
+.navbar-toggler {
+    border-color: rgba(255,255,255,0.7);
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.7%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+/* Modificar el estilo de los enlaces del menú */
+.navbar-nav .nav-link {
+    color: white !important;
+    transition: transform 0.3s ease;
+}
+
+/* Mantener el color blanco sólido en hover */
+.navbar-nav .nav-link:hover {
+    color: white !important;
+    transform: scale(1.05);
+}

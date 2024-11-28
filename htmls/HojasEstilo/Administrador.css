@@ -1,5 +1,5 @@
-
-        /* ===== ROOT VARIABLES ===== */
+/* ===== ROOT VARIABLES ===== */
+        
         :root {
             --primary-color: #4e73df;
             --secondary-color: #858796;
@@ -11,7 +11,7 @@
             --dark-color: #5a5c69;
             --shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
         }
-
+        
         /* ===== GENERAL STYLES ===== */
         body {
             font-family: 'Nunito', sans-serif;
@@ -177,4 +177,45 @@
                 font-size: 1.2rem;
             }
         }
-    
+
+        @media (max-width: 576px) {
+            .navbar {
+                padding: 0.5rem;
+            }
+
+            .navbar-brand {
+                font-size: 1rem;
+                padding-left: 0.5rem;
+            }
+
+            .nav-item .nav-link {
+                padding: 0.5rem;
+                font-size: 0.9rem;
+            }
+
+            .avatar img {
+                width: 30px;
+                height: 30px;
+            }
+
+            header {
+                padding: 1rem 0;
+            }
+
+            .imagenadmin img {
+                width: 100px;
+                height: 100px;
+            }
+
+            header p {
+                font-size: 1rem;
+            }
+
+            .footer h5 {
+                font-size: 1rem;
+            }
+
+            .footer p {
+                font-size: 0.9rem;
+            }
+        }
