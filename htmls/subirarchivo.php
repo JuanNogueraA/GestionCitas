@@ -16,16 +16,35 @@ try {
                 $fileContent = file_get_contents($fileTmpPath);
                 $id = $_POST['patientId'];
                 // Insertar la información del archivo en la base de datos
-                $sql = "INSERT INTO historial_clinico (id, descripcion, archivo) VALUES (?, ?, ?)";
-                $stmt = $conn->prepare($sql);
-                $stmt->bind_param("isb", $id, $descripcion, $fileContent);
-                $stmt->send_long_data(2, $fileContent);
+                try{
+                    $sql = "INSERT INTO historial_clinico (id, descripcion, archivo) VALUES (?, ?, ?)";
+                    $stmt = $conn->prepare($sql);
+                    $stmt->bind_param("isb", $id, $descripcion, $fileContent);
+                    $stmt->send_long_data(2, $fileContent);
 
-                if ($stmt->execute()) {
-                    echo json_encode(['status' => 'success', 'message' => 'Archivo subido correctamente']);
-                } else {
-                    echo json_encode(['status' => 'error', 'message' => 'Error al registrar el archivo en la base de datos']);
+                    if ($stmt->execute()) {
+                        echo json_encode(['status' => 'success', 'message' => 'Archivo subido correctamente']);
+                    } else {
+                        echo json_encode(['status' => 'error', 'message' => 'Error al registrar el archivo en la base de datos']);
+                    }
+                }catch(Exception $e){
+                    if ($e->getCode() === 1062) {
+                        // Actualizar el historial clínico existente
+                        $sql = "UPDATE historial_clinico SET descripcion = ?, archivo = ? WHERE id = ?";
+                        $stmt = $conn->prepare($sql);
+                        $stmt->bind_param("sbi", $descripcion, $fileContent, $id);
+                        $stmt->send_long_data(1, $fileContent);
+                        if ($stmt->execute()) {
+                            echo json_encode(['status' => 'success', 'message' => 'Archivo actualizado correctamente']);
+                        } else {
+                            echo json_encode(['status' => 'error', 'message' => 'Error al registrar el archivo en la base de datos']);
+                        }
+                    }else{
+                        echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
+                    }
+
                 }
+                
 
                 $stmt->close();
             } else {
@@ -38,12 +57,8 @@ try {
 
     $conn->close();
 } catch (Exception $e) {
-    if ($e->getCode() === 1062) {
-        $error = "Error: El paciente ya se encuentra con un historial clínico.";
-        echo json_encode(['status' => 'error', 'message' => $error]);
-    }else{
-        echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
-    }
+    echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
+    
     
 }
 ?>

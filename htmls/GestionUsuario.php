@@ -173,6 +173,7 @@
                     <h5 class="text-uppercase">Enlaces</h5>
                     <ul class="list-unstyled mb-0">
                         <?php
+                        
                     if ($_SESSION['user_rol'] == 'administrador') {
                         echo '<li class="mb-2">
                                 <a href="Administrador.php" class="text-dark">
@@ -201,7 +202,9 @@
                         echo '<li><a class="text-dark" href="GestionUsuario.php"><i class="fas fa-users me-2"></i>Gestionar Pacientes</a></li>';
                         echo '<li><a class="text-dark" href="Agenda.html"><i class="fas fa-calendar me-2"></i>Agenda</a></li>';
                     } 
+
                     ?>
+
                     </ul>
                 </div>
             </div>

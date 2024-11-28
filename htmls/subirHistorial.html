@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="HojasEstilo/navigator.css">
 </head>
 <body>
+    <a id="regresar" href="GestionCitas.html" class="btn btn-primary" style="margin: 30px 0 0 30px;">← Volver</a>
     <div class="container mt-5">
         <h2>Subir Historial Clínico</h2>
         <form id="uploadForm" enctype="multipart/form-data">
@@ -22,90 +23,119 @@
             </div>
             <button type="submit" class="btn btn-primary">Subir</button>
         </form>
-
-        <h2 class="mt-5">Buscar Historial Clínico</h2>
-        <form id="searchForm">
-            <div class="mb-3">
-                <label for="fileId" class="form-label">ID del Archivo</label>
-                <input type="text" class="form-control" id="fileId" name="fileId" placeholder="Ingrese el ID del archivo" required>
-            </div>
-            <button type="submit" class="btn btn-primary">Buscar</button>
-        </form>
-        <div id="fileList" class="mt-4" style="display: none;">
-            <h3>Archivos del Paciente</h3>
-            <ul id="files" class="list-group"></ul>
+        
+        <div id="preview" class="mt-4" style="display: none;">
+            <h3>Previsualización del Historial Clinico</h3>
+            <embed id="pdfPreview" src="" type="application/pdf" width="100%" height="700px" />
         </div>
+
+        <footer>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <p class="text-center">© 2024 Portal Paciente</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
     </div>
     <script>
-        // Function to get query parameters from the URL
-        function getQueryParams() {
-            const params = {};
-            const queryString = window.location.search.substring(1);
-            const regex = /([^&=]+)=([^&]*)/g;
-            let m;
-            while (m = regex.exec(queryString)) {
-                params[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
+        document.addEventListener('DOMContentLoaded', function() {
+
+            // Function to get query parameters from the URL
+            function getQueryParams() {
+                const params = {};
+                const queryString = window.location.search.substring(1);
+                const regex = /([^&=]+)=([^&]*)/g;
+                let m;
+                while (m = regex.exec(queryString)) {
+                    params[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
+                }
+                return params;
             }
-            return params;
-        }
 
-        // Get the patient ID from the URL
-        const params = getQueryParams();
-        const patientId = params['id'];
+            // Get the patient ID from the URL
+            const params = getQueryParams();
+            const patientId = params['id'];
 
-        document.getElementById('uploadForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            const formData = new FormData(this);
-            formData.append('patientId', patientId); // Append the patient ID to the form data
+            // Previsualizar el archivo PDF automáticamente al cargar la página si hay un ID de paciente
+            const pdfPreview = document.getElementById('pdfPreview');
+            const previewContainer = document.getElementById('preview');
+            if (patientId) {
+                pdfPreview.src = 'descargarArchivo.php?id=' + encodeURIComponent(patientId);
+                previewContainer.style.display = 'block';
+            }
 
-            fetch('subirArchivo.php', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 'success') {
-                    alert('Archivo subido correctamente');
+            // Manejar la previsualización del archivo seleccionado
+            document.getElementById('file').addEventListener('change', function(event) {
+                const file = event.target.files[0];
+                if (file && file.type === 'application/pdf') {
+                    const fileURL = URL.createObjectURL(file);
+                    pdfPreview.src = fileURL;
+                    previewContainer.style.display = 'block';
                 } else {
-                    alert('Error: ' + data.message);
+                    alert('Por favor, seleccione un archivo PDF.');
+                    previewContainer.style.display = 'none';
                 }
-            })
-            .catch(error => console.error('Error:', error));
-        });
+            });
 
-        document.getElementById('searchForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            const fileId = document.getElementById('fileId').value;
+            // Subir el archivo del historial clínico
+            document.getElementById('uploadForm').addEventListener('submit', function(event) {
+                event.preventDefault();
+                const formData = new FormData(this);
+                formData.append('patientId', patientId); // Append the patient ID to the form data
 
-            fetch('DescargarArchivo.php?action=search', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                body: 'fileId=' + encodeURIComponent(fileId)
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 'success') {
-                    const fileList = document.getElementById('fileList');
-                    const files = document.getElementById('files');
-                    files.innerHTML = '';
-                    data.files.forEach(file => {
-                        const li = document.createElement('li');
-                        li.className = 'list-group-item';
-                        const a = document.createElement('a');
-                        a.href = 'DescargarArchivo.php?action=download&id=' + file.id;
-                        a.textContent = file.descripcion;
-                        li.appendChild(a);
-                        files.appendChild(li);
-                    });
-                    fileList.style.display = 'block';
-                } else {
-                    alert('Error: ' + data.message);
-                }
-            })
-            .catch(error => console.error('Error:', error));
+                fetch('subirArchivo.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        alert('Archivo subido correctamente');
+                    } else {
+                        alert('Error: ' + data.message);
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+            });
+
+            // Buscar el historial clínico
+            document.getElementById('searchForm').addEventListener('submit', function(event) {
+                event.preventDefault();
+                const fileId = document.getElementById('fileId').value;
+
+                fetch('DescargarArchivo.php?action=search', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: 'fileId=' + encodeURIComponent(fileId)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        const fileList = document.getElementById('fileList');
+                        const files = document.getElementById('files');
+                        files.innerHTML = '';
+                        data.files.forEach(file => {
+                            const li = document.createElement('li');
+                            li.className = 'list-group-item';
+                            const a = document.createElement('a');
+                            a.href = 'DescargarArchivo.php?action=download&id=' + file.id;
+                            a.textContent = file.descripcion;
+                            li.appendChild(a);
+                            files.appendChild(li);
+                        });
+                        fileList.style.display = 'block';
+                    } else {
+                        alert('Error: ' + data.message);
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+            });
         });
+        
     </script>
 </body>
 </html>

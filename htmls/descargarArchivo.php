@@ -57,7 +57,24 @@ try {
             // Cerrar la consulta preparada
             $stmt->close();
         } else {
-            echo 'ID de archivo no proporcionado';
+            $fileId = $_GET['id'];
+
+            // Buscar el archivo en la base de datos
+            $sql = "SELECT archivo FROM historial_clinico WHERE id = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("i", $fileId);
+            $stmt->execute();
+            $stmt->bind_result($fileContent);
+            $stmt->fetch();
+
+            if ($fileContent) {
+                header('Content-Type: application/pdf');
+                echo $fileContent;
+            } else {
+                echo "Archivo no encontrado.";
+            }
+
+            $stmt->close();
         }
     }
 
