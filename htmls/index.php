@@ -14,6 +14,7 @@ session_start();
     <!-- Estilos Personalizados -->
     <link rel="stylesheet" href="HojasEstilo/index.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         .nav-item .nav-link {
             transition: transform 0.2s ease, color 0.2s ease;
@@ -150,10 +151,32 @@ session_start();
     </nav>
 
     <!-- Banner -->
-    <section class="banner d-flex align-items-center justify-content-center">
-        <div class="banner-text text-center">
-            <h2>Bienvenido a Gestión Citas</h2>
-            <a href="registro1.php" class="btn btn-warning btn-lg button-animated">Regístrate Ahora</a>
+    <section class="banner d-flex align-items-center justify-content-center" style="
+        background-image: url('https://www.sanvicentefundacion.com/sites/default/files/articles/banner-mensajes-hospital_final.jpg');
+        background-size: cover;
+        background-position: center;
+        height: 600px;
+        position: relative;
+    ">
+        <div class="banner-text text-center" style="
+            background-color: rgba(0,0,0,0.5);
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 700px;
+            width: 90%;
+        ">
+            <h2 style="
+                color: white; 
+                text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+                font-size: 2.5rem;
+                margin-bottom: 20px;
+            ">Bienvenido a Gestión Citas</h2>
+            <a href="registro1.php" class="btn btn-warning btn-lg button-animated" style="
+                margin-top: 20px;
+                padding: 12px 25px;
+                font-size: 1.3rem;
+                font-weight: bold;
+            ">Regístrate Ahora</a>
         </div>
     </section>
 
@@ -181,8 +204,11 @@ session_start();
                             class="d-block w-100" alt="Imagen Slider 1">
                         <div class="carousel-caption d-none d-md-block">
                             <h5>¿Conoces la importancia de atender una cita?</h5>
-                            <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#videoModal">Te
-                                Contamos</button>
+                            <a href="https://www.youtube.com/watch?v=VQJfdDl5CyY" 
+                               target="_blank" 
+                               class="btn btn-warning">
+                                Te Contamos
+                            </a>
                         </div>
                     </div>
                     <div class="carousel-item">
@@ -207,26 +233,6 @@ session_start();
             </div>
         </section>
     </main>
-
-    
-
-    <!-- Modal de Video -->
-    <div class="modal fade" id="videoModal" tabindex="-1" aria-labelledby="videoModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="videoModalLabel">Importancia de Sacar una Cita</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="ratio ratio-16x9">
-                        <iframe src="https://www.youtube.com/embed/VQJfdDl5CyY?t=2s" title="YouTube video"
-                            allowfullscreen></iframe>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- Pie de página -->
     <footer class="footer bg-primary text-white text-center py-4">
