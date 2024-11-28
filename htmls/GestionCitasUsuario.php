@@ -39,7 +39,15 @@ session_start();
     <!-- Barra de navegación -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">Visualizar Citas</a>
+        <?php
+            // Generar menú de navegación basado en el rol del usuario
+            
+            if ($_SESSION['user_rol'] == 'paciente') {
+                echo '<a class="navbar-brand" href=""><i class="fas fa-user-injured me-2"></i>Portal Paciente</a>';
+            } else if ($_SESSION['user_rol'] == 'medico') {
+                echo '<a class="navbar-brand" href=""><i class="fas fa-user-md me-2"></i>Portal Médico</a>';
+            } 
+            ?>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -49,13 +57,13 @@ session_start();
                     <?php
                     // Generar menú de navegación basado en el rol del usuario
                     if ($_SESSION['user_rol'] == 'paciente') {
-                        echo '<li class="nav-item"><a class="nav-link active" aria-current="page" href="PacienteInicio.html"><i class="fas fa-home me-2"></i>Home</a></li>';
+                        echo '<li class="nav-item"><a class="nav-link" aria-current="page" href="PacienteInicio.html"><i class="fas fa-home me-2"></i>Home</a></li>';
                         echo '<li class="nav-item"><a class="nav-link" href="Citas.php"><i class="fas fa-calendar-alt me-2"></i>Citas</a></li>';
-                        echo '<li class="nav-item"><a class="nav-link" href="GestionCitasUsuario.php"><i class="fas fa-calendar-check me-2"></i>Gestionar Citas</a></li>';
+                        echo '<li class="nav-item"><a class="nav-link active" href="GestionCitasUsuario.php"><i class="fas fa-calendar-check me-2"></i>Gestionar Citas</a></li>';
                         echo '<li class="nav-item"><a class="nav-link" href="Calendario.html"><i class="fas fa-calendar me-2"></i>Calendario</a></li>';
                     } else if ($_SESSION['user_rol'] == 'medico') {
-                        echo '<li class="nav-item"><a class="nav-link active" aria-current="page" href="Medico.html"><i class="fas fa-home me-2"></i>Home</a></li>';
-                        echo '<li class="nav-item"><a class="nav-link" href="GestionCitasUsuario.php"><i class="fas fa-calendar-alt me-2"></i>Visualizar Citas</a></li>';
+                        echo '<li class="nav-item"><a class="nav-link" aria-current="page" href="Medico.html"><i class="fas fa-home me-2"></i>Home</a></li>';
+                        echo '<li class="nav-item"><a class="nav-link active" href="GestionCitasUsuario.php"><i class="fas fa-calendar-alt me-2"></i>Visualizar Citas</a></li>';
                         echo '<li class="nav-item"><a class="nav-link" href="GestionUsuario.php"><i class="fas fa-users me-2"></i>Gestionar Pacientes</a></li>';
                         echo '<li class="nav-item"><a class="nav-link" href="Agenda.html"><i class="fas fa-calendar me-2"></i>Agenda</a></li>';
                     } 
@@ -87,7 +95,7 @@ session_start();
         <h2>Gestionar Citas</h2>
         <!-- Formulario de búsqueda de citas -->
         <form id="citaSearch">
-            <button type="button" class="btn btn-primary" id="searchButton">Ver todas las citas</button>
+            <button type="button" class="btn btn-primary" id="searchButton">Visualizar Citas</button>
         </form>
         <!-- Contenedor para mostrar la lista de citas -->
         <div id="citasList" class="mt-4"></div>
@@ -108,7 +116,7 @@ session_start();
                     <ul class="list-unstyled mb-0">
                                 <?php 
                             if ($_SESSION['user_rol'] == 'paciente') {
-                            echo '<li><a class="text-dark" href="PacienteInicio.html"><i class="fas fa-home me-2"></i>Home</a></li>';
+                            echo '<li><a class="text-dark" active" aria-current="page" href="PacienteInicio.html"><i class="fas fa-home me-2"></i>Home</a></li>';
                             echo '<li><a class="text-dark" href="Citas.php"><i class="fas fa-calendar-alt me-2"></i>Citas</a></li>';
                             echo '<li><a class="text-dark" href="GestionCitasUsuario.php"><i class="fas fa-calendar-check me-2"></i>Gestionar Citas</a></li>';
                             echo '<li><a class="text-dark" href="Calendario.html"><i class="fas fa-calendar me-2"></i>Calendario</a></li>';

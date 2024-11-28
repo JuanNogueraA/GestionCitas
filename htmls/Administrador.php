@@ -43,10 +43,9 @@ if (empty($avatar_path)) {
     <title>Panel Administrador</title>
 
     <!-- Hojas de estilo -->
-    <link rel="stylesheet" href="HojasEstilo/gen.css">
-    <link rel="stylesheet" href="HojasEstilo/Administrador.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="HojasEstilo/Administrador.css">
     <link rel="stylesheet" href="HojasEstilo/navigator.css">
     <style>
         .profile-avatar {
@@ -71,12 +70,11 @@ if (empty($avatar_path)) {
 
 <body>
     <!-- Barra de navegación -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light" style="height: 93px;">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" style="height: 94px;">
         <div class="container-fluid">
             <!-- Logo y título -->
             <a class="navbar-brand" href="">
-                <i class="fas fa-user-shield me-2"></i>
-                Administrador
+                <i class="fas fa-user-shield me-2"></i>Administrador
             </a>
 
             <!-- Botón hamburguesa para móvil -->
@@ -89,7 +87,7 @@ if (empty($avatar_path)) {
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link active" href="Administrador.php">
+                        <a class="nav-link active" aria-current="page" href="Administrador.php">
                             <i class="fas fa-home me-2"></i>Home
                         </a>
                     </li>

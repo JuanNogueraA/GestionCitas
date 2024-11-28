@@ -2,14 +2,17 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <?php $titulo = '' ; 
-        if ($_SESSION['user_rol'] == 'medico') {
-            $tituloactive = 'Medico';
-            $titulo = 'Gestionar Pacientes';
+<head> 
+    
+    <?php $titulo = '' ; // Variable para el título de la página
+        if ($_SESSION['user_rol'] == 'medico') { // Verificar el rol del usuario
+            $tituloactive = 'Portal Médico'; // Título de la página
+            $titulo = 'Gestionar Pacientes'; // Título de la página
+            $icono = "fas fa-user-md me-2"; // Icono para el título
         } else {
-            $tituloactive = 'Administrador';
-            $titulo = 'Gestionar Usuarios';
+            $tituloactive = 'Administrador'; // Título de la página
+            $titulo = 'Gestionar Usuarios'; // Título de la página
+            $icono = "fas fa-user-shield me-2"; // Icono para el título
         }
     ?>
     <meta charset="UTF-8">
@@ -45,7 +48,7 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
             <a class="navbar-brand" id="titulo" href="#">
-            <i class="fas fa-user-shield me-2"></i> <?php echo $tituloactive ?>
+            <i class="<?php echo $icono ?>"></i><?php echo $tituloactive ?>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -61,9 +64,9 @@
                         echo '<li class="nav-item"><a class="nav-link" href="GestionDisponibilidad.html"><i class="fas fa-clock me-2"></i>Gestionar Disponibilidad</a></li>';
                         echo '<li class="nav-item"><a class="nav-link" href="GestionRoles.html"><i class="fas fa-user-tag me-2"></i>Gestionar Roles</a></li>';
                     } else if ($_SESSION['user_rol'] == 'medico') {
-                        echo '<li class="nav-item"><a class="nav-link active" aria-current="page" href="Medico.html"><i class="fas fa-home me-2"></i>Home</a></li>';
+                        echo '<li class="nav-item"><a class="nav-link" aria-current="page" href="Medico.html"><i class="fas fa-home me-2"></i>Home</a></li>';
                         echo '<li class="nav-item"><a class="nav-link" href="GestionCitasUsuario.php"><i class="fas fa-calendar-alt me-2"></i>Visualizar Citas</a></li>';
-                        echo '<li class="nav-item"><a class="nav-link" href="GestionUsuario.php"><i class="fas fa-users me-2"></i>Gestionar Pacientes</a></li>';
+                        echo '<li class="nav-item"><a class="nav-link active" href="GestionUsuario.php"><i class="fas fa-users me-2"></i>Gestionar Pacientes</a></li>';
                         echo '<li class="nav-item"><a class="nav-link" href="Agenda.html"><i class="fas fa-calendar me-2"></i>Agenda</a></li>';
                     } 
                     ?>
