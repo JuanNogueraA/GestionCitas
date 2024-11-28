@@ -9,7 +9,8 @@
     <link rel="stylesheet" href="HojasEstilo/Administrador.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <title>Perfil del Administrador</title>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+        <title>Perfil del Usuario</title>
     <style>
         /* Estilos para el avatar */
         .avatar {
@@ -28,7 +29,17 @@
     <!-- Barra de navegación -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">Gestionar Citas</a>
+            <a class="navbar-brand" href="">
+                <?php 
+                // Iniciar sesión y verificar el rol del usuario
+                session_start();
+                if ($_SESSION['user_rol'] == 'administrador') {
+                ?><i class="fas fa-user-shield me-2"></i>
+                Administrador
+                <?php
+                }
+                ?>
+            </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -36,15 +47,15 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <?php
-                    // Iniciar sesión y verificar el rol del usuario
-                    session_start();
+                    
                     if (isset($_SESSION['user_rol'])) {
                         // Mostrar opciones de navegación según el rol del usuario
                         if ($_SESSION['user_rol'] == 'administrador') {
-                            echo '<li class="nav-item"><a class="nav-link active" aria-current="page" href="Administrador.php">Home</a></li>';
-                            echo '<li class="nav-item"><a class="nav-link" href="GestionUsuario.php">Gestionar Usuarios</a></li>';
-                            echo '<li class="nav-item"><a class="nav-link" href="GestionDisponibilidad.html">Gestionar Disponibilidad</a></li>';
-                            echo '<li class="nav-item"><a class="nav-link" href="GestionRoles.html">Gestionar roles</a></li>';
+                            echo '<li class="nav-item"><a class="nav-link" href="Administrador.php"><i class="fas fa-home me-2"></i>Home</a></li>';
+                            echo '<li class="nav-item"><a class="nav-link" href="GestionUsuario.php"><i class="fas fa-users me-2"></i>Gestionar Usuarios</a></a></li>';
+                            echo '<li class="nav-item"><a class="nav-link" href="GestionCitas.html"><i class="fas fa-calendar-alt me-2"></i>Gestionar Citas</a></li>';
+                            echo '<li class="nav-item"><a class="nav-link" href="GestionDisponibilidad.html"><i class="fas fa-clock me-2"></i>Gestionar Disponibilidad</a></li>';
+                            echo '<li class="nav-item"><a class="nav-link" href="GestionRoles.html"><i class="fas fa-user-tag me-2"></i>Gestionar Roles</a></li>';
                         } elseif ($_SESSION['user_rol'] == 'medico') {
                             echo '<li class="nav-item"><a class="nav-link active" aria-current="page" href="Medico.html">Home</a></li>';
                             echo '<li class="nav-item"><a class="nav-link" href="GestionCitasUsuario.php">Visualizar Citas</a></li>';
