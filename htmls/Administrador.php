@@ -71,10 +71,10 @@ if (empty($avatar_path)) {
 
 <body>
     <!-- Barra de navegación -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" style="height: 93px;">
         <div class="container-fluid">
             <!-- Logo y título -->
-            <a class="navbar-brand" href="Administrador.php">
+            <a class="navbar-brand" href="">
                 <i class="fas fa-user-shield me-2"></i>
                 Administrador
             </a>
