@@ -72,13 +72,14 @@
         <div class="row">
             <div class="col-md-6">
                 <h3>Disponibilidad de Horario</h3>
+                <div id="disponibilidad" class="d-flex flex-wrap gap-2">
+                    <!-- Se llenará con eventos del calendario -->
+                </div>
             </div>
             <div class="col-md-6">
-                <h3>Citas Pendientes</h3>
+                <h3>Próximas Citas</h3>
                 <ul class="list-group" id="citasPendientes">
-                    <li class="list-group-item">
-                        <a href="#" class="appointment-link" data-appointment-id="1">Cita con Juan Pérez - 10:00 AM</a>
-                    </li>
+                    <!-- Se llenará con citas próximas -->
                 </ul>
             </div>
         </div>
@@ -145,6 +146,104 @@
           });
         }
       });
+
+        // Función para cargar disponibilidad y citas
+        function cargarDatosAgenda() {
+            fetch('obtenerAgendaMedico.php')
+                .then(response => response.json())
+                .then(data => {
+                    // Actualizar disponibilidad
+                    const disponibilidadDiv = document.getElementById('disponibilidad');
+                    disponibilidadDiv.innerHTML = data.disponibilidad.map(horario => 
+                        `<div class="badge bg-${horario.disponible ? 'success' : 'danger'} me-2">
+                            ${horario.dia}: ${horario.horaInicio} - ${horario.horaFin}
+                        </div>`
+                    ).join('');
+
+                    // Actualizar citas pendientes
+                    const citasList = document.getElementById('citasPendientes');
+                    citasList.innerHTML = data.citasPendientes.length > 0 
+                        ? data.citasPendientes.map(cita => 
+                            `<li class="list-group-item">
+                                <a href="#" class="appointment-link" data-appointment-id="${cita.id}">
+                                    Cita con ${cita.paciente} - ${cita.fecha} ${cita.hora}
+                                </a>
+                            </li>`
+                        ).join('')
+                        : '<li class="list-group-item">No hay citas pendientes</li>';
+                })
+                .catch(error => {
+                    console.error('Error al cargar datos:', error);
+                });
+        }
+
+        // Cargar datos al iniciar la página
+        document.addEventListener('DOMContentLoaded', cargarDatosAgenda);
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Cargar eventos desde el mismo endpoint que el calendario
+            fetch('fetchEvents.php')
+                .then(response => response.json())
+                .then(events => {
+                    const disponibilidadDiv = document.getElementById('disponibilidad');
+                    const citasList = document.getElementById('citasPendientes');
+
+                    // Procesar disponibilidad (días fijos de trabajo)
+                    const disponibilidad = [
+                        { dia: 'Lunes', horario: '08:00 - 12:00' },
+                        { dia: 'Martes', horario: '14:00 - 18:00' },
+                        { dia: 'Miércoles', horario: '10:00 - 14:00' },
+                        { dia: 'Jueves', horario: '11:00 - 15:00' },
+                        { dia: 'Viernes', horario: '09:00 - 13:00' }
+                    ];
+
+                    // Mostrar disponibilidad
+                    disponibilidad.forEach(item => {
+                        const badge = document.createElement('div');
+                        badge.className = 'badge bg-success me-2';
+                        badge.textContent = `${item.dia}: ${item.horario}`;
+                        disponibilidadDiv.appendChild(badge);
+                    });
+
+                    // Mostrar citas de la agenda
+                    if (events.length > 0) {
+                        citasList.innerHTML = ''; // Limpiar contenido previo
+                        events.forEach(cita => {
+                            const li = document.createElement('li');
+                            li.className = 'list-group-item';
+                            
+                            // Formatear fecha y hora
+                            const fechaCita = new Date(cita.start);
+                            const fechaFormateada = fechaCita.toLocaleDateString('es-ES', { 
+                                weekday: 'long', 
+                                day: 'numeric', 
+                                month: 'long' 
+                            });
+                            const horaFormateada = fechaCita.toLocaleTimeString('es-ES', {
+                                hour: '2-digit', 
+                                minute:'2-digit',
+                                hour12: true
+                            });
+
+                            li.innerHTML = `
+                                <a href="#" class="appointment-link" data-appointment-id="${cita.id}">
+                                    ${cita.title} - ${fechaFormateada.charAt(0).toUpperCase() + fechaFormateada.slice(1)}: ${horaFormateada}
+                                </a>
+                            `;
+                            citasList.appendChild(li);
+                        });
+                    } else {
+                        const li = document.createElement('li');
+                        li.className = 'list-group-item';
+                        li.textContent = 'No hay citas en la agenda';
+                        citasList.appendChild(li);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error al cargar eventos:', error);
+                });
+        });
     </script>
 </body>
 </html>
