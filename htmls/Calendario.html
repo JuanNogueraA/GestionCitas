@@ -55,6 +55,9 @@
         .fc-day-sun,
         .fc-col-header-cell.fc-day-sun {
             width: 14% !important;
+            min-width: 14% !important;
+            max-width: 14% !important;
+            visibility: visible !important;
         }
 
         /* Ajuste para las demás columnas */
@@ -77,14 +80,18 @@
         /* Ajuste para los números de los días */
         .fc-daygrid-day-top {
             display: flex !important;
-            justify-content: flex-end !important;
-            padding: 4px 8px !important;
+            justify-content: flex-start !important;
+            align-items: flex-start !important;
             width: 100% !important;
+            padding: 4px 8px !important;
         }
 
         /* Ajustes generales para los números de los días */
         .fc-daygrid-day-number {
-            text-align: right !important;
+            text-align: left !important;
+            align-self: flex-start !important;
+            margin: 0 !important;
+            padding: 4px 8px !important;
             font-size: 0.9em !important;
             color: #333 !important;
             padding: 4px 8px !important;
@@ -202,15 +209,14 @@
             align-items: flex-start !important;
             width: 100% !important;
             padding: 4px 8px !important;
+            visibility: visible !important;
         }
 
         .fc-day-sun .fc-daygrid-day-number {
+            display: block !important;
             text-align: left !important;
-            align-self: flex-start !important;
-            margin: 0 !important;
-            padding: 4px 8px !important;
-            font-size: 0.9em !important;
-            color: #333 !important;
+            visibility: visible !important;
+            opacity: 1 !important;
         }
 
         .fc-day-sun .fc-daygrid-day-events {
@@ -309,6 +315,22 @@
                 font-size: 0.8em !important;
                 padding: 8px !important;
             }
+        }
+
+        /* Ensure full visibility for all day numbers */
+        .fc-daygrid-day-number {
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+
+        /* Additional reset to prevent layout issues */
+        .fc-scrollgrid,
+        .fc-scrollgrid-section,
+        .fc-scrollgrid-section-body,
+        .fc-daygrid {
+            visibility: visible !important;
+            opacity: 1 !important;
         }
     </style>
 </head>
@@ -487,14 +509,36 @@
           allDaySlot: false,
           locale: 'es',
           firstDay: 1, // Lunes como primer día de la semana
+          // Add this to ensure proper rendering after potential layout issues
+          windowResize: function(view) {
+            calendar.updateSize();
+          },
+          // Optional: Force a re-render after page load
+          viewDidMount: function(view) {
+            setTimeout(() => {
+              calendar.updateSize();
+            }, 100);
+          }
         });
         
         calendar.render();
 
-        // Ajuste adicional de tamaño después de renderizar
-        setTimeout(() => {
+        // Additional size and visibility checks
+        function ensureCalendarVisibility() {
           calendar.updateSize();
-        }, 100);
+          
+          // Force visibility of day numbers
+          document.querySelectorAll('.fc-daygrid-day-number').forEach(el => {
+            el.style.visibility = 'visible';
+            el.style.opacity = '1';
+          });
+        }
+
+        // Check and adjust calendar after a short delay
+        setTimeout(ensureCalendarVisibility, 200);
+        
+        // Optional: Add window resize listener
+        window.addEventListener('resize', ensureCalendarVisibility);
       });
     </script>
 </body>
