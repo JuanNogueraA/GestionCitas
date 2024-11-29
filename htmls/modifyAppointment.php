@@ -63,8 +63,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Modificar Cita</title>
-    <link rel="stylesheet" href="HojasEstilo/gen.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="HojasEstilo/Administrador.css">
+    <link rel="stylesheet" href="HojasEstilo/navigator.css">
 
 </head>
 <body>

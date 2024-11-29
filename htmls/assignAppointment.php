@@ -12,7 +12,7 @@ try { // Se intenta realizar la conexión a la base de datos
         // Se comprueba si los datos requeridos existen
         if(isset($data['patientId']) && isset($data['doctorId']) && isset($data['fecha']) && isset($data['hora'])){
             // Se obtienen los datos enviados
-            $consultorio = 0;
+            $consultorio = rand(1, 20);
             $patientId = $data['patientId'];
             $doctorId = $data['doctorId'];
             // Se obtiene la especialidad del médico
