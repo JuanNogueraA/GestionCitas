@@ -30,6 +30,10 @@ session_start();
 </head>
 
 <body> <!-- Barra de navegación -->
+<?php if($_SESSION['user_rol'] === 'administrador'){ ?>
+  <a id="regresar" href="GestionCitas.html" class="btn btn-primary" style="margin: 30px 0 0 30px;">← Volver</a>
+  <?php } ?>
+  <?php if($_SESSION['user_rol'] === 'paciente'){ ?>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
     <a class="navbar-brand" href="">
@@ -41,26 +45,12 @@ session_start();
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="PacienteInicio.html">
-              <i class="fas fa-home"></i>Home
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" href="Citas.php">
-              <i class="fas fa-calendar-alt"></i>Citas
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="GestionCitasUsuario.php">
-              <i class="fas fa-tasks"></i>Gestionar Citas
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="Calendario.html">
-              <i class="fas fa-calendar"></i>Calendario
-            </a>
-          </li>
+        <?php if ($_SESSION['user_rol'] === 'paciente') { 
+            echo '<li class="nav-item"><a class="nav-link" aria-current="page" href="PacienteInicio.html"><i class="fas fa-home"></i>Home</a></li>';
+            echo '<li class="nav-item"><a class="nav-link active" href="Citas.php"><i class="fas fa-calendar-alt"></i>Citas</a></li>';
+            echo '<li class="nav-item"><a class="nav-link" href="GestionCitasUsuario.php"><i class="fas fa-tasks"></i>Gestionar Citas</a></li>';
+            echo '<li class="nav-item"><a class="nav-link" href="Calendario.html"><i class="fas fa-calendar"></i>Calendario</a></li>';
+        }?>
         </ul>
         <ul class="navbar-nav ms-auto">
           <li class="nav-item dropdown">
@@ -81,11 +71,20 @@ session_start();
       </div>
     </div>
   </nav>
+      <?php }
+  ?>
   <br>
   <!-- Contenido de la página -->
   <div class="container">
     <!-- Formulario para asignar citas -->
+    <?php if ($_SESSION['user_rol'] === 'paciente') { 
+      ?>
     <h2>Asignar Cita</h2>
+   <?php }else{ ?>
+    <h2 style="margin-top: 60px;">Asignar Citas</h2>
+    <?php
+
+   } ?>
     <form id="appointmentForm">
       <div class="mb-3">
         <label for="optionSelect" class="form-label">Seleccionar Método de búsqueda</label>
@@ -126,7 +125,7 @@ session_start();
           </p>
         </div>
         <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
-          <h5 class="text-uppercase">Enlaces</h5>
+          <h5 class="text-uppercase">Enlaces</h5>  
           <ul class="list-unstyled mb-0">
             <li>
               <a href="PacienteInicio.html" class="text-dark">
@@ -331,7 +330,7 @@ session_start();
                                             if (result.isConfirmed) {
                                                 location.reload(); // Recargar la página
                                             }
-                                        });
+                                        });  
                       } else {
                         alert(data.message);
                       } // Capturar errores
