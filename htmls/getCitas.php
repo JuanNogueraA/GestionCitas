@@ -18,7 +18,7 @@ try {
         $sql = "SELECT c.id_cita, c.id_medico, c.id_paciente, c.fecha, c.hora, c.num_consultorio, CONCAT(u.nombres, ' ', u.apellidos) AS medico
         FROM cita c 
         JOIN usuario u ON c.id_medico = u.id
-        WHERE id_medico = ? OR id_paciente = ? AND c.estado != 'cancelada'";
+        WHERE (id_medico = ? OR id_paciente = ?) AND c.estado != 'cancelada'";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("ii", $id,$id);
         $stmt->execute();
