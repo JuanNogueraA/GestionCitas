@@ -94,23 +94,6 @@
           opacity: 0.5 !important;
       }
 
-      /* Hover para números de días */
-      .fc-daygrid-day-number {
-          padding: 4px 8px !important;
-          color: #333 !important;
-          font-weight: 500 !important;
-          transition: all 0.3s ease;
-          border-radius: 4px;
-          display: inline-block !important;
-          width: auto !important;
-      }
-
-      .fc-daygrid-day-number:hover {
-          background-color: #0d6efd !important;
-          color: white !important;
-          transform: scale(1.1);
-      }
-
       /* Ajustes para dispositivos más pequeños */
       @media (max-width: 768px) {
           .fc-col-header-cell-cushion {
@@ -121,7 +104,7 @@
 
       /* Ajustes base para el calendario */
       .fc {
-          max-width: 1200px !important;
+          max-width: 1400px !important;
           margin: 0 auto !important;
           background: white !important;
           border-radius: 10px;
@@ -137,7 +120,7 @@
       /* Contenedor del calendario */
       #calendar {
           width: 100%;
-          max-width: 1200px;
+          max-width: 1400px;
           margin: 0 auto;
       }
 
@@ -148,44 +131,90 @@
       }
 
       .fc-daygrid-day-frame {
-          min-height: 100px !important;
+          min-height: 150px !important;
           height: 100% !important;
       }
 
       .fc-daygrid-day-events {
           overflow: auto;
-          max-height: 100px;
+          max-height: 110px !important;
       }
 
-      /* Ajuste específico para la columna de domingo */
-      .fc-day-sun .fc-daygrid-day-top {
+      /* Ajuste unificado para TODOS los números de días, incluyendo domingos */
+      .fc-daygrid-day-top {
           display: flex !important;
-          justify-content: flex-start !important;
-          align-items: flex-start !important;
+          justify-content: flex-end !important; /* Alinear a la derecha */
+          align-items: flex-start !important; /* Alinear arriba */
           width: 100% !important;
-          padding: 4px 8px !important;
+          padding: 4px !important;
+          position: absolute !important; /* Posicionamiento absoluto */
+          top: 0 !important; /* Pegado arriba */
+          right: 0 !important; /* Pegado a la derecha */
       }
 
-      .fc-day-sun .fc-daygrid-day-number {
-          text-align: left !important;
-          align-self: flex-start !important;
-          margin: 0 !important;
-          padding: 4px 8px !important;
-          font-size: 0.9em !important;
+      .fc-daygrid-day-number {
+          text-align: right !important;
           color: #333 !important;
-          width: auto !important;
-          display: inline-block !important;
-          position: static !important;
-          z-index: 1 !important;
+          font-weight: 500 !important;
+          font-size: 1em !important;
+          padding: 4px 8px !important;
+          margin: 0 !important;
+          display: block !important;
+          position: relative !important;
+          border-radius: 4px !important;
+          transition: all 0.3s ease !important;
       }
 
-      .fc-day-sun .fc-daygrid-day-frame {
-          min-height: 100px !important;
+      /* Efecto hover para los números */
+      .fc-daygrid-day-number:hover {
+          background-color: #0d6efd !important;
+          color: white !important;
+          transform: scale(1.1) !important;
+          cursor: pointer !important;
+      }
+
+      /* Ajuste del contenedor de días */
+      .fc-daygrid-day-frame {
+          min-height: 150px !important;
+          padding-top: 35px !important; /* Espacio para el número del día */
           position: relative !important;
       }
 
-      .fc-day-sun .fc-daygrid-day-events {
-          margin-top: 30px !important;
+      /* Ajuste del contenedor de eventos */
+      .fc-daygrid-day-events {
+          margin-top: 5px !important;
+          padding: 0 4px !important;
+          max-height: 110px !important;
+          overflow-y: auto !important;
+      }
+
+      /* Asegurar que todas las columnas tengan el mismo ancho */
+      .fc-day, .fc-col-header-cell {
+          width: 14.28% !important;
+      }
+
+      /* Ajustes responsive */
+      @media (max-width: 1500px) {
+          .fc {
+              max-width: 95% !important;
+              margin: 0 auto !important;
+          }
+      }
+
+      @media (max-width: 768px) {
+          .fc-daygrid-day-frame {
+              min-height: 100px !important;
+          }
+          
+          .fc-daygrid-day-number {
+              font-size: 0.9em !important;
+          }
+      }
+
+      /* Día actual con estilo especial */
+      .fc-day-today .fc-daygrid-day-number {
+          background-color: rgba(13, 110, 253, 0.1) !important;
+          font-weight: bold !important;
       }
     </style>
 </head>
