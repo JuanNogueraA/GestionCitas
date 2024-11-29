@@ -14,6 +14,18 @@ try {
             $sql = "UPDATE usuario SET rol = ? WHERE id = ?";
             $stmt = $conn->prepare($sql);
             $stmt->bind_param("si", $newRole, $id);
+            $stmtcomprobacion = $conn->prepare("SELECT rol FROM usuario WHERE id = ?");
+            $stmtcomprobacion->bind_param("i", $id);
+            $stmtcomprobacion->execute();
+            $result = $stmtcomprobacion->get_result();
+            $rol = $result->fetch_assoc();
+            if ($rol['rol'] === $newRole) {
+                echo json_encode(['status' => 'error', 'message' => 'El usuario ya tiene el rol seleccionado']);
+                $stmtcomprobacion->close();
+                $stmt->close();
+                $conn->close();
+                exit();
+            }
 
             if ($stmt->execute()) {
                 // Manejar la lógica específica del rol
