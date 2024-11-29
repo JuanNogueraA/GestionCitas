@@ -141,19 +141,19 @@
                 </div>
                 <div class="mb-3">
                     <label for="lastname" class="form-label">Apellido</label>
-                    <input type="text" class="form-control" id="lastname" placeholder="Ingrese el apellido" required>
+                    <input type="text" class="form-control" id="lastname" required>
                 </div>
                 <div class="mb-3">
                     <label for="address" class="form-label">Dirección</label>
-                    <input type="text" class="form-control" id="address" placeholder="Ingrese la dirección" required>
+                    <input type="text" class="form-control" id="address" required>
                 </div>
                 <div class="mb-3">
                     <label for="phone" class="form-label">Número</label>
-                    <input type="text" class="form-control" id="phone" placeholder="Ingrese el número" required>
+                    <input type="text" class="form-control" id="phone" required>
                 </div>
                 <div class="mb-3">
                     <label for="correo" class="form-label">Correo</label>
-                    <input type="email" class="form-control" id="correo" placeholder="Ingrese el email" required>
+                    <input type="email" class="form-control" id="correo" required>
                 </div>
                 <button type="submit" class="btn btn-primary">Actualizar</button>
             </form>
@@ -173,7 +173,7 @@
                     <h5 class="text-uppercase">Enlaces</h5>
                     <ul class="list-unstyled mb-0">
                         <?php
-                        
+
                     if ($_SESSION['user_rol'] == 'administrador') {
                         echo '<li class="mb-2">
                                 <a href="Administrador.php" class="text-dark">
@@ -278,6 +278,12 @@
         });
 
         document.getElementById('showUpdateFormBtn').addEventListener('click', function () {
+            document.getElementById('name').value = document.getElementById('displayname').innerText;
+            document.getElementById('lastname').value = document.getElementById('lastName').innerText;
+            document.getElementById('address').value = document.getElementById('AddressUser').innerText;
+            document.getElementById('phone').value = document.getElementById('userNumber').innerText;
+            document.getElementById('correo').value = document.getElementById('email').innerText;
+
             document.getElementById('updateUserForm').style.display = 'block';
         });
 
