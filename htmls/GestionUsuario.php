@@ -102,7 +102,7 @@
             <button type="submit" class="btn btn-primary">Buscar</button>
         </form>
         
-        <div class="card mb-4" id="cardUser" style="display: none; max-width: 600px; margin-left: 0px;">
+        <div class="card mb-4" id="cardUser" style="display: none; max-width: 600px; margin-left: 0px; margin-top: 40px;">
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-4" id="imagenPaciente" style="display: none; margin-top: 30px;">
