@@ -120,8 +120,9 @@ $conn->close();
         <?php else: ?> <!-- No hay eventos para el día -->
             <p>No tiene eventos para este día.</p>
         <?php endif; ?>
+        <button type="button" style="margin-right: 400px; margin-top: 20px;" class="btn btn-primary" id="regresarButton">Regresar</button>
     </div>
-    <button type="button" style="margin-left: 175px;" class="btn btn-primary" id="regresarButton">Regresar</button>
+    
     <footer class="footer text-center text-lg-start mt-5">
         <div class="container p-4">
             <div class="row">

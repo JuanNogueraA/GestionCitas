@@ -106,7 +106,9 @@ try {
             // Si el usuario actual es un medico, solo puede buscar pacientes
             if ($_SESSION['user_rol'] === 'medico') {
                 $sql = "SELECT * FROM usuario WHERE id = ? AND rol = 'paciente'";
-            } else {
+            } else if($_GET['citas']==='citas'){
+                $sql = "SELECT * FROM usuario WHERE id = ? AND rol = 'paciente'";
+            }else{
                 $sql = "SELECT * FROM usuario WHERE id = ?";
             }
             $stmt = $conn->prepare($sql);
@@ -127,7 +129,9 @@ try {
             } else {
                 if ($_SESSION['user_rol'] === 'medico') {
                     throw new Exception('Paciente no encontrado');
-                } else {
+                } else if($_GET['citas']==='citas'){
+                    throw new Exception('Paciente no encontrado');
+                }else {
                     throw new Exception('Usuario no encontrado');
                 }
             }

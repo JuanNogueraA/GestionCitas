@@ -163,6 +163,7 @@ session_start();
   <script>
     // Manejar el evento de carga del documento
     document.addEventListener('DOMContentLoaded', function (event) {
+      
       document.getElementById('timeSelect').addEventListener('change', function (e) {
         let time = e.target.value;
         if (time) {
@@ -171,18 +172,19 @@ session_start();
           e.target.value = hour + ':00';
         }
       });
-      // Manejar el evento de cierre de sesión
-      document.getElementById('logout-link').addEventListener('click', function (event) {
-        event.preventDefault();
-        if (confirm('¿Desea salir de la sesión?')) {
-          fetch('logout.php', {
-            method: 'POST'
-          }).then(() => {
-            window.location.href = 'iniciarsesion.php';
-          });
-        }
-      });
-
+      const logoutLink = document.getElementById('logout-link');
+      if (logoutLink) {
+        logoutLink.addEventListener('click', function (event) {
+          event.preventDefault();
+          if (confirm('¿Desea salir de la sesión?')) {
+            fetch('logout.php', {
+              method: 'POST'
+            }).then(() => {
+              window.location.href = 'iniciarsesion.php';
+            });
+          }
+        });
+      }
       //Cargar médicos y especialidades
       document.getElementById('optionSelect').addEventListener('change', function () {
         const optionSelect = document.getElementById('optionSelect').value;
