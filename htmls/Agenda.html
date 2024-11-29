@@ -22,13 +22,16 @@
         border-radius: 50%;
       }
       .tooltip {
-        position: absolute;
+        position: fixed;
         z-index: 10001;
         background: #fff;
         border: 1px solid #ccc;
         padding: 10px;
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         display: none;
+        pointer-events: none;
+        max-width: 300px;
+        border-radius: 8px;
       }
       /* Estilo para los encabezados de los días de la semana */
       .fc-col-header-cell {
@@ -350,21 +353,32 @@
             tooltip.style.display = 'block';
             tooltip.style.opacity = '1';
             
-            // Posicionamiento mejorado del tooltip
+            // Nueva lógica de posicionamiento
             document.addEventListener('mousemove', function(e) {
-              var x = e.pageX + 10;
-              var y = e.pageY + 10;
-              
-              // Evitar que el tooltip se salga de la ventana
-              var tooltipRect = tooltip.getBoundingClientRect();
-              var maxX = window.innerWidth - tooltipRect.width - 20;
-              var maxY = window.innerHeight - tooltipRect.height - 20;
-              
-              x = Math.min(x, maxX);
-              y = Math.min(y, maxY);
-              
-              tooltip.style.left = x + 'px';
-              tooltip.style.top = y + 'px';
+                var x = e.clientX + 10; // Usar clientX en lugar de pageX
+                var y = e.clientY + 10; // Usar clientY en lugar de pageY
+                
+                // Obtener dimensiones del tooltip y ventana
+                var tooltipRect = tooltip.getBoundingClientRect();
+                var maxX = window.innerWidth - tooltipRect.width - 20;
+                var maxY = window.innerHeight - tooltipRect.height - 20;
+                
+                // Ajustar posición si está muy a la derecha
+                if (x > maxX) {
+                    x = e.clientX - tooltipRect.width - 10;
+                }
+                
+                // Ajustar posición si está muy abajo
+                if (y > maxY) {
+                    y = e.clientY - tooltipRect.height - 10;
+                }
+                
+                // Asegurar que el tooltip no se salga por la izquierda o arriba
+                x = Math.max(10, Math.min(x, maxX));
+                y = Math.max(10, Math.min(y, maxY));
+                
+                tooltip.style.left = x + 'px';
+                tooltip.style.top = y + 'px';
             });
           },
           eventMouseLeave: function() {
