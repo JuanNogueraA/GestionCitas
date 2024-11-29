@@ -12,12 +12,12 @@ if ($userRole == 'medico') {
     $sql = "SELECT c.id_cita AS id, c.especialidad AS title, c.fecha, c.hora, p.id AS paciente_id, p.nombres AS paciente_nombre, c.num_consultorio AS consultorio
             FROM cita c
             JOIN usuario p ON c.id_paciente = p.id
-            WHERE c.id_medico = ? AND c.fecha = ?";
+            WHERE c.id_medico = ? AND c.fecha = ? AND c.estado != 'cancelada'";
 } else { // Si el usuario es un paciente
     $sql = "SELECT c.id_cita AS id, c.especialidad AS title, c.fecha, c.hora, m.id AS medico_id, m.nombres AS medico_nombre, c.num_consultorio AS consultorio
             FROM cita c
             JOIN usuario m ON c.id_medico = m.id
-            WHERE c.id_paciente = ? AND c.fecha = ?";
+            WHERE c.id_paciente = ? AND c.fecha = ? AND c.estado != 'cancelada'";
 }
 // Preparar la consulta
 $stmt = $conn->prepare($sql);
