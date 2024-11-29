@@ -46,55 +46,14 @@ $conn->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
         <link rel="stylesheet" href="HojasEstilo/Administrador.css">
         <link rel="stylesheet" href="HojasEstilo/navigator.css">
     <title>Eventos del Día</title>
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">Eventos del Día</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                <?php
-                // Iniciar sesión y verificar el rol del usuario
-                if (isset($_SESSION['user_rol'])) {
-                        if ($_SESSION['user_rol'] == 'medico') {
-                            echo '<li class="nav-item"><a class="nav-link active" aria-current="page" href="Medico.html">Home</a></li>';
-                            echo '<li class="nav-item"><a class="nav-link" href="Citas.php">Citas</a></li>';
-                            echo '<li class="nav-item"><a class="nav-link" href="Agenda.html">Agenda</a></li>';
-                        } elseif ($_SESSION['user_rol'] == 'paciente') {
-                            echo '<li class="nav-item"><a class="nav-link active" aria-current="page" href="PacienteInicio.html">Home</a></li>';
-                            echo '<li class="nav-item"><a class="nav-link" href="Citas.php">Citas</a></li>';
-                            echo '<li class="nav-item"><a class="nav-link" href="Calendario.html">Calendario</a></li>';
-                        }
-                    }
-                    ?>
-                </ul>
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            <div class="avatar">
-                                <img src="https://static.vecteezy.com/system/resources/previews/005/005/840/non_2x/user-icon-in-trendy-flat-style-isolated-on-grey-background-user-symbol-for-your-web-site-design-logo-app-ui-illustration-eps10-free-vector.jpg"
-                                    alt="User Avatar">
-                            </div>
-                        </a>
-                        <!-- Menú desplegable para el logout de usuario -->
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                            <li><a class="dropdown-item" href="verPerfil.php">Ver Perfil</a></li>
-                            <li><a class="dropdown-item" href="#" id="logout-link">Cerrar Sesión</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+
     <div class="container mt-5">
         <h2>Eventos para el día: <?php echo $date; ?></h2>
         <?php if (count($events) > 0): ?>
@@ -133,9 +92,19 @@ $conn->close();
                 <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
                     <h5 class="text-uppercase">Enlaces</h5>
                     <ul class="list-unstyled mb-0">
-                        <li><a href="PacienteInicio.html" class="text-dark">Home</a></li>
-                        <li><a href="Citas.html" class="text-dark">Citas</a></li>
-                        <li><a href="Calendario.html" class="text-dark">Calendario</a></li>
+                    <?php 
+                        if ($_SESSION['user_rol'] == 'paciente') {
+                            echo '<li><a class="text-dark" active" aria-current="page" href="PacienteInicio.html"><i class="fas fa-home me-2"></i>Home</a></li>';
+                            echo '<li><a class="text-dark" href="Citas.php"><i class="fas fa-calendar-alt me-2"></i>Citas</a></li>';
+                            echo '<li><a class="text-dark" href="GestionCitasUsuario.php"><i class="fas fa-calendar-check me-2"></i>Gestionar Citas</a></li>';
+                            echo '<li><a class="text-dark" href="Calendario.html"><i class="fas fa-calendar me-2"></i>Calendario</a></li>';
+                        } else if ($_SESSION['user_rol'] == 'medico') {
+                            echo '<li><a class="text-dark" active" aria-current="page" href="Medico.html"><i class="fas fa-home me-2"></i>Home</a></li>';
+                            echo '<li><a class="text-dark" href="GestionCitasUsuario.php"><i class="fas fa-calendar-alt me-2"></i>Visualizar Citas</a></li>';
+                            echo '<li><a class="text-dark" href="GestionUsuario.php"><i class="fas fa-users me-2"></i>Gestionar Pacientes</a></li>';
+                            echo '<li><a class="text-dark" href="Agenda.html"><i class="fas fa-calendar me-2"></i>Agenda</a></li>';
+                        } 
+                        ?>
                     </ul>
                 </div>
             </div>
@@ -149,16 +118,7 @@ $conn->close();
         crossorigin="anonymous"></script>
     <script>
         // Manejar el evento de cierre de sesión
-        document.getElementById('logout-link').addEventListener('click', function (event) {
-            event.preventDefault();
-            if (confirm('¿Desea salir de la sesión?')) {
-                fetch('logout.php', {
-                    method: 'POST'
-                }).then(() => {
-                    window.location.href = 'iniciarsesion.php';
-                });
-            }
-        });
+        document.addEventListener('DOMContentLoaded', function () {
         // Manejar el evento de regresar
         document.getElementById('regresarButton').addEventListener('click', function () {
             if('<?php echo $userRole; ?>' == 'medico')
@@ -167,6 +127,8 @@ $conn->close();
                 window.location.href = 'Calendario.html';
             }
         });
+        });
+        
     </script>
 </body>
 
