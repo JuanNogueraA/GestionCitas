@@ -160,39 +160,32 @@
       /* Ajuste específico para la columna de domingo */
       .fc-day-sun .fc-daygrid-day-top {
           display: flex !important;
-          justify-content: flex-start !important; /* Alinea a la izquierda */
-          align-items: flex-start !important; /* Alinea al inicio */
+          justify-content: flex-start !important;
+          align-items: flex-start !important;
           width: 100% !important;
-          padding: 8px !important; /* Aumentar padding */
+          padding: 4px 8px !important;
       }
 
       .fc-day-sun .fc-daygrid-day-number {
-          text-align: left !important; /* Alinea el texto a la izquierda */
-          align-self: flex-start !important; /* Alinea al inicio */
+          text-align: left !important;
+          align-self: flex-start !important;
           margin: 0 !important;
           padding: 4px 8px !important;
-          font-size: 1em !important; /* Aumentar tamaño de fuente */
+          font-size: 0.9em !important;
           color: #333 !important;
-          width: auto !important; /* Ajusta el ancho al contenido */
-          display: inline-block !important; /* Permite que el ancho se ajuste al contenido */
-          position: relative !important;
-          z-index: 10 !important; /* Aumentar z-index */
+          width: auto !important;
+          display: inline-block !important;
+          position: static !important;
+          z-index: 1 !important;
       }
 
-      /* Asegurar que los números de domingo no estén ocultos */
       .fc-day-sun .fc-daygrid-day-frame {
-          min-height: 120px !important; /* Aumentar altura mínima */
+          min-height: 100px !important;
           position: relative !important;
       }
 
       .fc-day-sun .fc-daygrid-day-events {
-          margin-top: 40px !important; /* Dar más espacio para el número del día */
-      }
-
-      /* Asegura que los números de domingo sean visibles y completos */
-      .fc-day-sun .fc-daygrid-day-number {
-          position: static !important;
-          z-index: 1 !important;
+          margin-top: 30px !important;
       }
     </style>
 </head>
@@ -306,14 +299,44 @@
           eventMouseEnter: function(info) {
             var event = info.event;
             var content = `
-              <strong>${event.title}</strong><br>
-              Fecha: ${event.start.toLocaleDateString()}<br>
-              Hora: ${event.start.toLocaleTimeString()}
+              <div style="font-weight: bold; margin-bottom: 8px; color: #0d6efd; font-size: 1em;">
+                <i class="fas fa-user-md me-2"></i>${event.title}
+              </div>
+              <div style="margin-bottom: 5px; display: flex; align-items: center;">
+                <i class="fas fa-calendar-day me-2" style="color: #6c757d;"></i>
+                ${event.start.toLocaleDateString('es-ES', { 
+                  weekday: 'long', 
+                  year: 'numeric', 
+                  month: 'long', 
+                  day: 'numeric' 
+                })}
+              </div>
+              <div style="display: flex; align-items: center;">
+                <i class="fas fa-clock me-2" style="color: #6c757d;"></i>
+                ${event.start.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+              </div>
             `;
+            
             tooltip.innerHTML = content;
             tooltip.style.display = 'block';
-            tooltip.style.left = info.jsEvent.pageX + 'px';
-            tooltip.style.top = info.jsEvent.pageY + 'px';
+            tooltip.style.opacity = '1';
+            
+            // Posicionamiento mejorado del tooltip
+            document.addEventListener('mousemove', function(e) {
+              var x = e.pageX + 10;
+              var y = e.pageY + 10;
+              
+              // Evitar que el tooltip se salga de la ventana
+              var tooltipRect = tooltip.getBoundingClientRect();
+              var maxX = window.innerWidth - tooltipRect.width - 20;
+              var maxY = window.innerHeight - tooltipRect.height - 20;
+              
+              x = Math.min(x, maxX);
+              y = Math.min(y, maxY);
+              
+              tooltip.style.left = x + 'px';
+              tooltip.style.top = y + 'px';
+            });
           },
           eventMouseLeave: function() {
             tooltip.style.display = 'none';
