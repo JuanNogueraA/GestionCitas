@@ -44,9 +44,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmtauditoria->bind_param("iiss", $id_cita, $_SESSION['user_id'], $fechaActual, $descripcion);
     if ($stmt->execute()) {
         $stmtauditoria->execute();
-        header("Location: GestionCitas.html?mensaje=cancelación exitosa de cita");
+        echo json_encode(['status' => 'success', 'message' => 'Cancelación exitosa de cita']);
     } else {
-        header("Location: GestionCitas.html?mensaje=error al cancelar cita");
+        echo json_encode(['status' => 'error', 'message' => 'Error al cancelar cita']);
     }
 } else if (isset($_GET['id_cita'])) {
     $id_cita = $_GET['id_cita'];
