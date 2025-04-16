@@ -34,9 +34,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo json_encode(['status' => 'error', 'message' => 'Error al actualizar la cita']);
     }
 
-}else if(isset($_GET['id_cita']) && isset($_GET['estado'])){
+} else if (isset($_GET['id_cita']) && isset($_GET['estado'])) {
     $id_cita = $_GET['id_cita'];
     $estado = $_GET['estado'];
+    $redirect = isset($_GET['redirect']) ? $_GET['redirect'] : null;
     $query = "UPDATE cita SET estado = ? WHERE id_cita = ?";
     $stmt = $conexion->prepare($query);
     $stmt->bind_param('si', $estado, $id_cita);
@@ -44,6 +45,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmtauditoria->bind_param("iiss", $id_cita, $_SESSION['user_id'], $fechaActual, $descripcion);
     if ($stmt->execute()) {
         $stmtauditoria->execute();
+        $mensaje = rawurlencode('Cancelación exitosa de cita');
+        if ($redirect) {
+            header("Location: $redirect?mensaje=$mensaje");
+            exit();
+        }
         echo json_encode(['status' => 'success', 'message' => 'Cancelación exitosa de cita']);
     } else {
         echo json_encode(['status' => 'error', 'message' => 'Error al cancelar cita']);

@@ -32,7 +32,7 @@ session_start();
         height: 30px;
         border-radius: 50%;
     }</style>
-    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>Gestionar Citas</title>
 </head>
 <body>
@@ -189,7 +189,7 @@ session_start();
                                     const citaId = this.getAttribute('data-cita-id');
                                     const estado = 'cancelada';
                                     window.location.href = 'modifyAppointment.php?id_cita=' + encodeURIComponent(citaId) + 
-                                    '&estado=' + encodeURIComponent(estado);
+                                    '&estado=' + encodeURIComponent(estado) + '&redirect=GestionCitasUsuario.php';
                                 });
                             });
                         } else {
@@ -253,7 +253,19 @@ session_start();
         // Obtener parámetros de la URL y mostrar mensajes si existen
         const params = getQueryParams();
         if (params['mensaje']) {
-            alert(params['mensaje']);
+            Swal.fire({
+                icon: 'success',
+                title: 'Éxito',
+                text: params['mensaje'],
+                confirmButtonText: 'Aceptar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Limpiar el URL eliminando los parámetros
+                    const cleanUrl = window.location.origin + window.location.pathname;
+                    window.history.replaceState(null, null, cleanUrl);
+                    location.reload(); // Recargar la página
+                }
+            });
         }
     </script>
 </body>
